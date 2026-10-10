@@ -1,6 +1,6 @@
 # Parallax Labs AI/ML Internship
 
-One repository for the whole 6-week internship. Each week lives in its own folder with its own README, code, tests and dependencies.
+This is the main repository for the whole 6 week internship. Each week lives in its own folder with its own README, code, tests and dependencies.
 
 ## Weekly Progress
 
@@ -18,9 +18,9 @@ One repository for the whole 6-week internship. Each week lives in its own folde
 ```
 .
 ├── README.md        # this file: overview and weekly progress
-├── .gitignore       # shared rules (env files, data, caches)
-├── week-1/          # see week-1/README.md
-└── week-2/ ...      # added each week
+├── .gitignore       
+├── week-1/         
+└── week-2/ ...      
 ```
 
 ## How to Run a Week

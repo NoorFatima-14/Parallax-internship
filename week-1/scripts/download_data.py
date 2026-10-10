@@ -1,11 +1,3 @@
-"""Download paper abstracts from the arXiv API into data/raw/arxiv_abstracts.jsonl.
-
-Run:  python scripts/download_data.py --per-category 1500
-
-Uses several categories so the corpus is not limited to one topic. The arXiv
-API asks for a pause of about 3 seconds between requests, which this script
-respects.
-"""
 
 import argparse
 import json

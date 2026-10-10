@@ -1,0 +1,30 @@
+# Environment
+.env
+.venv/
+venv/
+env/
+
+# Python
+__pycache__/
+*.pyc
+.pytest_cache/
+*.egg-info/
+
+# Data in every week folder (keep the folders, ignore the contents)
+**/data/raw/*
+**/data/processed/*
+!**/data/raw/.gitkeep
+!**/data/processed/.gitkeep
+*.parquet
+*.jsonl
+*.csv
+
+# Models and vector DB
+chroma_db/
+*.pt
+*.bin
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/

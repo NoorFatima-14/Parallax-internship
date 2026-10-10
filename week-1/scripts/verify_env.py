@@ -1,8 +1,3 @@
-"""Check that the environment is ready: GPU available and key libraries import.
-
-Run:  python scripts/verify_env.py
-Exits with a non-zero code if any check fails.
-"""
 
 import importlib
 import sys

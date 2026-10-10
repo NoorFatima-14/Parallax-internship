@@ -104,7 +104,7 @@ My laptop has no GPU, so the CUDA check is run on a free Colab T4 GPU.
 - **Raw file:** `data/raw/arxiv_abstracts.jsonl`
 - **Output:** `data/processed/clean_corpus.parquet` with columns `id, title, text, published, category`
 
-Cleaning steps, in order: HTML stripping, Unicode NFKC normalization, whitespace cleanup, minimum length (20 words), English-only filter, exact-duplicate removal.
+Cleaning steps, in order: HTML stripping, Unicode normalization, whitespace cleanup, minimum length (20 words), English-only filter, exact-duplicate removal.
 
 **Final counts**
 

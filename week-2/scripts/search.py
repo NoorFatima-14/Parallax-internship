@@ -1,8 +1,3 @@
-"""Search the vector database from the command line.
-
-Run:  python scripts/search.py "object detection with neural networks"
-      python scripts/search.py "language models" --top-k 3 --category cs.CL
-"""
 
 import argparse
 import sys

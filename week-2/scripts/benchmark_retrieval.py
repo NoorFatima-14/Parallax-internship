@@ -1,17 +1,3 @@
-"""Test retrieval and log search latency.
-
-Two tests:
-1. A fixed set of queries (short, long, typos, off-topic, filtered). Each is run
-   several times to measure latency. A rough relevance check compares the arXiv
-   category of the results with the categories we would expect.
-2. Known-item search: take random chunks from the database and use them as queries,
-   then check whether that chunk (or its paper) comes back. Two versions run:
-   - first sentence of the chunk (a short query, harder)
-   - the full chunk text (the chunk should find itself, so this checks the index)
-
-Run:  python scripts/benchmark_retrieval.py
-Results: logs/retrieval_benchmark.json (every run) and logs/benchmark_summary.md (latest run).
-"""
 
 import argparse
 import random

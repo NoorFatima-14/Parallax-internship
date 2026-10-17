@@ -1,4 +1,4 @@
-# Retrieval Benchmark (latest run)
+# Retrieval Benchmark 
 
 - Model: `all-MiniLM-L6-v2` on `cpu`
 - Chunks in database: 27329

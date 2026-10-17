@@ -1,6 +1,6 @@
 # Week 2: Chunking, Embeddings and Semantic Search
 
-Week 2 of the Parallax Labs AI/ML internship. It uses the clean corpus from Week 1 (`../week-1/data/processed/clean_corpus.parquet`). Run all commands below from inside the `week-2/` folder.
+Week 2 of the Parallax Labs AI/ML internship. It uses the clean corpus from Week 1 . Run all commands below from inside the `week-2/` folder.
 
 ## What I Built
 
@@ -167,31 +167,16 @@ All numbers come from the log files written by the scripts (CPU run, Windows lap
 - The query length matters: the long query (313 characters) was the slowest because embedding it takes longer.
 - Searches with a category filter took about 100 ms on average. The ChromaDB step was about 8 times slower than without a filter. I did not investigate why.
 - Category match was 1.0 for most topic queries, and lower for image generation, reinforcement learning and the spelling-mistake query. Abstracts can belong to several categories, so this is a rough check only.
-- Known-item search has two versions. The **full chunk** version checks that the index works: a chunk used as its own query should come back first. The **first sentence** version is harder, because the opening sentences of different papers are often similar. See the table in `logs/benchmark_summary.md`.
+- Known-item search has three versions (see the table in `logs/benchmark_summary.md`). The **full chunk** version checks that the index works: a chunk used as its own query should come back first. The two **first sentence** versions are harder, because the opening sentences of different papers are often similar. They are split into the first chunk of a paper and later chunks, because a later chunk starts with text copied from the previous chunk (the overlap), so its first sentence is not a clean start.
 
 What the benchmark measures:
 
 - **Latency:** 13 queries (one word, a question, a long paragraph, spelling mistakes, an off-topic query, and queries with a category filter), each run 10 times. It reports mean, median (p50), p95, and how the time splits between embedding the query and searching ChromaDB.
 - **Category match:** the share of results from a category we would expect.
-- **Known-item search:** 200 random chunks, with recall@1, recall@5 and MRR.
+- **Known-item search:** 100 first chunks and 100 later chunks (first-sentence queries) and 200 chunks (full-chunk queries), with recall@1, recall@5 and MRR.
 
 Timings change a little from run to run and depend on the machine. The device and environment are saved with every log entry.
 
-## Running on Google Colab (GPU timing)
-
-My laptop has no GPU, so the CPU run is local. To see the GPU embedding speed, run the same scripts on Colab (T4 GPU). The log records the device, so both runs can be compared.
-
-```
-!git clone https://github.com/NoorFatima-14/Parallax-internship.git
-%cd Parallax-internship/week-1
-!pip install -q langdetect pandas pyarrow requests
-!python scripts/download_data.py --per-category 1500
-!python scripts/build_clean_corpus.py
-%cd ../week-2
-!pip install -q sentence-transformers chromadb pytest
-!python scripts/ingest.py --reset
-!python scripts/benchmark_retrieval.py
-```
 
 ## Dependencies
 

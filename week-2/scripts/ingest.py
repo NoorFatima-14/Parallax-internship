@@ -1,9 +1,3 @@
-"""Chunk the Week 1 clean corpus, embed the chunks, and load them into ChromaDB.
-
-Run:  python scripts/ingest.py
-      python scripts/ingest.py --limit 200      (quick trial on 200 documents)
-Timings are printed and saved to logs/ingest_log.json.
-"""
 
 import argparse
 import sys

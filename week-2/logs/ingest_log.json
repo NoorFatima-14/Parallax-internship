@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "2026-10-16T18:37:51+00:00",
+    "documents": 200,
+    "skipped_documents": 0,
+    "chunks": 864,
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "mean_chunk_chars": 374.6,
+    "chunking_seconds": 0.007,
+    "model": {
+      "model": "all-MiniLM-L6-v2",
+      "device": "cpu",
+      "load_seconds": 5.932,
+      "max_seq_length": 256
+    },
+    "embedding": {
+      "n_texts": 864,
+      "batch_size": 64,
+      "embedding_dim": 384,
+      "total_seconds": 38.022,
+      "texts_per_second": 22.72,
+      "ms_per_text": 44.007
+    },
+    "chroma_ingest_seconds": 1.041,
+    "chroma_stats": {
+      "received": 864,
+      "added": 864,
+      "skipped_missing_id": 0,
+      "skipped_empty_text": 0,
+      "skipped_duplicate_id": 0,
+      "skipped_bad_embedding": 0
+    },
+    "collection_count": 864,
+    "environment": {
+      "python": "3.11.5",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "torch": "2.14.1+cpu",
+      "cuda_available": false
+    }
+  },
+  {
+    "timestamp": "2026-10-16T19:05:13+00:00",
+    "documents": 6563,
+    "skipped_documents": 0,
+    "chunks": 27329,
+    "chunk_size": 500,
+    "chunk_overlap": 50,
+    "mean_chunk_chars": 378.2,
+    "chunking_seconds": 0.153,
+    "model": {
+      "model": "all-MiniLM-L6-v2",
+      "device": "cpu",
+      "load_seconds": 5.386,
+      "max_seq_length": 256
+    },
+    "embedding": {
+      "n_texts": 27329,
+      "batch_size": 64,
+      "embedding_dim": 384,
+      "total_seconds": 1500.127,
+      "texts_per_second": 18.22,
+      "ms_per_text": 54.891
+    },
+    "chroma_ingest_seconds": 47.531,
+    "chroma_stats": {
+      "received": 27329,
+      "added": 27329,
+      "skipped_missing_id": 0,
+      "skipped_empty_text": 0,
+      "skipped_duplicate_id": 0,
+      "skipped_bad_embedding": 0
+    },
+    "collection_count": 27329,
+    "environment": {
+      "python": "3.11.5",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "torch": "2.14.1+cpu",
+      "cuda_available": false
+    }
+  }
+]

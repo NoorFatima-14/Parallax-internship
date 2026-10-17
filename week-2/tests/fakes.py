@@ -1,9 +1,3 @@
-"""A tiny stand-in for a sentence-transformers model, used only in tests.
-
-It hashes words into a fixed-size vector, so texts that share words end up
-close together. This lets the tests check search logic without downloading
-a real model.
-"""
 
 import zlib
 

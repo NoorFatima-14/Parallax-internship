@@ -12,6 +12,7 @@ Week 3 of the Parallax Labs AI/ML internship. It answers questions from the Chro
 - `scripts/ask.py`: ask a question from the command line
 - `scripts/list_models.py`: list the models a provider offers today and check the configured ones
 - `scripts/evaluate_rag.py`: runs a fixed set of questions and reports hallucination handling and latency
+- `scripts/test_hallucination_checks.py`: tests the hallucination checks with answers that are wrong on purpose (no API calls)
 - `tests/`: unit tests. They use a scripted fake API, so no key or internet is needed.
 
 ## How a Question Is Answered
@@ -61,7 +62,7 @@ If one model fails, the client tries the next one from the list. The failed mode
 1. **Retrieval gate (before the LLM).** If no passage scores at least 0.30, the question is treated as off-topic and refused. Why 0.30: in the Week 2 benchmark the off-topic query ("best recipe for chocolate cake") scored 0.267 at best, and the lowest in-domain query (the one with spelling mistakes) scored 0.397. This is based on a few queries only, so the evaluation script reports the real score ranges and the threshold can be changed with `--min-score`.
 2. **The prompt rules.** For related questions that the corpus does not answer (for example the BLEU score of a famous paper the model may know from training), the model must reply with the fixed "I don't know" sentence. The evaluation set includes such questions.
 3. **Checks on the answer (after the LLM, no extra API call).**
-   - **Citations:** a `[n]` that points to a passage that was not in the context is treated as invented.
+   - **Citations:** a `[n]` that points to a passage that was not in the context is treated as invented. Other citation styles, such as the full-width `【1】` that one model used, are converted to `[n]` first.
    - **Numbers:** every number in the answer must appear in the passages. Whole numbers from 0 to 10 are ignored, because they are mostly counts.
    - **Sentence support:** each sentence is compared with the passages using the same embedding model as retrieval. A sentence counts as supported if its similarity to a passage is at least 0.40, or if at least 80% of its content words appear in the passages.
 
@@ -109,7 +110,8 @@ week-3/
 ├── scripts/
 │   ├── ask.py
 │   ├── list_models.py
-│   └── evaluate_rag.py
+│   ├── evaluate_rag.py
+│   └── test_hallucination_checks.py
 ├── tests/
 ├── eval_questions.json    # questions used by the evaluation
 ├── logs/                  # latency and evaluation results
@@ -126,7 +128,8 @@ week-3/
 - [x] Hallucination checks and out-of-domain handling
 - [x] End-to-end latency logging
 - [x] Unit tests with a simulated API
-- [ ] Evaluation run against the live API (`logs/rag_eval_summary.md`)
+- [x] Evaluation run against the live API (`logs/rag_eval_summary.md`)
+- [x] Hallucination checks tested with wrong answers (`logs/hallucination_check_summary.md`)
 
 ## Setup
 
@@ -156,22 +159,74 @@ python scripts/ask.py "..." --provider openrouter --category cs.CV
 # 3. Evaluate (about 28 questions)
 python scripts/evaluate_rag.py --limit 2     # quick trial
 python scripts/evaluate_rag.py
+
+# 4. Test the hallucination checks with wrong answers (no API calls)
+python scripts/test_hallucination_checks.py
 ```
 
 `ask.py` options: `--model` (one ID or several separated by commas), `--top-k`, `--min-score`, `--no-strict`, `--show-blocked`, `-v` (shows retries and fallbacks as they happen).
 
 ## Results
 
-Results come from the log files that the scripts write:
+All numbers come from `logs/rag_eval.json` and `logs/rag_eval_summary.md`: one full run of 28 questions with Groq `openai/gpt-oss-120b`, on a CPU laptop. The evaluation is automatic. It checks whether answers are supported by the passages and whether off-topic questions are refused. It does not rate whether an answer is correct.
 
-- `logs/rag_log.json`: every question asked with `ask.py`, with its timings
-- `logs/rag_eval.json`: every evaluation run, with all answers and the status of each question
-- `logs/rag_eval_summary.md`: tables for the latest evaluation run
+**A bug found by the evaluation.** In the first full run, two answers got a false "no citation" warning. The model had cited its sources, but wrote them as `【1】` (full-width brackets), which my checker did not recognise. This also meant an invalid citation in that style would not have been caught. I added citation normalization and unit tests, and ran the evaluation again. The numbers below are from the second run.
 
-The evaluation uses 10 in-domain questions, 8 off-topic questions, 3 related questions that the corpus should not answer, and 7 edge cases (empty input, gibberish, prompt injection, a very long question, a question in Spanish). It reports how many in-domain questions were answered, how many off-topic questions were refused or leaked an answer, which answers were blocked, the lowest in-domain and highest off-topic retrieval scores, latency per stage, and retries and errors. It is an automatic check and does not replace reading the answers.
+**Question outcomes**
+
+| Group | Questions | Result |
+|-------|-----------|--------|
+| In-domain | 10 | All 10 answered, 0 warnings, 0 refused, 0 blocked |
+| Off-topic | 8 | 8 refused (4 by the retrieval gate, 4 by the model), 0 answered |
+| Related but not in the corpus (BLEU score of the Transformer paper, GPT-4 size, BERT on GLUE) | 3 | 3 refused by the model, 0 answered |
+| Edge cases | 7 | Empty input and spaces rejected. Gibberish, an off-topic prompt injection, a very long question and a Spanish question were refused by the model. A prompt injection that follows a real question was answered. No crashes. |
+
+In every answered question, all sentences were supported by the passages (mean supported share 1.0).
+
+**Out-of-domain threshold.** The lowest top retrieval score among the in-domain questions was 0.473, and the highest among the off-topic questions was 0.429. The gap is small. Four of the eight off-topic questions scored above the 0.30 gate and were stopped by the second layer, the prompt rule that makes the model say "I don't know based on the provided documents." Three edge cases did the same: gibberish (0.36), an off-topic injection (0.38) and the very long question (0.32) all passed the gate and were refused by the model. I kept 0.30. A threshold of 0.45 would separate the off-topic and in-domain questions in this set, but a legitimate question with spelling mistakes in the Week 2 benchmark scored 0.397 and would be refused. A threshold chosen from so few questions would be overfitted.
+
+**Latency** (milliseconds, 22 requests that called the LLM):
+
+| Stage | Mean | p50 | p95 | Max |
+|-------|------|-----|-----|-----|
+| Query embedding | 50.5 | 49.6 | 69.7 | 107.2 |
+| ChromaDB search | 29.5 | 26.6 | 47.6 | 49.4 |
+| Retrieval total | 80.0 | 78.3 | 107.3 | 120.0 |
+| LLM call | 705.3 | 672.0 | 1010.0 | 1391.0 |
+| Verification (11 answered requests) | 253.5 | 268.2 | 325.6 | 356.0 |
+| **End to end** | **913.3** | **793.0** | **1379.4** | **1761.0** |
+
+Four off-topic questions were refused by the retrieval gate and never called the LLM. They took 59.1 ms on average (p95 78.5 ms). The LLM group includes 11 short "I don't know" replies, which are faster than real answers, so the time for a full answer is higher than the average. For example, a single question asked from the command line took about 1.8 s end to end.
+
+**API behaviour:** 22 LLM calls, all answered by the first model. 0 retries, 0 fallbacks, 0 errors, 0 truncated answers, 19,085 tokens in total.
+
+**Hallucination check test** (`logs/hallucination_check_summary.md`): 8 questions, real passages, wrong answers written on purpose.
+
+| Case | Blocked | Warned | Clean |
+|------|---------|--------|-------|
+| True statement (control) | 0/8 | 0/8 | 8/8 |
+| Invented number | 8/8 | 0/8 | 0/8 |
+| Invalid citation | 8/8 | 0/8 | 0/8 |
+| Unrelated facts | 8/8 | 0/8 | 0/8 |
+| Sentence from another question's passages | 7/8 | 0/8 | 1/8 |
+| One true sentence plus one invented sentence | 0/8 | 8/8 | 0/8 |
+| Generic on-topic text | 7/8 | 1/8 | 0/8 |
+
+The one sentence from another question that was not blocked was on topic for the question it was tested against.
+
+## Limits
+
+- **Small evaluation.** 28 questions, one network, and answers were not rated by a person. The checks measure support by the passages, not correctness.
+- **The checks have blind spots.** They catch invented numbers, fake citations and statements unrelated to the passages. A sentence that is related to a passage but says something different, such as a reversed claim, can pass. The wrong answers in the test were written by me, and real model mistakes can be subtler.
+- **The retrieval gate is not enough on its own** (see the threshold above). The prompt rule is an essential second layer, and it depends on the model following instructions.
+- **The retry, rate-limit and fallback code was not triggered in the live run** because no limit was reached. It is tested with simulated responses in the unit tests only.
+- **Prompt injection:** passages and questions are marked as data in the system prompt, and passage text cannot close the context block. In the one test where a question told the model to ignore its rules and not to cite, the answer still contained a citation. I tested only this style of injection.
+- **Spanish question.** It scored 0.498 in retrieval, which is within the range of the in-domain questions, and the model still answered "I don't know". I did not investigate why. Other languages are not supported.
+- **Free tiers change.** Model IDs and limits were taken from the provider documentation in October 2026 and may be different later. Use `scripts/list_models.py`.
+- **Latency** was measured on a CPU laptop and includes the embedding of the question. A faster machine would reduce the retrieval and verification times, but not the LLM time.
 
 ## Notes
 
 - The unit tests use a scripted fake API, so they test the error handling logic. Behaviour with the live APIs is shown by the evaluation run.
-- `chroma_db/`, data files and `.env` are git-ignored. The `logs/` folder is committed as a record of the runs.
+- `chroma_db/`, data files and `.env` are git-ignored. The `logs/` folder is committed as a record of the runs. `logs/rag_eval.json` contains both the quick trial run and the full run.
 - Run `pytest` from inside `week-3/`, not from the repository root.

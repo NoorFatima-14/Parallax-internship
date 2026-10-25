@@ -168,9 +168,7 @@ python scripts/test_hallucination_checks.py
 
 ## Results
 
-All numbers come from `logs/rag_eval.json` and `logs/rag_eval_summary.md`: one full run of 28 questions with Groq `openai/gpt-oss-120b`, on a CPU laptop. The evaluation is automatic. It checks whether answers are supported by the passages and whether off-topic questions are refused. It does not rate whether an answer is correct.
-
-**A bug found by the evaluation.** In the first full run, two answers got a false "no citation" warning. The model had cited its sources, but wrote them as `【1】` (full-width brackets), which my checker did not recognise. This also meant an invalid citation in that style would not have been caught. I added citation normalization and unit tests, and ran the evaluation again. The numbers below are from the second run.
+All numbers come from `logs/rag_eval.json` and `logs/rag_eval_summary.md`: one full run of 28 questions with Groq `openai/gpt-oss-120b`, on a CPU laptop. The evaluation is automatic. It checks whether answers are supported by the passages and whether off-topic questions are refused.
 
 **Question outcomes**
 

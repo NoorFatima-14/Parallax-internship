@@ -1,0 +1,109 @@
+[
+  {
+    "timestamp": "2026-10-24T16:16:46+00:00",
+    "question": "How do diffusion models generate images?",
+    "status": "answered",
+    "top_score": 0.6835,
+    "timings_ms": {
+      "embed_ms": 152.6,
+      "search_ms": 23.4,
+      "retrieval_ms": 176.1,
+      "prompt_ms": 0.6,
+      "llm_ms": 2575.6,
+      "verify_ms": 259.3,
+      "total_ms": 3012.4
+    },
+    "llm": {
+      "model": "openai/gpt-oss-120b",
+      "finish_reason": "stop",
+      "usage": {
+        "queue_time": 0.210689965,
+        "prompt_tokens": 778,
+        "prompt_time": 0.037465484,
+        "completion_tokens": 147,
+        "completion_time": 0.30284807,
+        "total_tokens": 925,
+        "total_time": 0.340313554,
+        "completion_tokens_details": {
+          "reasoning_tokens": 51
+        }
+      },
+      "attempts": 1,
+      "retries": 0,
+      "wait_seconds": 0.0,
+      "http_ms": 2575.3,
+      "truncated": false,
+      "dropped_params": [],
+      "fallbacks": [],
+      "passages_used": 5
+    },
+    "error": null,
+    "grounding": {
+      "level": "grounded",
+      "grounded_fraction": 1.0,
+      "block_reasons": [],
+      "warnings": []
+    }
+  },
+  {
+    "timestamp": "2026-10-24T16:21:57+00:00",
+    "question": "What is the capital of France?",
+    "status": "refused_out_of_domain",
+    "top_score": 0.2893,
+    "timings_ms": {
+      "embed_ms": 74.0,
+      "search_ms": 36.4,
+      "retrieval_ms": 110.3,
+      "total_ms": 111.1
+    },
+    "llm": null,
+    "error": null,
+    "grounding": null
+  },
+  {
+    "timestamp": "2026-10-25T13:07:34+00:00",
+    "question": "What methods are used for object detection in images?",
+    "status": "answered",
+    "top_score": 0.4729,
+    "timings_ms": {
+      "embed_ms": 169.1,
+      "search_ms": 17.2,
+      "retrieval_ms": 186.3,
+      "prompt_ms": 0.4,
+      "llm_ms": 1340.2,
+      "verify_ms": 274.5,
+      "total_ms": 1802.9
+    },
+    "llm": {
+      "model": "openai/gpt-oss-120b",
+      "finish_reason": "stop",
+      "usage": {
+        "queue_time": 0.24636865,
+        "prompt_tokens": 758,
+        "prompt_time": 0.035210217,
+        "completion_tokens": 215,
+        "completion_time": 0.451940656,
+        "total_tokens": 973,
+        "total_time": 0.487150873,
+        "completion_tokens_details": {
+          "reasoning_tokens": 84
+        }
+      },
+      "attempts": 1,
+      "retries": 0,
+      "wait_seconds": 0.0,
+      "http_ms": 1340.0,
+      "truncated": false,
+      "dropped_params": [],
+      "fallbacks": [],
+      "passages_used": 5
+    },
+    "error": null,
+    "grounding": {
+      "level": "grounded",
+      "grounded_fraction": 1.0,
+      "block_reasons": [],
+      "warnings": []
+    }
+  }
+]

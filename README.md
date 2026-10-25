@@ -8,7 +8,7 @@ This is the main repository for the whole 6 week internship. Each week lives in 
 |------|--------|-------|--------|
 | 1 | [week-1](week-1/) | Environment setup, dataset, text cleaning pipeline | Done |
 | 2 | [week-2](week-2/) | Chunking, embeddings, ChromaDB, semantic search, retrieval benchmark | Done |
-| 3 | week-3 | | Not started |
+| 3 | [week-3](week-3/) | LLM Integration & Prompt Engineering | Done |
 | 4 | week-4 | | Not started |
 | 5 | week-5 | | Not started |
 | 6 | week-6 | | Not started |
@@ -44,3 +44,7 @@ A script that checks the GPU and the library imports (pandas, sentence-transform
 ## Week 2 Summary
 
 A recursive chunking strategy with unit tests, sentence-transformers embeddings with timing logs, a ChromaDB vector store with documented edge-case handling, semantic search, and a script that benchmarks retrieval latency across different queries. The full corpus (6,563 abstracts) became 27,329 chunks in the database. Details, setup and results: [week-2/README.md](week-2/README.md).
+
+## Week 3 Summary
+
+A retrieval-augmented generation system on top of the Week 2 database: an LLM API client (Groq, OpenRouter) with rate-limit, timeout and token-limit handling and model fallbacks, a prompt with context injection, out-of-domain refusals, answer checks against hallucination, and end-to-end latency logging. Details: [week-3/README.md](week-3/README.md).

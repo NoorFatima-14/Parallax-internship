@@ -1,0 +1,31 @@
+[
+  {
+    "timestamp": "2026-11-01T15:30:10+00:00",
+    "settings": {
+      "method": "both",
+      "min_topic_size": 25,
+      "nr_topics": null,
+      "seed": 42
+    },
+    "results": [
+      {
+        "method": "bertopic",
+        "topics": 31,
+        "core_share": 0.634,
+        "median_size": 139,
+        "npmi": 0.2141,
+        "diversity": 0.8258,
+        "seconds": 107.0
+      },
+      {
+        "method": "lda",
+        "topics": 25,
+        "core_share": 1.0,
+        "median_size": 73,
+        "npmi": 0.0833,
+        "diversity": 0.908,
+        "seconds": 59.7
+      }
+    ]
+  }
+]

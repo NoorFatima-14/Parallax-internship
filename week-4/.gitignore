@@ -1,0 +1,3 @@
+# The label sheets are the evidence for the accuracy numbers, so they are kept in git.
+# (The root .gitignore ignores *.csv and *.jsonl.)
+!labels/*.csv

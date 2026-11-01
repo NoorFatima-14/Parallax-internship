@@ -1,0 +1,82 @@
+[
+  {
+    "timestamp": "2026-11-01T16:22:23+00:00",
+    "samples": 200,
+    "top_k": 5,
+    "device": "cpu",
+    "results": {
+      "no filter": {
+        "n": 200,
+        "violations": 0,
+        "recall_1": 0.935,
+        "recall_k": 0.98,
+        "mrr": 0.9525,
+        "mean_ms": 35.78396299679298,
+        "p50_ms": 33.631799975410104,
+        "p95_ms": 50.70288496208376,
+        "mean_candidates": 27329.0
+      },
+      "category": {
+        "n": 200,
+        "violations": 0,
+        "recall_1": 0.94,
+        "recall_k": 0.99,
+        "mrr": 0.9629166666666668,
+        "mean_ms": 87.34774650190957,
+        "p50_ms": 85.27540002251044,
+        "p95_ms": 118.23798999539576,
+        "mean_candidates": 5692.785
+      },
+      "topic": {
+        "n": 200,
+        "violations": 0,
+        "recall_1": 0.955,
+        "recall_k": 0.995,
+        "mrr": 0.9716666666666667,
+        "mean_ms": 68.13603400019929,
+        "p50_ms": 63.767800049390644,
+        "p95_ms": 94.2043449787888,
+        "mean_candidates": 2379.535
+      },
+      "year": {
+        "n": 200,
+        "violations": 0,
+        "recall_1": 0.935,
+        "recall_k": 0.98,
+        "mrr": 0.9525,
+        "mean_ms": 259.2805624968605,
+        "p50_ms": 253.90755000989884,
+        "p95_ms": 299.10966501920484,
+        "mean_candidates": 27329.0
+      },
+      "topic + year": {
+        "n": 200,
+        "violations": 0,
+        "recall_1": 0.955,
+        "recall_k": 0.995,
+        "mrr": 0.9716666666666667,
+        "mean_ms": 153.99029299907852,
+        "p50_ms": 149.0342499455437,
+        "p95_ms": 202.5466049730312,
+        "mean_candidates": 2379.535
+      },
+      "dataset": {
+        "n": 25,
+        "violations": 0,
+        "recall_1": 1.0,
+        "recall_k": 1.0,
+        "mrr": 1.0,
+        "mean_ms": 150.37736000027508,
+        "p50_ms": 142.73999992292374,
+        "p95_ms": 181.76017994992432,
+        "mean_candidates": 125.36
+      }
+    },
+    "environment": {
+      "python": "3.11.5",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "torch": "2.14.1+cpu",
+      "cuda_available": false
+    }
+  }
+]

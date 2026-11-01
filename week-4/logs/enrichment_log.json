@@ -1,0 +1,15 @@
+[
+  {
+    "timestamp": "2026-11-01T16:18:08+00:00",
+    "chunks": 27329,
+    "updated": 27329,
+    "no_nlp_data": 0,
+    "stale_flags_removed": 0,
+    "seconds": 18.44,
+    "chunks_with_topic": 27329,
+    "chunks_in_core_cluster": 17305,
+    "chunks_with_dataset": 4673,
+    "dataset_flags": 73,
+    "min_dataset_docs": 3
+  }
+]

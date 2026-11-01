@@ -1,0 +1,95 @@
+{
+  "topics": {
+    "rated": 31,
+    "good": 27,
+    "mixed": 4,
+    "poor": 0,
+    "documents": {
+      "good": 4410,
+      "mixed": 2153,
+      "poor": 0
+    },
+    "mean_npmi": {
+      "good": 0.23244444444444448,
+      "mixed": 0.0905,
+      "poor": null
+    }
+  },
+  "assignment": {
+    "all": {
+      "n": 60,
+      "correct": 35,
+      "correct_or_partly": 50
+    },
+    "random": {
+      "n": 45,
+      "correct": 25,
+      "correct_or_partly": 38
+    },
+    "short": {
+      "n": 15,
+      "correct": 10,
+      "correct_or_partly": 12
+    }
+  },
+  "ner": {
+    "documents": 50,
+    "gold_mentions": 33,
+    "systems": {
+      "spacy_baseline": {
+        "all labeled documents": {
+          "tp": 16,
+          "fp": 156,
+          "fn": 17,
+          "precision": 0.09302325581395349,
+          "recall": 0.48484848484848486,
+          "f1": 0.15609756097560978
+        },
+        "random documents only": {
+          "tp": 3,
+          "fp": 87,
+          "fn": 8,
+          "precision": 0.03333333333333333,
+          "recall": 0.2727272727272727,
+          "f1": 0.05940594059405941
+        }
+      },
+      "seed_list": {
+        "all labeled documents": {
+          "tp": 4,
+          "fp": 3,
+          "fn": 29,
+          "precision": 0.5714285714285714,
+          "recall": 0.12121212121212122,
+          "f1": 0.2
+        },
+        "random documents only": {
+          "tp": 0,
+          "fp": 1,
+          "fn": 11,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        }
+      },
+      "seed_plus_patterns": {
+        "all labeled documents": {
+          "tp": 15,
+          "fp": 12,
+          "fn": 18,
+          "precision": 0.5555555555555556,
+          "recall": 0.45454545454545453,
+          "f1": 0.5
+        },
+        "random documents only": {
+          "tp": 1,
+          "fp": 2,
+          "fn": 10,
+          "precision": 0.3333333333333333,
+          "recall": 0.09090909090909091,
+          "f1": 0.14285714285714288
+        }
+      }
+    }
+  }
+}

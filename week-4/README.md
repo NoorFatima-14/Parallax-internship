@@ -89,7 +89,7 @@ Labeling is done by me (the author) and not by the system. The NER sheet shows n
 
 | What | How |
 |------|-----|
-| Topic quality | NPMI coherence and diversity, and my rating (good, mixed, poor) of the 60 largest topics. The report also shows whether the automatic score agrees with my ratings. |
+| Topic quality | NPMI coherence and diversity, and my rating (good, mixed, poor) of the 31 largest topics. The report also shows whether the automatic score agrees with my ratings. |
 | Topic assignment | 45 random papers and 15 short papers. For each I say whether the assigned topic fits (y, partly, n). Reported with 95% Wilson intervals, for all papers and for short papers on their own. |
 | Dataset mentions | 30 random papers and 20 papers where some system found a dataset, labeled without seeing predictions. Micro precision, recall and F1 for the three systems, with intervals, for all labeled papers and for the random ones only. Only the random papers give an estimate for the whole corpus. |
 | Filters | Violations (results that break the filter, must be 0), recall@5 and MRR using the first sentence of random chunks as queries, latency, and the number of chunks that pass each filter |

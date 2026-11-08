@@ -1,0 +1,11 @@
+# Week 5 dependencies. Install into the same virtual environment as Weeks 1 to 4 (Python 3.10 or newer).
+# After installing, run `pip freeze > requirements.txt` to lock exact versions.
+fastapi>=0.110
+uvicorn>=0.29
+httpx>=0.27          # the evaluation script, and FastAPI's TestClient
+pydantic>=2.5
+numpy
+chromadb>=0.5
+sentence-transformers>=2.7
+requests>=2.31
+pytest>=8.0

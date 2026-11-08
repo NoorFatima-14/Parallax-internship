@@ -1,0 +1,1220 @@
+[
+  {
+    "timestamp": "2026-11-08T16:41:14+00:00",
+    "base_url": "http://127.0.0.1:8000",
+    "cases": "e2e_cases.json",
+    "server": "27329 chunks, embedding `all-MiniLM-L6-v2`, LLM groq openai/gpt-oss-120b, openai/gpt-oss-20b, top_k 5, min_score 0.3, strict True",
+    "n_cases": 40,
+    "passed": 40,
+    "pass_rate": {
+      "p": 1.0,
+      "lo": 0.9123754607496077,
+      "hi": 1.0,
+      "n": 40
+    },
+    "groups": {
+      "in_domain": {
+        "n": 10,
+        "passed": 10,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.7224598312333834,
+          "hi": 1.0,
+          "n": 10
+        }
+      },
+      "filtered": {
+        "n": 4,
+        "passed": 4,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.5100999795960008,
+          "hi": 1.0,
+          "n": 4
+        }
+      },
+      "off_topic": {
+        "n": 8,
+        "passed": 8,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.6755843804891231,
+          "hi": 1.0,
+          "n": 8
+        }
+      },
+      "near_domain": {
+        "n": 3,
+        "passed": 3,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.43849391955098227,
+          "hi": 1.0,
+          "n": 3
+        }
+      },
+      "edge": {
+        "n": 5,
+        "passed": 5,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.5655085052479191,
+          "hi": 1.0,
+          "n": 5
+        }
+      },
+      "http_contract": {
+        "n": 10,
+        "passed": 10,
+        "pass_rate": {
+          "p": 1.0,
+          "lo": 0.7224598312333834,
+          "hi": 1.0,
+          "n": 10
+        }
+      }
+    },
+    "quality": {
+      "answer_rate": {
+        "p": 1.0,
+        "lo": 0.7574992425007574,
+        "hi": 1.0,
+        "n": 12
+      },
+      "refusal_rate": {
+        "p": 1.0,
+        "lo": 0.7718981569447083,
+        "hi": 1.0,
+        "n": 13
+      },
+      "wrongly_answered": [],
+      "blocked_in_answer_cases": [],
+      "keyword_rate": {
+        "p": 1.0,
+        "lo": 0.7574992425007574,
+        "hi": 1.0,
+        "n": 12
+      },
+      "mean_grounded_fraction": 1.0,
+      "citation_rate": {
+        "p": 1.0,
+        "lo": 0.7718981569447083,
+        "hi": 1.0,
+        "n": 13
+      },
+      "answers_with_warning": 0,
+      "mean_answer_words": 75.6923076923077,
+      "error_contract_rate": {
+        "p": 1.0,
+        "lo": 0.7411599827511859,
+        "hi": 1.0,
+        "n": 11
+      },
+      "filter_respected_rate": {
+        "p": 1.0,
+        "lo": 0.5100999795960008,
+        "hi": 1.0,
+        "n": 4
+      }
+    },
+    "latency": {
+      "ask, answered": {
+        "client_ms": {
+          "n": 13,
+          "mean": 1256.7883462179452,
+          "p50": 1201.7938999924809,
+          "p95": 1743.9991201274092,
+          "max": 1968.19410007447
+        },
+        "stages_ms": {
+          "embed_ms": {
+            "n": 13,
+            "mean": 43.338461538461544,
+            "p50": 43.7,
+            "p95": 52.879999999999995,
+            "max": 54.8
+          },
+          "search_ms": {
+            "n": 13,
+            "mean": 73.47692307692309,
+            "p50": 47.5,
+            "p95": 208.8799999999997,
+            "max": 323.9
+          },
+          "retrieval_ms": {
+            "n": 13,
+            "mean": 116.8153846153846,
+            "p50": 90.4,
+            "p95": 254.39999999999972,
+            "max": 375.0
+          },
+          "prompt_ms": {
+            "n": 13,
+            "mean": 0.2923076923076924,
+            "p50": 0.2,
+            "p95": 0.7799999999999983,
+            "max": 1.5
+          },
+          "llm_ms": {
+            "n": 13,
+            "mean": 868.6307692307691,
+            "p50": 853.4,
+            "p95": 1237.5999999999992,
+            "max": 1559.5
+          },
+          "verify_ms": {
+            "n": 13,
+            "mean": 258.70769230769235,
+            "p50": 253.1,
+            "p95": 334.95999999999987,
+            "max": 393.7
+          },
+          "total_ms": {
+            "n": 13,
+            "mean": 1245.5769230769233,
+            "p50": 1195.0,
+            "p95": 1729.3999999999994,
+            "max": 1952.6
+          }
+        },
+        "overhead_ms": {
+          "n": 13,
+          "mean": 11.21142314102216,
+          "p50": 10.633199942857118,
+          "p95": 14.599120127409785,
+          "max": 15.594100074470134
+        }
+      },
+      "ask, refused after the LLM call (model refusal or blocked)": {
+        "client_ms": {
+          "n": 11,
+          "mean": 651.0507817676461,
+          "p50": 649.0930998697877,
+          "p95": 851.8690998898819,
+          "max": 957.2214998770505
+        },
+        "stages_ms": {
+          "embed_ms": {
+            "n": 11,
+            "mean": 41.0,
+            "p50": 35.5,
+            "p95": 66.5,
+            "max": 72.9
+          },
+          "search_ms": {
+            "n": 11,
+            "mean": 31.36363636363637,
+            "p50": 24.5,
+            "p95": 55.05,
+            "max": 64.3
+          },
+          "retrieval_ms": {
+            "n": 11,
+            "mean": 72.37272727272727,
+            "p50": 72.7,
+            "p95": 109.75,
+            "max": 118.7
+          },
+          "prompt_ms": {
+            "n": 11,
+            "mean": 0.15454545454545457,
+            "p50": 0.1,
+            "p95": 0.3,
+            "max": 0.3
+          },
+          "llm_ms": {
+            "n": 11,
+            "mean": 565.090909090909,
+            "p50": 566.9,
+            "p95": 762.55,
+            "max": 912.2
+          },
+          "total_ms": {
+            "n": 11,
+            "mean": 638.209090909091,
+            "p50": 635.0,
+            "p95": 839.55,
+            "max": 946.5
+          }
+        },
+        "overhead_ms": {
+          "n": 11,
+          "mean": 12.841690858555125,
+          "p50": 13.482999845594179,
+          "p95": 15.641649932041787,
+          "max": 16.572199983894848
+        }
+      },
+      "ask, refused by the retrieval gate (no LLM call)": {
+        "client_ms": {
+          "n": 4,
+          "mean": 90.97217494854704,
+          "p50": 90.74060001876205,
+          "p95": 117.47500483179465,
+          "max": 120.46349979937077
+        },
+        "stages_ms": {
+          "embed_ms": {
+            "n": 4,
+            "mean": 38.5,
+            "p50": 41.85,
+            "p95": 44.205,
+            "max": 44.4
+          },
+          "search_ms": {
+            "n": 4,
+            "mean": 38.775,
+            "p50": 36.35,
+            "p95": 56.01499999999999,
+            "max": 57.8
+          },
+          "retrieval_ms": {
+            "n": 4,
+            "mean": 77.275,
+            "p50": 77.1,
+            "p95": 99.75999999999999,
+            "max": 102.1
+          },
+          "total_ms": {
+            "n": 4,
+            "mean": 77.75,
+            "p50": 77.6,
+            "p95": 100.345,
+            "max": 102.7
+          }
+        },
+        "overhead_ms": {
+          "n": 4,
+          "mean": 13.222174948547034,
+          "p50": 13.14060001876205,
+          "p95": 17.130004831794647,
+          "max": 17.763499799370763
+        }
+      },
+      "search": {
+        "client_ms": {
+          "n": 1,
+          "mean": 394.2026000004262,
+          "p50": 394.2026000004262,
+          "p95": 394.2026000004262,
+          "max": 394.2026000004262
+        },
+        "stages_ms": {
+          "embed_ms": {
+            "n": 1,
+            "mean": 48.4,
+            "p50": 48.4,
+            "p95": 48.4,
+            "max": 48.4
+          },
+          "search_ms": {
+            "n": 1,
+            "mean": 335.2,
+            "p50": 335.2,
+            "p95": 335.2,
+            "max": 335.2
+          },
+          "total_ms": {
+            "n": 1,
+            "mean": 383.6,
+            "p50": 383.6,
+            "p95": 383.6,
+            "max": 383.6
+          }
+        },
+        "overhead_ms": {
+          "n": 1,
+          "mean": 10.60260000042615,
+          "p50": 10.60260000042615,
+          "p95": 10.60260000042615,
+          "max": 10.60260000042615
+        }
+      },
+      "ask, all": {
+        "client_ms": {
+          "n": 28,
+          "mean": 852.2748500025565,
+          "p50": 767.5085000228137,
+          "p95": 1537.5810351339167,
+          "max": 1968.19410007447
+        },
+        "stages_ms": {
+          "embed_ms": {
+            "n": 28,
+            "mean": 41.72857142857142,
+            "p50": 42.95,
+            "p95": 58.52499999999999,
+            "max": 72.9
+          },
+          "search_ms": {
+            "n": 28,
+            "mean": 51.975,
+            "p50": 37.6,
+            "p95": 109.2399999999999,
+            "max": 323.9
+          },
+          "retrieval_ms": {
+            "n": 28,
+            "mean": 93.70714285714284,
+            "p50": 83.85,
+            "p95": 154.64499999999992,
+            "max": 375.0
+          },
+          "prompt_ms": {
+            "n": 24,
+            "mean": 0.22916666666666666,
+            "p50": 0.2,
+            "p95": 0.3,
+            "max": 1.5
+          },
+          "llm_ms": {
+            "n": 24,
+            "mean": 729.5083333333333,
+            "p50": 670.25,
+            "p95": 1016.0999999999999,
+            "max": 1559.5
+          },
+          "verify_ms": {
+            "n": 13,
+            "mean": 258.70769230769235,
+            "p50": 253.1,
+            "p95": 334.95999999999987,
+            "max": 393.7
+          },
+          "total_ms": {
+            "n": 28,
+            "mean": 840.1357142857142,
+            "p50": 755.6500000000001,
+            "p95": 1524.6349999999998,
+            "max": 1952.6
+          }
+        },
+        "overhead_ms": {
+          "n": 28,
+          "mean": 12.139135716842235,
+          "p50": 12.490750034525945,
+          "p95": 16.229865015596197,
+          "max": 17.763499799370763
+        }
+      }
+    },
+    "server_errors": [],
+    "transport_errors": [],
+    "llm_unavailable": [],
+    "failures": [],
+    "llm_calls": 24,
+    "rows": [
+      {
+        "id": "in-01",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1968.2,
+        "request_id": "847c41e7997541d7b7db0050e2ea30f9",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 40.9,
+          "search_ms": 66.6,
+          "retrieval_ms": 107.6,
+          "prompt_ms": 1.5,
+          "llm_ms": 1559.5,
+          "verify_ms": 281.3,
+          "total_ms": 1952.6
+        }
+      },
+      {
+        "id": "in-02",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 788.5,
+        "request_id": "2e77d1acf9ac47448bbaca42771f22e0",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 46.1,
+          "search_ms": 37.0,
+          "retrieval_ms": 83.1,
+          "prompt_ms": 0.1,
+          "llm_ms": 464.6,
+          "verify_ms": 230.1,
+          "total_ms": 778.7
+        }
+      },
+      {
+        "id": "in-03",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1182.2,
+        "request_id": "818a24981b634f76b74ee66c057c79be",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 45.2,
+          "search_ms": 64.6,
+          "retrieval_ms": 109.8,
+          "prompt_ms": 0.2,
+          "llm_ms": 853.4,
+          "verify_ms": 207.3,
+          "total_ms": 1171.6
+        }
+      },
+      {
+        "id": "in-04",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1201.8,
+        "request_id": "6d080cf66bfa40f38965a2b6fed26b4b",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 21.1,
+          "search_ms": 30.8,
+          "retrieval_ms": 51.9,
+          "prompt_ms": 0.1,
+          "llm_ms": 748.6,
+          "verify_ms": 393.7,
+          "total_ms": 1195.0
+        }
+      },
+      {
+        "id": "in-05",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1106.0,
+        "request_id": "b5c2d6737503416ea2359fb8366439e4",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 54.8,
+          "search_ms": 62.1,
+          "retrieval_ms": 116.9,
+          "prompt_ms": 0.3,
+          "llm_ms": 700.6,
+          "verify_ms": 274.7,
+          "total_ms": 1093.4
+        }
+      },
+      {
+        "id": "in-06",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1286.8,
+        "request_id": "19b379015441472982bd828ba8df281d",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 42.8,
+          "search_ms": 47.7,
+          "retrieval_ms": 90.4,
+          "prompt_ms": 0.3,
+          "llm_ms": 927.0,
+          "verify_ms": 255.6,
+          "total_ms": 1274.5
+        }
+      },
+      {
+        "id": "in-07",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1329.6,
+        "request_id": "8b409013f45240bdbf1b531dc9b62cc1",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 40.2,
+          "search_ms": 31.9,
+          "retrieval_ms": 72.1,
+          "prompt_ms": 0.2,
+          "llm_ms": 958.8,
+          "verify_ms": 285.7,
+          "total_ms": 1318.1
+        }
+      },
+      {
+        "id": "in-08",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1290.3,
+        "request_id": "1fac8d70593348c28a8784ea2bdd7b24",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 43.7,
+          "search_ms": 32.0,
+          "retrieval_ms": 75.7,
+          "prompt_ms": 0.2,
+          "llm_ms": 949.8,
+          "verify_ms": 253.1,
+          "total_ms": 1279.7
+        }
+      },
+      {
+        "id": "in-09",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1118.1,
+        "request_id": "b65a475e1a3645cfaeded0ff09d5be9f",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 45.1,
+          "search_ms": 40.7,
+          "retrieval_ms": 85.8,
+          "prompt_ms": 0.2,
+          "llm_ms": 725.0,
+          "verify_ms": 295.8,
+          "total_ms": 1107.6
+        }
+      },
+      {
+        "id": "in-10",
+        "group": "in_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1054.7,
+        "request_id": "f395a3e0112542e99618b5bc939f252d",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 39.0,
+          "search_ms": 38.2,
+          "retrieval_ms": 77.2,
+          "prompt_ms": 0.2,
+          "llm_ms": 765.0,
+          "verify_ms": 201.1,
+          "total_ms": 1044.3
+        }
+      },
+      {
+        "id": "off-01",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_out_of_domain",
+        "passed": true,
+        "reason": "",
+        "client_ms": 120.5,
+        "request_id": "6eecf6f580664d2eaced1eb3424f88b0",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 44.4,
+          "search_ms": 57.8,
+          "retrieval_ms": 102.1,
+          "total_ms": 102.7
+        }
+      },
+      {
+        "id": "off-02",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_out_of_domain",
+        "passed": true,
+        "reason": "",
+        "client_ms": 80.9,
+        "request_id": "22d68a1152504fbd861f5a1dd471fd23",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 43.1,
+          "search_ms": 24.6,
+          "retrieval_ms": 67.7,
+          "total_ms": 68.2
+        }
+      },
+      {
+        "id": "off-03",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_out_of_domain",
+        "passed": true,
+        "reason": "",
+        "client_ms": 61.9,
+        "request_id": "e3a1b3607d62403f8084fecb94658685",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 25.9,
+          "search_ms": 26.8,
+          "retrieval_ms": 52.8,
+          "total_ms": 53.1
+        }
+      },
+      {
+        "id": "off-04",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 957.2,
+        "request_id": "500b9b0cf63b4cc18fd79576b1e2c521",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 20.0,
+          "search_ms": 13.9,
+          "retrieval_ms": 33.9,
+          "prompt_ms": 0.1,
+          "llm_ms": 912.2,
+          "total_ms": 946.5
+        }
+      },
+      {
+        "id": "off-05",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_out_of_domain",
+        "passed": true,
+        "reason": "",
+        "client_ms": 100.5,
+        "request_id": "d999fa08d474430d9e7d6517cb5be3cf",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 40.6,
+          "search_ms": 45.9,
+          "retrieval_ms": 86.5,
+          "total_ms": 87.0
+        }
+      },
+      {
+        "id": "off-06",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 480.5,
+        "request_id": "05c18664159c477a83e9de115eb3e822",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 32.3,
+          "search_ms": 16.7,
+          "retrieval_ms": 49.1,
+          "prompt_ms": 0.1,
+          "llm_ms": 420.1,
+          "total_ms": 469.7
+        }
+      },
+      {
+        "id": "off-07",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 625.6,
+        "request_id": "b87f0a9ebcc74fb49477ca24bc44c70b",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 48.3,
+          "search_ms": 36.4,
+          "retrieval_ms": 84.6,
+          "prompt_ms": 0.1,
+          "llm_ms": 525.4,
+          "total_ms": 610.9
+        }
+      },
+      {
+        "id": "off-08",
+        "group": "off_topic",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 577.6,
+        "request_id": "f9af78ed3347432fb693f3008147f35e",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 28.5,
+          "search_ms": 20.8,
+          "retrieval_ms": 49.3,
+          "prompt_ms": 0.1,
+          "llm_ms": 515.0,
+          "total_ms": 564.8
+        }
+      },
+      {
+        "id": "near-01",
+        "group": "near_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 710.0,
+        "request_id": "8e41dbcddb7448418140855b2bc8d927",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 55.6,
+          "search_ms": 45.2,
+          "retrieval_ms": 100.8,
+          "prompt_ms": 0.3,
+          "llm_ms": 591.5,
+          "total_ms": 693.4
+        }
+      },
+      {
+        "id": "near-02",
+        "group": "near_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 582.5,
+        "request_id": "49da6b4d38514935a4b8ebbeb11e538c",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 35.2,
+          "search_ms": 21.5,
+          "retrieval_ms": 56.7,
+          "prompt_ms": 0.1,
+          "llm_ms": 512.3,
+          "total_ms": 569.8
+        }
+      },
+      {
+        "id": "near-03",
+        "group": "near_domain",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 678.4,
+        "request_id": "de7da4b55a4f4c7fbf8099b19daca716",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 60.1,
+          "search_ms": 34.8,
+          "retrieval_ms": 94.9,
+          "prompt_ms": 0.2,
+          "llm_ms": 568.6,
+          "total_ms": 664.3
+        }
+      },
+      {
+        "id": "filter-01",
+        "group": "filtered",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1594.5,
+        "request_id": "a2e372c0bbd6443daef4c38452acee02",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 51.1,
+          "search_ms": 323.9,
+          "retrieval_ms": 375.0,
+          "prompt_ms": 0.2,
+          "llm_ms": 977.0,
+          "verify_ms": 227.7,
+          "total_ms": 1580.6
+        }
+      },
+      {
+        "id": "filter-02",
+        "group": "filtered",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 1431.8,
+        "request_id": "79eb35ac11224230a7db54c42c96d183",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": true,
+        "timings_ms": {
+          "embed_ms": 41.8,
+          "search_ms": 132.2,
+          "retrieval_ms": 174.0,
+          "prompt_ms": 0.1,
+          "llm_ms": 1023.0,
+          "verify_ms": 221.3,
+          "total_ms": 1420.7
+        }
+      },
+      {
+        "id": "filter-03",
+        "group": "filtered",
+        "path": "/search",
+        "http": 200,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 394.2,
+        "request_id": "5dbd964fa4f141419307c09576560830",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 48.4,
+          "search_ms": 335.2,
+          "total_ms": 383.6
+        }
+      },
+      {
+        "id": "filter-04",
+        "group": "filtered",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 653.4,
+        "request_id": "f2118b0c9c4b45e0a72841e26a5ee847",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 14.5,
+          "search_ms": 64.3,
+          "retrieval_ms": 78.8,
+          "prompt_ms": 0.1,
+          "llm_ms": 566.9,
+          "total_ms": 646.1
+        }
+      },
+      {
+        "id": "edge-01",
+        "group": "edge",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 746.5,
+        "request_id": "04886243afc5475d80533de8fae17efc",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 72.9,
+          "search_ms": 45.8,
+          "retrieval_ms": 118.7,
+          "prompt_ms": 0.3,
+          "llm_ms": 612.9,
+          "total_ms": 732.6
+        }
+      },
+      {
+        "id": "edge-02",
+        "group": "edge",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 649.1,
+        "request_id": "f4faf36aca534a228caab63d934ed742",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 35.5,
+          "search_ms": 21.1,
+          "retrieval_ms": 56.6,
+          "prompt_ms": 0.1,
+          "llm_ms": 577.4,
+          "total_ms": 635.0
+        }
+      },
+      {
+        "id": "edge-03",
+        "group": "edge",
+        "path": "/ask",
+        "http": 200,
+        "status": "answered",
+        "passed": true,
+        "reason": "",
+        "client_ms": 985.6,
+        "request_id": "2cf536b7a552434bbe79f0647bde3e28",
+        "error_code": null,
+        "grounded_fraction": 1.0,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 51.6,
+          "search_ms": 47.5,
+          "retrieval_ms": 99.1,
+          "prompt_ms": 0.2,
+          "llm_ms": 639.9,
+          "verify_ms": 235.8,
+          "total_ms": 975.7
+        }
+      },
+      {
+        "id": "edge-04",
+        "group": "edge",
+        "path": "/ask",
+        "http": 422,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 17.0,
+        "request_id": "265a750c4d6a4d19990a7705bbc25dc3",
+        "error_code": "validation_error",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "edge-05",
+        "group": "edge",
+        "path": "/ask",
+        "http": 200,
+        "status": "refused_by_model",
+        "passed": true,
+        "reason": "",
+        "client_ms": 500.7,
+        "request_id": "db6ed64d6fe9483ba75937f8f1db0c60",
+        "error_code": null,
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {
+          "embed_ms": 48.1,
+          "search_ms": 24.5,
+          "retrieval_ms": 72.7,
+          "prompt_ms": 0.2,
+          "llm_ms": 413.7,
+          "total_ms": 487.2
+        }
+      },
+      {
+        "id": "http-01",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 400,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 13.4,
+        "request_id": "843164cb981442fb903ba2215d60a7ee",
+        "error_code": "invalid_question",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-02",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 400,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 11.0,
+        "request_id": "b788153cb7ed4cdba863e3a6202c1541",
+        "error_code": "invalid_json",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-03",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 400,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 16.8,
+        "request_id": "4cfd757a2bcf4ccfa2a746e4c46a1491",
+        "error_code": "invalid_filter",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-04",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 400,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 13.0,
+        "request_id": "a56d8b4ca27a4d639c16e7f0de27bcb2",
+        "error_code": "invalid_filter",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-05",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 422,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 10.6,
+        "request_id": "830c4de81bf14f92b934eb5f62b5f19c",
+        "error_code": "validation_error",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-06",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 422,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 11.8,
+        "request_id": "9562ce6df9304731bf0e59b0ec418ac5",
+        "error_code": "validation_error",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-07",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 422,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 11.8,
+        "request_id": "cf7cfd9400c9447487e429adb34aea0d",
+        "error_code": "validation_error",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-08",
+        "group": "http_contract",
+        "path": "/search",
+        "http": 422,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 10.3,
+        "request_id": "13504529e5d24784b8399eb1bd9f9673",
+        "error_code": "validation_error",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-09",
+        "group": "http_contract",
+        "path": "/no-such-endpoint",
+        "http": 404,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 9.2,
+        "request_id": "e44306d6b9ee47cf802b19d3f12b7a85",
+        "error_code": "not_found",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      },
+      {
+        "id": "http-10",
+        "group": "http_contract",
+        "path": "/ask",
+        "http": 405,
+        "status": null,
+        "passed": true,
+        "reason": "",
+        "client_ms": 7.7,
+        "request_id": "3a2dface98094ebdaba5d61a38ef27be",
+        "error_code": "method_not_allowed",
+        "grounded_fraction": null,
+        "keyword_ok": null,
+        "timings_ms": {}
+      }
+    ],
+    "environment": {
+      "python": "3.11.5",
+      "platform": "Windows-10-10.0.19045-SP0",
+      "torch": "2.14.1+cpu",
+      "cuda_available": false
+    }
+  }
+]

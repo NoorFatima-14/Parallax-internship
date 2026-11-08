@@ -1,0 +1,2129 @@
+{
+  "version": 1,
+  "created": "2026-11-08T16:32:27+00:00",
+  "notes": "200 known-item and 20 topical queries; topical relevance judged by hand",
+  "queries": [
+    {
+      "id": "ki-title-0001",
+      "query": "Most-Recent Anchoring with Recurrent Ordering for Time Series Forecasting",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03494v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0001",
+      "query": "Intermediate states retained during the scan allow the forecast head to weigh short and long portions of the history separately.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03494v1"
+      ]
+    },
+    {
+      "id": "ki-title-0002",
+      "query": "Curvature-Independent Regret Bounds for Distributed Online Optimization on Hadamard Manifolds",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.13646v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0002",
+      "query": "To our knowledge, these are the first curvature-independent regret guarantees for decentralized online optimization on Hadamard manifolds.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.13646v1"
+      ]
+    },
+    {
+      "id": "ki-title-0003",
+      "query": "A Mathematical Framework for Topological Causal Data Analysis",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2607.28161v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0003",
+      "query": "Building on recent outcome-level theory, we formulate identification and doubly robust representations for Banach-space-valued summaries.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2607.28161v1"
+      ]
+    },
+    {
+      "id": "ki-title-0004",
+      "query": "ColdDDI: Evaluating Knowledge Utilization in Cold-Start Drug-Drug Interaction Prediction",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05590v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0004",
+      "query": "Thus, ColdDDI evaluates knowledge utilization rather than knowledge access alone, showing where cold-start DDI models rely on mechanistic evidence and where they fail despite receiving it.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05590v1"
+      ]
+    },
+    {
+      "id": "ki-title-0005",
+      "query": "Do Emotion Concepts Generalize Across Sources, Modalities, and Architectures in Vision-Language Models?",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34742v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0005",
+      "query": "These results suggest that emotion representations can share relational structure and causal effects across sources, modalities, and architectures, even when individual vector directions differ.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34742v1"
+      ]
+    },
+    {
+      "id": "ki-title-0006",
+      "query": "Oracle-Efficient Online Classification with Stochastic Inputs and Adversarial Outputs",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33760v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0006",
+      "query": "As an application, we reduce the problem of contextual bandits with $K$ actions to classification through uniform exploration, achieving $\\widetilde O(K^{2/3}T^{2/3}(\\log N)^{1/3})$ regret.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33760v2"
+      ]
+    },
+    {
+      "id": "ki-title-0007",
+      "query": "OneSign: Unifying Sign Language Understanding Tasks with One Model",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33090v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0007",
+      "query": "(2) current LLM-based methods may overlook the inherent modality discrepancy between sign and text tokens, simply concatenating them and processing both modalities with the same decoder layers.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33090v1"
+      ]
+    },
+    {
+      "id": "ki-title-0008",
+      "query": "xWhyL: Causal Interactive Learning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.26037v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0008",
+      "query": "As explanations can be derived from incorrect beliefs and clash with data, a tension we call the Causal Tug-of-War, we prove conditions under which our framework rejects misspecified explanations rather than absorbing them.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.26037v1"
+      ]
+    },
+    {
+      "id": "ki-title-0009",
+      "query": "SkillGATE: Gate-Aware Monte Carlo Tree Search for Skill Retrieval",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05489v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0009",
+      "query": "G-PUCT guides action selection, expansion explores new regions, simulation evaluates candidate skills, and backpropagation updates search statistics.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05489v1"
+      ]
+    },
+    {
+      "id": "ki-title-0010",
+      "query": "High-probability guarantees for linear accessibility in feature superposition",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.09556v3"
+      ]
+    },
+    {
+      "id": "ki-sentence-0010",
+      "query": "Neural networks can leverage feature superposition to encode more concepts than dimensions, but cross-feature interference constrains the linear accessibility of simultaneously active features.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.09556v3"
+      ]
+    },
+    {
+      "id": "ki-title-0011",
+      "query": "Any-scale Object Detection using Arbitrary-scaled Images",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04346v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0011",
+      "query": "This paper proposes any-scale object detection using arbitrary-scale super-resolution for continuously rescaling object images, while general multi-scale object detection uses discretely rescaled appearance representations.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04346v1"
+      ]
+    },
+    {
+      "id": "ki-title-0012",
+      "query": "Can Prosodic Style Be Inferred from Text Alone? Evidence from Unsupervised Acoustic Clusters",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05575v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0012",
+      "query": "Much of expressive text-to-speech research rests on an untested assumption that written text carries enough information to select an appropriate prosodic style for its delivery.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05575v1"
+      ]
+    },
+    {
+      "id": "ki-title-0013",
+      "query": "Continual Reinforcement Learning with Neuroevolution",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01583v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0013",
+      "query": "ES finds the widest neighborhoods, i.e.\\ regions of weight space in which perturbed policies still solve the task, and the size of the overlap between the neighborhoods of consecutive tasks correlates with a method's stability-plasticity trade-off.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01583v2"
+      ]
+    },
+    {
+      "id": "ki-title-0014",
+      "query": "Provably Efficient Federated Reinforcement Learning with Linear Function Approximation and Logarithmic Communication Cost",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.00193v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0014",
+      "query": "To address these limitations, we propose Fed-LSVI, the first provably efficient federated algorithm for online reinforcement learning with linear function approximation in episodic Markov decision processes.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.00193v1"
+      ]
+    },
+    {
+      "id": "ki-title-0015",
+      "query": "Hypothesis-guided discovery of cognitive algorithms via program refinement",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02523v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0015",
+      "query": "Human-created cognitive models are expressed as probabilistic programs and provided to a system of LLM agents with a mandate to: identify mismatches between model and behavior; propose code-level modifications within researcher-specified constraints; and verify structural fidelity.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02523v1"
+      ]
+    },
+    {
+      "id": "ki-title-0016",
+      "query": "T-Router: Learning Thalamic Routing for Reasoning with Parameter-Efficient Reinforcement Learning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39109v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0016",
+      "query": "We introduce the Thalamic Router (T-Router), which concentrates adaptation on the reuse of completed computations.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39109v1"
+      ]
+    },
+    {
+      "id": "ki-title-0017",
+      "query": "Interaction Is Not Necessary for Order-Optimal 1-Bit Mean Estimation",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.02538v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0017",
+      "query": "The second-stage queries are chosen after localization and refine the estimate around the decoded center.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.02538v1"
+      ]
+    },
+    {
+      "id": "ki-title-0018",
+      "query": "A Statistical Framework for Data-Driven Discovery of Differential Performance in Clinical Risk Prediction Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.01333v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0018",
+      "query": "To address this problem, we propose the unfairness tree (utree), a data-driven recursive partitioning framework for identifying subgroups with differential model performance.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.01333v1"
+      ]
+    },
+    {
+      "id": "ki-title-0019",
+      "query": "Self-Supervised Pretraining of Molecular Graph Encoders with LeJEPA",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.04261v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0019",
+      "query": "Thus, pretraining supplies complementary information best realised through feature-level combination, while finetuning gains are weak and partition-dependent.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.04261v1"
+      ]
+    },
+    {
+      "id": "ki-title-0020",
+      "query": "Multimodal LLMs Outperform Pathology Foundation Models in Cross-Domain Histological Similarity",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.32876v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0020",
+      "query": "LLMs appear less susceptible to this failure, likely because they perform semantic visual comparison of morphology and tissue architecture rather than relying on shortcut features tied to acquisition context.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.32876v2"
+      ]
+    },
+    {
+      "id": "ki-title-0021",
+      "query": "Focus and Supplement: Dual-Enhanced Vision Transformer for Multi-Class Anomaly Classification",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33353v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0021",
+      "query": "Second, auxiliary classification ([A-CLS]) tokens complement the [CLS] token.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33353v1"
+      ]
+    },
+    {
+      "id": "ki-title-0022",
+      "query": "Quantifying the Impact of Ambulance Ramping: A Multi-Year Analysis of Victorian Emergency Medical Services Cases",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.00818v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0022",
+      "query": "These findings establish the empirical preconditions for hospital-state aware ambulance routing.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.00818v1"
+      ]
+    },
+    {
+      "id": "ki-title-0023",
+      "query": "Correcting Guided Diffusion Trajectories with Spectral Alignment",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02753v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0023",
+      "query": "Experiments demonstrate consistent gains in preference-based metrics over baseline guidance methods in text-to-image generation and improved generation quality over CFG on ImageNet.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02753v1"
+      ]
+    },
+    {
+      "id": "ki-title-0024",
+      "query": "Structured Neural Chaos: An Adaptive Surrogate Modeling Framework for Functional Uncertainty Quantification and Global Sensitivity Analysis",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2607.28903v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0024",
+      "query": "The sNC expansion mirrors a truncated functional ANOVA decomposition, where each interaction component admits a separable low-rank approximation whose basis functions and coefficients are parameterized by neural networks.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2607.28903v1"
+      ]
+    },
+    {
+      "id": "ki-title-0025",
+      "query": "Mapping the RAG Landscape: A Four Axis Taxonomy of Efficiency, Defense, Interactivity, and Reasoning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01936v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0025",
+      "query": "Retrieval Augmented Generation (RAG) addresses these issues by incorporating external retrieval into the generation process, grounding model outputs in verifiable and up to date sources.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01936v1"
+      ]
+    },
+    {
+      "id": "ki-title-0026",
+      "query": "Generalization and Memorization along the Learning Trajectory of Neural Language Models: A Geometric Account of Categorization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.32199v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0026",
+      "query": "We find that continuous regions of representation space not occupied by observed tokens become systematically structured from the earliest stages of learning, forming category-level geometric organization that supports generalization to unattested combinations.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.32199v1"
+      ]
+    },
+    {
+      "id": "ki-title-0027",
+      "query": "vMF Sentence LDA: A Spherical Topic Model over Sentence Embeddings",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05095v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0027",
+      "query": "Earlier work has responded to this limitation in two ways: many models have introduced embeddings, and some have assigned topics to sentences rather than to words.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05095v1"
+      ]
+    },
+    {
+      "id": "ki-title-0028",
+      "query": "StepCAD: Mesh-to-CAD Code Generation via LLM Policy and Geometry-Guided Search",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03799v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0028",
+      "query": "Many learning-based methods predict complete programs in a single pass and rely predominantly on sketch-extrude representations, limiting operation diversity and opportunities to correct geometric errors during reconstruction.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03799v1"
+      ]
+    },
+    {
+      "id": "ki-title-0029",
+      "query": "DICE: Decoupling Capability from Intervention Necessity in LLM Tutoring",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04825v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0029",
+      "query": "IV shows that many prescribed interventions provide little or no marginal benefit.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04825v1"
+      ]
+    },
+    {
+      "id": "ki-title-0030",
+      "query": "The hidden advantage of mask resampling: a theory of masked autoencoders",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01578v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0030",
+      "query": "Removing these transformations reveals a downstream advantage for dynamic over static masking in CNN autoencoders and vision transformers.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01578v1"
+      ]
+    },
+    {
+      "id": "ki-title-0031",
+      "query": "RAGScope: A Leakage-Controlled, Cost-Aware Evidence-Gating Protocol for RAG Hallucination Triage",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39075v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0031",
+      "query": "Cheap evidence gates are therefore useful routing components, but learned calibration must be validated and adapted within the target domain.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39075v1"
+      ]
+    },
+    {
+      "id": "ki-title-0032",
+      "query": "Distributed Hydrological Modeling in the Feature Space",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.32971v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0032",
+      "query": "At every forecast step, the operator gathers latent states from upstream grid cells and causally updates the downstream state according to the known river network.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.32971v1"
+      ]
+    },
+    {
+      "id": "ki-title-0033",
+      "query": "Parameterization method of reservoir properties for ensemble-based data assimilation using intermediate latent space of StyleGAN",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39626v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0033",
+      "query": "Based on a recent literature review, the most promising models selected were VAE-GAN, Latent Diffusion, and StyleGAN models.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39626v1"
+      ]
+    },
+    {
+      "id": "ki-title-0034",
+      "query": "MeshQuery: Agentic Seam Planning for UV Parametrization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02507v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0034",
+      "query": "A Vision-Language Model (VLM) plans artist-aligned seams using a set of edge-selection tools, conditioned on domain-specific UV-unwrapping knowledge expressed in natural language and refined with a feedback loop.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02507v1"
+      ]
+    },
+    {
+      "id": "ki-title-0035",
+      "query": "From Weak Task Specifications to Scientific Extraction Agents: Optimizing Task Construction",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34829v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0035",
+      "query": "For scientific extraction agents, however, a short task goal may not fully determine these components, while specifying them manually is costly.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34829v1"
+      ]
+    },
+    {
+      "id": "ki-title-0036",
+      "query": "Boltzmann-Expected Molecular Design with Decoupled Annealing Flows",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2607.19519v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0036",
+      "query": "On GEOM-Drugs, we show that ensemble-aware optimisation produces graphs whose mean radius of gyration and solvent-accessible surface area consistently shift toward targets, while single-conformer optimisation degrades on larger drug-like molecules where Boltzmann distributions are broadest.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2607.19519v1"
+      ]
+    },
+    {
+      "id": "ki-title-0037",
+      "query": "ReMem: Streaming Video Understanding With Long Context Retention",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05940v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0037",
+      "query": "Comprehensive experiments demonstrate that the proposed ReMem achieves state-of-the-art (SOTA) performance across a variety of widely used benchmarks, spanning both streaming video and general long video understanding tasks.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05940v1"
+      ]
+    },
+    {
+      "id": "ki-title-0038",
+      "query": "Contrastive Learning for Authorship Verification",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.28471v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0038",
+      "query": "Our results show that contrastive learning outperforms a classification-based approach to authorship verification under the tested settings.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.28471v1"
+      ]
+    },
+    {
+      "id": "ki-title-0039",
+      "query": "Flow Policies as Actions of Skill-Level World Models: Learned and Symbolic Abstractions for Long-Horizon Planning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04767v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0039",
+      "query": "Latent world models enable robots to plan by predicting the consequences of actions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04767v1"
+      ]
+    },
+    {
+      "id": "ki-title-0040",
+      "query": "Diagnosing On-Policy Self-Distillation for Reasoning Language Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39118v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0040",
+      "query": "Without external rewards nor a separate stronger teacher, the self-teacher with privileged information could provide dense signals on student's trajectories.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39118v1"
+      ]
+    },
+    {
+      "id": "ki-title-0041",
+      "query": "Seeing Is Not Addressing: Auditing Linguistic Access to Frozen Visual Geometry",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37230v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0041",
+      "query": "Vision-language models exhibit a similar asymmetry: a distinction can remain discriminable in frozen image geometry while being weakly addressable through the native text interface.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37230v1"
+      ]
+    },
+    {
+      "id": "ki-title-0042",
+      "query": "Generative Residual Factorization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34824v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0042",
+      "query": "A sufficient statistic of the past replaces the raw past in the posterior and does not replace the kernel.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34824v1"
+      ]
+    },
+    {
+      "id": "ki-title-0043",
+      "query": "Risk-Controlled KV-Cache Eviction: From Memory Budgets to Risk Targets",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.27981v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0043",
+      "query": "The proposed framework converts a deployment-level reliability requirement into a KV-memory operating point.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.27981v1"
+      ]
+    },
+    {
+      "id": "ki-title-0044",
+      "query": "On the Behavioral Traits of LLM Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.32776v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0044",
+      "query": "Factor analysis of the remaining 79 features uncovers six stable, model-attributable factors, two functional and four linguistic.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.32776v1"
+      ]
+    },
+    {
+      "id": "ki-title-0045",
+      "query": "Polynomial neural surrogates for designing photonic quantum experiments",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.06032v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0045",
+      "query": "When these simulators are computationally expensive, repeated simulator calls can limit the search for experiments that generate a desired quantum state.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.06032v1"
+      ]
+    },
+    {
+      "id": "ki-title-0046",
+      "query": "What Does Post-Training Change in Multilingual Reasoning?",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37104v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0046",
+      "query": "Multilingual SFT restores target-language reasoning, but accuracy declines across multilingual, English-only, and single-language SFT runs, showing that this cost is not specific to multilingual mixing; non-English reasoning traces additionally become prone to non-terminating loops.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37104v1"
+      ]
+    },
+    {
+      "id": "ki-title-0047",
+      "query": "Recovery Theory for Projected Power Iterations in Permutation Synchronization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.09502v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0047",
+      "query": "The one-step and trajectory results extend to independent, non-identically distributed, permutation-valued corruptions with mean \\(m^{-1} \\mathbf{1}\\mathbf{1}^{\\top}\\).",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.09502v1"
+      ]
+    },
+    {
+      "id": "ki-title-0048",
+      "query": "How Perturbations Propagate: A Multi-Level Analysis of Robustness in Large Language Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.03322v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0048",
+      "query": "Copying scores show the strongest pooled associations with activation-patching recovery under token substitution and shuffling, although these associations do not isolate copying-specific effects.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.03322v2"
+      ]
+    },
+    {
+      "id": "ki-title-0049",
+      "query": "On the Off-Policy Teacher in On-Policy Distillation",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.38360v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0049",
+      "query": "Across multiple teacher--student configurations, model scales, and reasoning domains, SCOUT also consistently improves the effectiveness of on-policy distillation.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.38360v1"
+      ]
+    },
+    {
+      "id": "ki-title-0050",
+      "query": "The Role of Gradient Modification in Heavy-Tailed Nonconvex Stochastic Min-Max Optimization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.06064v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0050",
+      "query": "Beyond unregularized problems, we further investigate regularized stochastic min-max optimization, where directly incorporating gradient normalization into proximal updates is nontrivial due to the incompatibility between normalization and proximal structures.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.06064v1"
+      ]
+    },
+    {
+      "id": "ki-title-0051",
+      "query": "Privy to the Foil: Recasting Value Estimation with a Self-Privileged Critic for RLVR",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37825v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0051",
+      "query": "In this paper, we revisit the standard state-only formulation of value estimation and propose $π$PPO, a self-privileged actor-critic framework.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37825v1"
+      ]
+    },
+    {
+      "id": "ki-title-0052",
+      "query": "MG-Thinker: Bi-Axial Self-Reflection for Multi-Image Reasoning Grounding",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37374v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0052",
+      "query": "Extensive experiments show that MG-Thinker achieves state-of-the-art performance on multi-image reasoning grounding while consistently improving generalization across multi-image understanding and diverse multimodal benchmarks.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37374v1"
+      ]
+    },
+    {
+      "id": "ki-title-0053",
+      "query": "Automatic Evaluation of Mental Health Stigma in Online Communication",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02775v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0053",
+      "query": "We release the publicly available part of benchmark, annotations, prototypical exemplars of stigma and code at: https://github.com/jemimakang/mh_stigma.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02775v1"
+      ]
+    },
+    {
+      "id": "ki-title-0054",
+      "query": "VastMAT: A Large-Scale Multi-Category Benchmark for Multi-Animal Tracking",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34390v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0054",
+      "query": "Multi-animal tracking (MAT) supports the study of animal movement, behavior, and group interactions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34390v2"
+      ]
+    },
+    {
+      "id": "ki-title-0055",
+      "query": "No Unique Minimizer, No Problem: On the Consistency of Robust Neural Classifiers",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.08489v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0055",
+      "query": "Neural network classifiers trained by cross-entropy minimization are highly sensitive to label noise and adversarial contamination.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.08489v1"
+      ]
+    },
+    {
+      "id": "ki-title-0056",
+      "query": "MemStrata: 95% and 90.91% Source-Aware Accuracy on LongMemEval-500 and LoCoMo-1540 with a Local Qwen 3.8 27B Q4_K_M Reader",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05343v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0056",
+      "query": "Signed read-side artifacts support inspection but do not regenerate the private retrieval pipeline.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05343v1"
+      ]
+    },
+    {
+      "id": "ki-title-0057",
+      "query": "Dimension-Free Rank Lifting from Random Hyperplane Arrangements",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39855v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0057",
+      "query": "The proof shows that one random feature column escapes every proper subspace of $\\mathbb{R}^m$ with probability $Ω(θ)$, using a coupling of nearby Gaussian directions and a local crossing of the induced hyperplane arrangement.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39855v1"
+      ]
+    },
+    {
+      "id": "ki-title-0058",
+      "query": "Smoother Flow Matching via Contrastive Trajectory Repulsion",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01408v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0058",
+      "query": "Second, they also imply drastic velocity variations, leading to severe numerical integration errors in few-step inference.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01408v1"
+      ]
+    },
+    {
+      "id": "ki-title-0059",
+      "query": "Robust Multi-Task Learning for Principal Component Analysis",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.20733v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0059",
+      "query": "Extensive simulations and real-data analyses demonstrate the effectiveness of the proposed methods.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.20733v1"
+      ]
+    },
+    {
+      "id": "ki-title-0060",
+      "query": "E2E-SWE: Benchmarking LLMs on Building Working Codebases from Scratch",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.38335v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0060",
+      "query": "Each task is constructed by a software engineer in collaboration with an LLM; together, they develop the test suite and a corresponding implementation-independent specification.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.38335v1"
+      ]
+    },
+    {
+      "id": "ki-title-0061",
+      "query": "DTD-VAE: Disentangled Temporal Dependencies VAE for Credit Risk Prediction",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.26473v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0061",
+      "query": "Evaluating customer creditworthiness is crucial for retail banking operations, as it impacts marketing strategies, customer relationship management, and credit risk control.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.26473v2"
+      ]
+    },
+    {
+      "id": "ki-title-0062",
+      "query": "End-to-End Learning vs. Modular Architectures: Comparative Insights into Autonomous Driving Systems",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01746v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0062",
+      "query": "The study evaluates key factors such as interpretability, scalability, robustness, and real-world applicability.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01746v1"
+      ]
+    },
+    {
+      "id": "ki-title-0063",
+      "query": "LLMs are General Asynchronous Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.35427v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0063",
+      "query": "In this work, we generalize from different asynchronous tasks to general asynchronous agents that can adapt to different types of concurrency.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.35427v1"
+      ]
+    },
+    {
+      "id": "ki-title-0064",
+      "query": "Uncertainty as a Proxy for Semantic Correctness in Diffusion-Based Medical Image Synthesis",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03224v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0064",
+      "query": "In this work, we investigate whether uncertainty can serve as a proxy for semantic correctness in diffusion-based medical image synthesis.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03224v1"
+      ]
+    },
+    {
+      "id": "ki-title-0065",
+      "query": "WebFovea: When the Model Is Right but the Click Is Wrong -- Reliable Round Trips for Vision-Based Web Agents on Live Websites",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03036v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0065",
+      "query": "WebFovea hardens each stage and surrounds the loop with guardrails that keep the agent within the rules and its budget.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03036v1"
+      ]
+    },
+    {
+      "id": "ki-title-0066",
+      "query": "EndoPrior-GS: Dynamic Endoscopic Reconstruction with a Joint Texture Prior",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37874v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0066",
+      "query": "Dynamic endoscopic reconstruction is fundamental to robotic surgery and computer-assisted interventions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37874v1"
+      ]
+    },
+    {
+      "id": "ki-title-0067",
+      "query": "Confidence-Gated Cloud-Edge Cascade Triage via Variational Risk Minimization for Medical Imaging",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02269v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0067",
+      "query": "In our compact edge-student instantiation, a confidence-gated cascade reaches AUC 0.941 at 103ms average latency with 20.3% cloud escalation, yielding an explicit reliability-latency operating point for cloud-edge clinical workflows.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02269v1"
+      ]
+    },
+    {
+      "id": "ki-title-0068",
+      "query": "ANaLOG: Anisotropic Native-Latent Operator Guidance for Solving Inverse Problems",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.31933v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0068",
+      "query": "We theoretically analyze this framework in a linear model setting and prove that anisotropic, uncertainty-aware weighting is necessary for correct sampling, whereas isotropic guidance induces sampling errors.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.31933v1"
+      ]
+    },
+    {
+      "id": "ki-title-0069",
+      "query": "Self-Evaluating Recursive Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04902v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0069",
+      "query": "SERA (Self-Evaluating Recursive Agents) turns evaluation into a learned capability of the policy itself.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04902v1"
+      ]
+    },
+    {
+      "id": "ki-title-0070",
+      "query": "Improved denoising diffusion probabilistic models with efficient non-diagonal covariance modeling",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.21972v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0070",
+      "query": "Our Kronecker-DCT (K-DCT) model uses a Kronecker-factored decomposition of inter-color covariances and spatial covariances modeled in the frequency domain using the Discrete Cosine Transform (DCT).",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.21972v1"
+      ]
+    },
+    {
+      "id": "ki-title-0071",
+      "query": "Deciding When to Switch: E-Processes for Adaptive Minimax Training for Generative Adversarial Nets",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.10096v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0071",
+      "query": "This issue is particularly relevant in stochastic min-max optimization.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.10096v1"
+      ]
+    },
+    {
+      "id": "ki-title-0072",
+      "query": "AEGIS: Differentiable Mars Climate Model with Neural Closures",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04081v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0072",
+      "query": "We compare with conventional GCMs, highlighting the framework's computational efficiency and differentiability.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04081v1"
+      ]
+    },
+    {
+      "id": "ki-title-0073",
+      "query": "CoLMbo-SV: A Grounded Language Model for Explainable Speaker Verification",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33212v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0073",
+      "query": "Making these systems inspectable requires exposing interpretable evidence while retaining the richer information on which their decisions depend.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33212v2"
+      ]
+    },
+    {
+      "id": "ki-title-0074",
+      "query": "From Papers to Mechanisms: An Evidence-Grounded Knowledge Substrate for Scientific Language Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.06248v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0074",
+      "query": "We instantiate it as MS$^3$, a Material-Sensor-Signal-System schema for conductive-fiber flexible sensors, over 13,689 papers, 131,083 evidence items, and 26,648 mechanism objects.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.06248v1"
+      ]
+    },
+    {
+      "id": "ki-title-0075",
+      "query": "Narrow Multimodal Fine-Tuning Can Induce Emergent Misalignment",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.35291v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0075",
+      "query": "Overall, our findings suggest that multimodal EM reflects a behavioral shift rather than a general loss of capability, extending beyond text to the visual modality.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.35291v1"
+      ]
+    },
+    {
+      "id": "ki-title-0076",
+      "query": "Which Metrics Save the Most Human Annotation? Prediction-Powered Evaluation and Meta-Evaluation",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.26638v2"
+      ]
+    },
+    {
+      "id": "ki-sentence-0076",
+      "query": "PPSR directly targets metric utility for prediction-powered evaluation and yields more discriminative and stable metric rankings than existing system-level meta-metrics.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.26638v2"
+      ]
+    },
+    {
+      "id": "ki-title-0077",
+      "query": "From Script to Drama: An Agentic Framework for Controllable Multi-Speaker Dialogue TTS",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33362v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0077",
+      "query": "These requirements are difficult to satisfy reliably with one-shot generation, especially in long-form dialogue.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33362v1"
+      ]
+    },
+    {
+      "id": "ki-title-0078",
+      "query": "A Subsampled Davis-Kahan Bound for Large-Scale Eigenspace Estimation",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.09211v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0078",
+      "query": "However, when the matrix dimension is large, computing leading eigenvectors is computationally expensive, limiting the practical use of spectral methods in modern large-scale applications.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.09211v1"
+      ]
+    },
+    {
+      "id": "ki-title-0079",
+      "query": "Inductive Visual Logic for Few-Shot Out-Of-Distribution Adaptation in VLMs",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.38362v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0079",
+      "query": "Exploiting this asymmetry, we introduce Inductive Visual Logic (IVL), a training-free framework that constructs classification knowledge from the model's surviving descriptive ability.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.38362v1"
+      ]
+    },
+    {
+      "id": "ki-title-0080",
+      "query": "WM-VLM: Probing Internal World Models for Interleaved Visual-Textual Reasoning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34826v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0080",
+      "query": "We investigate whether VLMs can solve spatial problems by reasoning with both text and generated visual states.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34826v1"
+      ]
+    },
+    {
+      "id": "ki-title-0081",
+      "query": "ArchitectureIQ: On the Measure of Training Intuition",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.39714v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0081",
+      "query": "(3) The intuition is not maximally condensed, and can be further compressed into a knoledge base.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.39714v1"
+      ]
+    },
+    {
+      "id": "ki-title-0082",
+      "query": "Iterating Consistency Models: Stability, Error Bounds and Noise Schedules",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03414v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0082",
+      "query": "Together, these results provide a meaningful convergence theory for multi-step CMs and a practical route to sampler design.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03414v1"
+      ]
+    },
+    {
+      "id": "ki-title-0083",
+      "query": "Does Local Video Understanding Transfer Across Encounters? The EgoGears Benchmark",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37938v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0083",
+      "query": "Embodied systems must make knowledge acquired during one encounter usable in another despite changes in viewpoint, motion, and illumination.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37938v1"
+      ]
+    },
+    {
+      "id": "ki-title-0084",
+      "query": "Reward-Tilted On-Policy Distillation for Acoustic Grounding in Audio-Language Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.28778v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0084",
+      "query": "Across two compact students and three benchmarks, RT-OPD consistently outperforms Vanilla OPD.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.28778v1"
+      ]
+    },
+    {
+      "id": "ki-title-0085",
+      "query": "Neural topology optimization of ship structures under propulsion machinery vibrations",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.38089v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0085",
+      "query": "KATO runs 6.4-10.4x faster than GCMMA for the implemented stress-aware formulations.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.38089v1"
+      ]
+    },
+    {
+      "id": "ki-title-0086",
+      "query": "Context Language Models",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.37725v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0086",
+      "query": "We introduce Context Language Models (CLMs), language models that natively manage their own context.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.37725v1"
+      ]
+    },
+    {
+      "id": "ki-title-0087",
+      "query": "OmniSmartHome: A Multimodal Reasoning Benchmark for Smart-Home Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.32569v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0087",
+      "query": "In such interactions, users often rely on the surrounding multimodal context-pointing at objects or referring to what they see or hear, leaving their requests underspecified in language alone.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.32569v1"
+      ]
+    },
+    {
+      "id": "ki-title-0088",
+      "query": "Benchmarking Psychological Dynamics in Generative Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04246v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0088",
+      "query": "The second, external validity, quantifies whether replicas recover established trait, state, and indicator relations.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04246v1"
+      ]
+    },
+    {
+      "id": "ki-title-0089",
+      "query": "SentZero: An Enhanced Sentence-Centric Vision-Language Pretraining for Multi-Task Zero-Shot Chest X-Ray Analysis",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.34479v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0089",
+      "query": "To address these issues, we propose SentZero, an enhanced sentence-centric VL pretraining framework for zero-shot, multi-task CXR analysis.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.34479v1"
+      ]
+    },
+    {
+      "id": "ki-title-0090",
+      "query": "RSure-Agent: Reliable Use of Tool Observations for Remote Sensing Agents",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04836v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0090",
+      "query": "These errors propagate to the final answer in at least 82.0% of affected tasks on each benchmark.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04836v1"
+      ]
+    },
+    {
+      "id": "ki-title-0091",
+      "query": "VCLMU: Mechanism-Centric Virtual Cell World Modeling for Perturbation Response",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.04475v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0091",
+      "query": "Predicting cellular responses to genetic perturbations is a central capability for virtual cells and a key step toward computational modeling of biological interventions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.04475v1"
+      ]
+    },
+    {
+      "id": "ki-title-0092",
+      "query": "EyeRobot 2.0: Active Gaze for Precise Manipulation without Wrist Cameras",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03710v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0092",
+      "query": "Such Active Visual Fixation (AVF) requires carefully coordinated gaze during task execution, which we accomplish hierarchically by first training a low-level gaze servoing policy conditioned on a goal object, then training a target selector which emits fixation goals based on task progress.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03710v1"
+      ]
+    },
+    {
+      "id": "ki-title-0093",
+      "query": "Stochastic gradient descent with initial regularization",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2608.22953v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0093",
+      "query": "In the noiseless case, we obtain new bounds for both averaged and non-averaged SGDIR under moment, source, and capacity assumptions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2608.22953v1"
+      ]
+    },
+    {
+      "id": "ki-title-0094",
+      "query": "Peer Effects in Signed Networks: Separating Influence Through Positive and Negative Ties",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.02872v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0094",
+      "query": "Counting treated neighbors without distinguishing supportive and antagonistic ties can conceal opposing influences.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.02872v1"
+      ]
+    },
+    {
+      "id": "ki-title-0095",
+      "query": "A Unified Framework for Bayesian Data Assimilation with Generative Models and Observation Interpolants",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.03396v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0095",
+      "query": "Jacobian-free and ensemble-shared approximations make the method tractable in high dimensions.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.03396v1"
+      ]
+    },
+    {
+      "id": "ki-title-0096",
+      "query": "CORDIAL: Calibrating Ordinal LLM Outputs from Few Labels",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.29807v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0096",
+      "query": "On Amazon reviews and CMU-MOSEI transcripts with four LLMs, CORDIAL has the lowest log loss among nine calibrators in 76 of 80 settings with 5 to 100 labels; with 20 labels and the main 7B reader, it matches the strongest baseline using 28-54 labels.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.29807v1"
+      ]
+    },
+    {
+      "id": "ki-title-0097",
+      "query": "LLM-Driven Multi-Agent Control for Skill-Based Smart Manufacturing",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.01364v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0097",
+      "query": "Factories are shifting toward smaller lot sizes with high product customization, requiring frequent re-programming of flexible and reconfigurable automation systems.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.01364v1"
+      ]
+    },
+    {
+      "id": "ki-title-0098",
+      "query": "Green-Routed Neural Operators:\\\\Physics Determines Where the Network Reads",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2610.05337v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0098",
+      "query": "A parameter-free equation adapter evaluates the diagnostic relation and constructs a departure map whose values are the read coordinates.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2610.05337v1"
+      ]
+    },
+    {
+      "id": "ki-title-0099",
+      "query": "Positions Are Not Facts: The Mismatch Between KV Caches and Memory",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.33759v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0099",
+      "query": "We compare hiding whole records, hiding only replaced values, and deleting old text and recomputing the cache.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.33759v1"
+      ]
+    },
+    {
+      "id": "ki-title-0100",
+      "query": "Back to the Definition: Estimating Step-Level Advantages via Trajectory Graphs for Agentic Reinforcement Learning",
+      "type": "known_item",
+      "subtype": "title",
+      "relevant": [
+        "2609.28963v1"
+      ]
+    },
+    {
+      "id": "ki-sentence-0100",
+      "query": "To further ensure the reliability of step-level advantage estimation, we further propose Graph GAE, which extends GAE to the trajectory graph for reducing the impact of state-value estimation bias.",
+      "type": "known_item",
+      "subtype": "sentence",
+      "relevant": [
+        "2609.28963v1"
+      ]
+    },
+    {
+      "id": "tp-01",
+      "query": "object detection methods in images",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.39467v1",
+        "2610.04346v1",
+        "2610.05115v1",
+        "2610.05342v1",
+        "2610.06232v1"
+      ]
+    },
+    {
+      "id": "tp-02",
+      "query": "evaluation of large language models",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.27510v1",
+        "2609.34800v1",
+        "2609.36264v1",
+        "2609.37515v1",
+        "2610.00954v1",
+        "2610.02877v1"
+      ]
+    },
+    {
+      "id": "tp-03",
+      "query": "efficient transformer architectures",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.29397v1",
+        "2609.33306v1",
+        "2609.40127v1",
+        "2610.01403v1"
+      ]
+    },
+    {
+      "id": "tp-04",
+      "query": "diffusion models for image generation",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2608.02487v1",
+        "2608.15144v2",
+        "2609.33203v1",
+        "2609.33895v1",
+        "2609.35289v1",
+        "2609.37654v2",
+        "2609.39222v1",
+        "2610.01502v1",
+        "2610.03626v1",
+        "2610.05816v1"
+      ]
+    },
+    {
+      "id": "tp-05",
+      "query": "reinforcement learning techniques",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.20152v2",
+        "2608.02826v1",
+        "2609.11807v2",
+        "2609.34188v1",
+        "2610.01566v1",
+        "2610.01781v1",
+        "2610.02198v1",
+        "2610.03475v1",
+        "2610.03598v1",
+        "2610.03667v1"
+      ]
+    },
+    {
+      "id": "tp-06",
+      "query": "neural machine translation",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.26347v2",
+        "2609.28395v1",
+        "2609.28826v1",
+        "2609.30416v1",
+        "2609.31169v1",
+        "2609.33296v1",
+        "2610.01082v2",
+        "2610.02612v1"
+      ]
+    },
+    {
+      "id": "tp-07",
+      "query": "uncertainty estimation in deep neural networks",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.28248v1",
+        "2608.07630v1",
+        "2608.12100v1",
+        "2608.15362v1",
+        "2608.20483v1",
+        "2609.39591v1",
+        "2610.00535v1",
+        "2610.01384v1",
+        "2610.03142v1"
+      ]
+    },
+    {
+      "id": "tp-08",
+      "query": "out-of-distribution detection",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.00691v1",
+        "2610.01096v1",
+        "2610.03224v1",
+        "2610.05718v1"
+      ]
+    },
+    {
+      "id": "tp-09",
+      "query": "reducing hallucinations in language models",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.31911v1",
+        "2609.35860v1",
+        "2609.36440v1",
+        "2609.37263v1",
+        "2609.37568v1",
+        "2609.38962v1",
+        "2609.38979v2",
+        "2610.02887v1",
+        "2610.02976v1",
+        "2610.02999v2"
+      ]
+    },
+    {
+      "id": "tp-10",
+      "query": "graph neural networks",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.26699v1",
+        "2609.02996v1",
+        "2609.13655v1",
+        "2609.19210v1",
+        "2609.37015v2",
+        "2610.01903v1",
+        "2610.03526v1",
+        "2610.04157v1",
+        "2610.05874v1",
+        "2610.06023v1"
+      ]
+    },
+    {
+      "id": "tp-11",
+      "query": "retrieval-augmented generation",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.27380v2",
+        "2609.33037v2",
+        "2609.37171v1",
+        "2609.37349v1",
+        "2609.37469v1",
+        "2609.38473v1",
+        "2610.01767v1",
+        "2610.01936v1",
+        "2610.03136v1",
+        "2610.04642v1"
+      ]
+    },
+    {
+      "id": "tp-12",
+      "query": "federated learning and privacy",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.28338v1",
+        "2609.22654v2",
+        "2609.39250v1",
+        "2610.01126v1",
+        "2610.03597v1",
+        "2610.03650v1",
+        "2610.06420v1"
+      ]
+    },
+    {
+      "id": "tp-13",
+      "query": "self-supervised representation learning",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.05031v1",
+        "2609.33424v1",
+        "2609.35288v2",
+        "2609.37789v1",
+        "2610.01373v1",
+        "2610.04830v1",
+        "2610.05043v1",
+        "2610.05711v1"
+      ]
+    },
+    {
+      "id": "tp-14",
+      "query": "adversarial robustness of neural networks",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.27995v2",
+        "2608.13514v1",
+        "2609.09945v1",
+        "2609.31363v1",
+        "2609.39449v1",
+        "2609.39798v1",
+        "2610.03142v1"
+      ]
+    },
+    {
+      "id": "tp-15",
+      "query": "medical image segmentation",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.25014v1",
+        "2609.33077v1",
+        "2609.34235v1",
+        "2609.34513v1",
+        "2609.35637v1",
+        "2610.01452v1",
+        "2610.04036v1",
+        "2610.05078v1",
+        "2610.06494v1"
+      ]
+    },
+    {
+      "id": "tp-16",
+      "query": "knowledge distillation and model compression",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2608.14685v2",
+        "2609.32749v1",
+        "2609.33727v1",
+        "2609.35203v1",
+        "2609.35560v1",
+        "2609.36734v1",
+        "2610.00997v1",
+        "2610.02597v1",
+        "2610.03529v1"
+      ]
+    },
+    {
+      "id": "tp-17",
+      "query": "few-shot learning",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.28250v1",
+        "2609.33176v1",
+        "2609.33701v1",
+        "2609.39390v1",
+        "2610.00526v1",
+        "2610.00820v1",
+        "2610.04003v1",
+        "2610.04963v1",
+        "2610.05852v1"
+      ]
+    },
+    {
+      "id": "tp-18",
+      "query": "explainability and interpretability of models",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.22979v1",
+        "2608.25080v1",
+        "2609.27158v1",
+        "2609.33989v1",
+        "2610.00571v1",
+        "2610.02116v1",
+        "2610.05225v1",
+        "2610.05379v1",
+        "2610.06285v1"
+      ]
+    },
+    {
+      "id": "tp-19",
+      "query": "vision-language multimodal models",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2609.27395v1",
+        "2609.31169v1",
+        "2609.34330v2",
+        "2609.34408v1",
+        "2609.38177v1",
+        "2609.38597v1",
+        "2609.40362v1",
+        "2610.03289v1",
+        "2610.05897v1"
+      ]
+    },
+    {
+      "id": "tp-20",
+      "query": "Bayesian inference and probabilistic models",
+      "type": "topical",
+      "subtype": "",
+      "relevant": [
+        "2607.17280v1",
+        "2607.18734v1",
+        "2607.28894v2",
+        "2608.19022v1",
+        "2609.01783v2",
+        "2609.23212v2",
+        "2609.31368v1",
+        "2609.39712v1",
+        "2609.40024v1"
+      ]
+    }
+  ]
+}

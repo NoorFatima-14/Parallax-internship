@@ -1,0 +1,25 @@
+{
+  "notes": "Topic queries for the hand-judged part of the retrieval test set. The first ten follow the in-domain questions of the Week 3 evaluation. Queries for which no paper is judged relevant are dropped when the labels are merged.",
+  "queries": [
+    {"id": "tp-01", "query": "object detection methods in images"},
+    {"id": "tp-02", "query": "evaluation of large language models"},
+    {"id": "tp-03", "query": "efficient transformer architectures"},
+    {"id": "tp-04", "query": "diffusion models for image generation"},
+    {"id": "tp-05", "query": "reinforcement learning techniques"},
+    {"id": "tp-06", "query": "neural machine translation"},
+    {"id": "tp-07", "query": "uncertainty estimation in deep neural networks"},
+    {"id": "tp-08", "query": "out-of-distribution detection"},
+    {"id": "tp-09", "query": "reducing hallucinations in language models"},
+    {"id": "tp-10", "query": "graph neural networks"},
+    {"id": "tp-11", "query": "retrieval-augmented generation"},
+    {"id": "tp-12", "query": "federated learning and privacy"},
+    {"id": "tp-13", "query": "self-supervised representation learning"},
+    {"id": "tp-14", "query": "adversarial robustness of neural networks"},
+    {"id": "tp-15", "query": "medical image segmentation"},
+    {"id": "tp-16", "query": "knowledge distillation and model compression"},
+    {"id": "tp-17", "query": "few-shot learning"},
+    {"id": "tp-18", "query": "explainability and interpretability of models"},
+    {"id": "tp-19", "query": "vision-language multimodal models"},
+    {"id": "tp-20", "query": "Bayesian inference and probabilistic models"}
+  ]
+}

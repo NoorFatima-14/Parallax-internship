@@ -1,6 +1,6 @@
 # Week 5: FastAPI Service, Request Logging, and Automated Evaluation
 
-Week 5 of the Parallax Labs AI/ML internship. It wraps the Week 3 RAG system and the Week 4 metadata filters in a FastAPI service, and adds two automatic evaluations: one for retrieval (Precision@K, Recall@K) and one end to end (answer quality and latency). The Week 2 database, the Week 3 code and the Week 4 code must be present. Run all commands below from inside the `week-5/` folder.
+Week 5 of the Parallax Labs AI/ML internship. It wraps the Week 3 RAG system and the Week 4 metadata filters in a FastAPI service, and adds two automatic evaluations: one for retrieval (Precision@K, Recall@K) and one end to end (answer quality and latency). Run all commands below from inside the `week-5/` folder.
 
 ## What I Built
 

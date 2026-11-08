@@ -10,7 +10,7 @@ This is the main repository for the whole 6 week internship. Each week lives in 
 | 2 | [week-2](week-2/) | Chunking, embeddings, ChromaDB, semantic search, retrieval benchmark | Done |
 | 3 | [week-3](week-3/) | LLM Integration & Prompt Engineering | Done |
 | 4 | [week-4](week-4/) | NLP Analysis | Done |
-| 5 | [week-5](week-5/) | FastAPI Service and Evaluation |
+| 5 | [week-5](week-5/) | FastAPI Service and Evaluation |  Done |
 | 6 | week-6 | | Not started |
 
 ## Repository Layout

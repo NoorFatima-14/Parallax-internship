@@ -1,18 +1,10 @@
-# Parallax Labs AI/ML Internship: Research-Paper RAG System
+# Parallax Labs AI/ML Internship
 
-A retrieval-augmented generation (RAG) system that answers questions about machine learning research. It searches 6,563 arXiv abstracts and asks an LLM to answer **only from the passages it found**, with numbered citations. If the papers do not contain the answer, it refuses instead of guessing.
+A retrieval augmented generation (RAG) system that answers questions about machine learning research. It searches 6,563 arXiv abstracts and asks an LLM to answer **only from the passages it found**, with numbered citations. If the papers do not contain the answer, it refuses instead of guessing.
 
 It was built over 6 weeks. Each week has its own folder, README and tests; this page is the single entry point for the whole project.
 
 ## Results at a glance
-| Week | Folder | Topic | Status |
-|------|--------|-------|--------|
-| 1 | [week-1](week-1/) | Environment setup, dataset, text cleaning pipeline | Done |
-| 2 | [week-2](week-2/) | Chunking, embeddings, ChromaDB, semantic search, retrieval benchmark | Done |
-| 3 | [week-3](week-3/) | LLM Integration & Prompt Engineering | Done |
-| 4 | [week-4](week-4/) | NLP Analysis | Done |
-| 5 | [week-5](week-5/) | FastAPI Service and Evaluation |  Done |
-| 6 | week-6 | | Not started |
 
 | What | Result |
 |---|---|
@@ -47,26 +39,28 @@ Offline steps build the index once. Online steps run for every question.
 ```mermaid
 flowchart LR
     subgraph OFFLINE["Offline: build the index (run once)"]
-        A[arXiv API] -->|Week 1| B[Clean corpus<br/>6,563 abstracts]
-        B -->|Week 2| C[Chunks<br/>500 chars, 50 overlap]
-        C --> D[Embeddings<br/>all-MiniLM-L6-v2, 384 dim]
-        D --> E[(ChromaDB<br/>27,329 chunks)]
-        B -->|Week 4| F[BERTopic + dataset NER]
+        A["arXiv API"] -->|Week 1| B["Clean corpus 6,563 abstracts"]
+        B -->|Week 2| C["Chunks 500 chars, 50 overlap"]
+        C --> D["Embeddings all-MiniLM-L6-v2, 384 dim"]
+        D --> E["ChromaDB 27,329 chunks"]
+        B -->|Week 4| F["BERTopic + dataset NER"]
         F -->|enrich| E
     end
     subgraph ONLINE["Online: answer a question"]
-        Q[User question] --> API[FastAPI<br/>Week 5]
-        API --> R[Retriever<br/>+ metadata filters]
+        Q["User question"] --> API["FastAPI Week 5"]
+        API --> R["Retriever + metadata filters"]
         E --> R
-        R --> G{Top score<br/>above 0.30?}
-        G -->|no| X[Refuse:<br/>out of domain]
-        G -->|yes| P[Prompt with<br/>numbered passages]
-        P --> L[LLM on Groq<br/>gpt-oss-120b]
-        L --> H[Grounding checks<br/>citations, numbers, sentences]
-        H -->|ok| ANS[Answer + sources]
-        H -->|fails| BL[Blocked or warning]
+        R --> G{"Top score above 0.30?"}
+        G -->|no| X["Refuse: out of domain"]
+        G -->|yes| P["Prompt with numbered passages"]
+        P --> L["LLM on Groq gpt-oss-120b"]
+        L --> H["Grounding checks citations, numbers, sentences"]
+        H -->|ok| ANS["Answer + sources"]
+        H -->|fails| BL["Blocked or warning"]
     end
 ```
+*Picture version if the diagram does not show: [diagram 1](docs/img/diagram-1.png)*
+
 
 ### What happens on `POST /ask`
 
@@ -92,19 +86,23 @@ sequenceDiagram
     end
     Note over A,U: LLM failures return 503 or 504 as JSON errors. Every request is logged as one JSON line.
 ```
+*Picture version if the diagram does not show: [diagram 2](docs/img/diagram-2.png)*
+
 
 ### Metadata flow (Week 4)
 
 ```mermaid
 flowchart TD
-    DOC[Paper abstract] --> T[BERTopic: 31 topics]
-    DOC --> N[Dataset mentions:<br/>seed list + patterns]
-    DOC --> M[Category, year, length]
-    T --> CH[Every chunk of the paper<br/>gets the same metadata]
+    DOC["Paper abstract"] --> T["BERTopic: 31 topics"]
+    DOC --> N["Dataset mentions: seed list + patterns"]
+    DOC --> M["Category, year, length"]
+    T --> CH["Every chunk of the paper gets the same metadata"]
     N --> CH
     M --> CH
-    CH --> FIL[Filters: topic, category, dataset,<br/>years, core_only, exclude_short]
+    CH --> FIL["Filters: topic, category, dataset, years, core_only, exclude_short"]
 ```
+*Picture version if the diagram does not show: [diagram 3](docs/img/diagram-3.png)*
+
 
 ## Repository layout
 
@@ -277,7 +275,7 @@ Errors always have the same JSON shape: `400` bad request, `404`/`405` wrong pat
 | Retrieval quality | `python scripts/evaluate_retrieval.py` (week-5) | logs/retrieval_eval.md |
 | End to end | start the API, then `python scripts/evaluate_e2e.py` (week-5) | logs/e2e_eval.md |
 
-The LLM-based ones need your key and use the free tier; `--delay 15` slows the pace if you hit rate limits. Check the documentation against the logs with `python docs/check_numbers.py`.
+The LLM based ones need your key and use the free tier; `--delay 15` slows the pace if you hit rate limits. Check the documentation against the logs with `python docs/check_numbers.py`.
 
 ## Testing and code quality
 
@@ -288,8 +286,8 @@ The LLM-based ones need your key and use the free tier; `--delay 15` slows the p
 
 - Abstracts only, no full papers; 5 arXiv categories.
 - Hallucination checks are rule based; one of eight "answer to another question" cases got through in a test.
-- Dataset-mention extraction is modest (F1 0.50 on 50 hand-labelled papers).
-- Small hand-labelled samples; see the intervals in [docs/EVALUATION.md](docs/EVALUATION.md).
+- Dataset mention extraction is modest (F1 0.50 on 50 hand labelled papers).
+- Small hand labelled samples; see the intervals in [docs/EVALUATION.md](docs/EVALUATION.md).
 - Answers depend on an external LLM service and its free-tier limits.
 
 ## Troubleshooting
@@ -304,8 +302,9 @@ The LLM-based ones need your key and use the free tier; `--delay 15` slows the p
 
 ## 5-minute demo
 
-Implemented topic modeling, dataset extraction, and NLP-based metadata enrichment for the vector database. Integrated metadata-based filters into semantic search and RAG, evaluated retrieval performance. Details: [week-4/README.md](week-4/README.md).
-
-## Week 5 Summary
-
-A FastAPI service around the Week 3 RAG system and the Week 4 metadata filters (`/ask`, `/search`, `/topics`, `/datasets`, `/health`, `/ready`), with one JSON error format for every failure (400, 422, 500, and 503 or 504 when the language model service is down), and one structured JSON log line per request with a request id. Two automatic evaluations: retrieval (Precision@K, Recall@K, HitRate@K, MRR and nDCG@K on a test set of automatic and hand-judged queries) and end to end (40 real HTTP requests that check answer behaviour, answer quality signals and latency). 181 pytest tests that need no API key or internet. Details: [week-5/README.md](week-5/README.md).
+1. Start the API and open `/docs`.
+2. `GET /ready`: show 27,329 chunks and the settings.
+3. Ask "How do diffusion models generate images?": point to the citations and `sources`.
+4. Ask the chocolate cake question: show the refusal without an LLM call.
+5. Ask with a topic filter: show `filter_applied` and that all sources match.
+6. Open `docs/EVALUATION.md`: show the 40 of 40 end to end result and the limits.

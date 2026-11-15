@@ -1,11 +1,12 @@
 """Small, dependency-free evaluation helpers: topic quality and classification scores."""
 
 import math
+from typing import Any
 
 import numpy as np
 
 
-def wilson_interval(successes: int, n: int, z: float = 1.96):
+def wilson_interval(successes: int, n: int, z: float = 1.96) -> tuple[float, float]:
     """95% confidence interval for a proportion. Returns (low, high). Safe for small n."""
     if n == 0:
         return (0.0, 0.0)
@@ -30,7 +31,7 @@ def topic_diversity(topic_words: dict, top_n: int = 10) -> float:
     return len(set(words)) / len(words) if words else 0.0
 
 
-def npmi_coherence(topic_words: dict, binary_matrix, vocabulary: dict, top_n: int = 10):
+def npmi_coherence(topic_words: dict, binary_matrix: Any, vocabulary: dict, top_n: int = 10) -> tuple[float, dict]:
     """NPMI coherence of topics against document co-occurrence (range -1 to 1, higher is better).
 
     binary_matrix: documents x terms (scipy sparse, 0/1) from a reference corpus.

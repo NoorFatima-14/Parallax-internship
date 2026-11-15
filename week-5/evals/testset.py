@@ -13,6 +13,7 @@ type "topical":    one or more relevant papers, judged by a person (see scripts/
 import json
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 from evals.metrics import normalize_doc_id
 
@@ -20,7 +21,7 @@ QUERY_TYPES = ("known_item", "topical")
 VERSION = 1
 
 
-def validate_queries(queries) -> list[dict]:
+def validate_queries(queries: Any) -> list[dict]:
     """Check the queries and return clean copies. Raises ValueError with the position of the first problem."""
     if not isinstance(queries, list) or not queries:
         raise ValueError("The test set has no queries.")
@@ -48,7 +49,8 @@ def validate_queries(queries) -> list[dict]:
     return clean
 
 
-def load_testset(path) -> list[dict]:
+def load_testset(path: str | Path) -> list[dict]:
+    """Read a test set file and return its checked queries. Raises FileNotFoundError or ValueError."""
     path = Path(path)
     if not path.is_file():
         raise FileNotFoundError(f"Test set not found: {path}. Create it with scripts/make_retrieval_testset.py.")
@@ -59,7 +61,8 @@ def load_testset(path) -> list[dict]:
     return validate_queries(data.get("queries") if isinstance(data, dict) else data)
 
 
-def save_testset(path, queries, notes: str = "") -> None:
+def save_testset(path: str | Path, queries: list[dict[str, Any]], notes: str = "") -> None:
+    """Check the queries and write them to a JSON file (the folder is created if needed)."""
     queries = validate_queries(queries)
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

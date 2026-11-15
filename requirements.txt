@@ -1,0 +1,37 @@
+# Parallax internship RAG system - one install for all weeks (Python 3.11 recommended).
+# Pins match the versions the reported results were produced with (see docs/EVALUATION.md).
+# For an exact copy of a working machine, also run: pip freeze > requirements-lock.txt
+#
+# CPU-only PyTorch is enough. To save disk space install it first:
+#   pip install torch==2.14.1 --index-url https://download.pytorch.org/whl/cpu
+# After installing, download the spaCy English model once (Week 4):
+#   python -m spacy download en_core_web_sm
+
+# Data and numerics
+numpy==2.4.6
+pandas==3.0.6
+pyarrow==25.0.1
+scipy
+scikit-learn==1.9.1
+
+# Week 1: data collection
+requests==2.34.2
+langdetect==1.0.9
+
+# Week 2-3: embeddings and vector database
+torch==2.14.1
+sentence-transformers==6.1.0
+chromadb==1.5.9
+
+# Week 4: topic modelling and NER
+spacy==3.8.16
+bertopic>=0.16
+umap-learn>=0.5
+hdbscan>=0.8
+
+# Week 5: API and tests
+fastapi>=0.110
+uvicorn==0.54.0
+httpx==0.28.1
+pydantic==2.13.5
+pytest==9.1.1

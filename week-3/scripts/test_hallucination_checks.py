@@ -44,6 +44,7 @@ CASES = {
 
 
 def first_sentence(text: str) -> str:
+    """The first sentence of at least 6 words, or the whole text if there is none."""
     for sentence in split_sentences(text):
         if len(sentence.split()) >= 6:
             return sentence
@@ -51,10 +52,12 @@ def first_sentence(text: str) -> str:
 
 
 def outcome(g: dict) -> str:
+    """'blocked', 'warned' or 'clean' for a grounding check result."""
     return "blocked" if g["blocked"] else ("warned" if g["warnings"] else "clean")
 
 
 def main() -> None:
+    """Feed deliberately wrong answers to the hallucination checks and report which are blocked, warned or clean."""
     p = argparse.ArgumentParser()
     p.add_argument("--questions", type=int, default=8)
     p.add_argument("--db-path", default=None)

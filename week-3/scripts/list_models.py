@@ -20,12 +20,14 @@ from rag.config import PROVIDERS, load_env, resolve_provider_and_models  # noqa:
 
 
 def is_free(model: dict) -> bool:
+    """True if an OpenRouter model entry is free (an id ending in :free, or zero prompt and completion price)."""
     pricing = model.get("pricing") or {}
     return str(model.get("id", "")).endswith(":free") or (
         str(pricing.get("prompt")) == "0" and str(pricing.get("completion")) == "0")
 
 
 def main() -> None:
+    """List the models the provider offers and show which configured models are still available."""
     p = argparse.ArgumentParser()
     p.add_argument("--provider", default=None)
     p.add_argument("--all", action="store_true", help="OpenRouter: show paid models too")

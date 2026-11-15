@@ -1,3 +1,4 @@
+"""Ingest the clean corpus: chunk it, embed it and store it in ChromaDB."""
 
 import argparse
 import sys
@@ -16,6 +17,7 @@ from src.vector_store import DEFAULT_COLLECTION, VectorStore  # noqa: E402
 
 
 def main() -> None:
+    """Chunk the corpus, embed the chunks and store them in ChromaDB."""
     p = argparse.ArgumentParser()
     p.add_argument("--input", default="../week-1/data/processed/clean_corpus.parquet")
     p.add_argument("--db-path", default="chroma_db")

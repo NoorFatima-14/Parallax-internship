@@ -3,6 +3,7 @@
 import sys
 from pathlib import Path
 from types import SimpleNamespace
+from typing import Any, Iterable
 
 from rag.config import REPO_DIR
 
@@ -30,21 +31,27 @@ def week2() -> SimpleNamespace:
 class Retriever:
     """Finds the passages closest to a question."""
 
-    def __init__(self, store, model, top_k: int = 5):
+    def __init__(self, store: Any, model: Any, top_k: int = 5) -> None:
+        """`store` is the Week 2 VectorStore and `model` the sentence-transformer used to embed queries."""
         self.store, self.model, self.top_k = store, model, top_k
 
-    def search(self, query: str, top_k: int = None, where: dict = None):
+    def search(self, query: str, top_k: int | None = None, where: dict | None = None) -> tuple[list[dict], dict]:
         """Returns (results, timings). Each result has id, text, metadata, score."""
         return week2().timed_search(query, self.model, self.store, top_k or self.top_k, where)
 
-    def encode(self, texts):
+    def encode(self, texts: Iterable[str]) -> Any:
         """Normalized embeddings, used by the hallucination check."""
         return self.model.encode(
             list(texts), normalize_embeddings=True, convert_to_numpy=True, show_progress_bar=False
         )
 
     @classmethod
-    def from_disk(cls, db_path=None, collection=None, model_name=None, device=None, top_k=5):
+    def from_disk(cls, db_path: str | Path | None = None, collection: str | None = None,
+                  model_name: str | None = None, device: str | None = None, top_k: int = 5) -> "Retriever":
+        """Open the Week 2 vector database and load the embedding model.
+
+        Raises FileNotFoundError if the database is missing and ValueError if it is empty.
+        """
         w2 = week2()
         db_path = Path(db_path or DEFAULT_DB_PATH)
         if not db_path.exists():

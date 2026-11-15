@@ -31,6 +31,7 @@ from nlpmeta.search import count_matching, filtered_search  # noqa: E402
 
 
 def first_sentence(text: str) -> str:
+    """The first sentence of a chunk (at least 30 characters, at most 250), used as a search query."""
     sentence = re.split(r"(?<=[.!?])\s", text, maxsplit=1)[0]
     return (sentence if len(sentence) >= 30 else text)[:250]
 
@@ -52,6 +53,7 @@ def conditions(meta: dict) -> dict:
 
 
 def main() -> None:
+    """Run the filter benchmark on random chunks and write logs/filter_benchmark.md and .json."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("--samples", type=int, default=200)
@@ -73,7 +75,7 @@ def main() -> None:
     for _ in range(3):  # warm-up
         filtered_search("warm up query", model, store, Filters(), args.top_k)
 
-    rows = {}
+    rows: dict = {}
     for chunk_id, text, meta in picked:
         query = first_sentence(text)
         for name, f in conditions(meta).items():

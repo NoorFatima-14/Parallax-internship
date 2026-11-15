@@ -3,8 +3,10 @@
 import json
 import platform
 import time
+from collections.abc import Iterable
 from datetime import datetime, timezone
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -23,7 +25,7 @@ def pick_device(requested: str | None = None) -> str:
         return "cpu"
 
 
-def load_model(model_name: str = DEFAULT_MODEL, device: str | None = None):
+def load_model(model_name: str = DEFAULT_MODEL, device: str | None = None) -> tuple[Any, dict[str, Any]]:
     """Load a sentence-transformers model. Returns (model, info) with load time."""
     from sentence_transformers import SentenceTransformer
 
@@ -39,11 +41,16 @@ def load_model(model_name: str = DEFAULT_MODEL, device: str | None = None):
     return model, info
 
 
-def timed_encode(model, texts, batch_size: int = 64, show_progress_bar: bool = True):
+def timed_encode(
+    model: Any,
+    texts: Iterable[str],
+    batch_size: int = 64,
+    show_progress_bar: bool = True,
+) -> tuple[np.ndarray, dict[str, Any]]:
     """Encode texts into normalized float32 vectors and measure how long it takes.
 
     A short warm-up call runs first, so one-time start-up cost is not counted.
-    Returns (embeddings, stats).
+    Returns (embeddings, stats). Times in stats are in seconds, except ms_per_text.
     """
     texts = list(texts)
     if not texts:
@@ -76,9 +83,9 @@ def timed_encode(model, texts, batch_size: int = 64, show_progress_bar: bool = T
     return embeddings, stats
 
 
-def environment_info() -> dict:
+def environment_info() -> dict[str, Any]:
     """Small description of the machine, saved with every log entry."""
-    info = {"python": platform.python_version(), "platform": platform.platform()}
+    info: dict[str, Any] = {"python": platform.python_version(), "platform": platform.platform()}
     try:
         import torch
 
@@ -91,7 +98,7 @@ def environment_info() -> dict:
     return info
 
 
-def append_json_log(path, record: dict) -> None:
+def append_json_log(path: str | Path, record: dict[str, Any]) -> None:
     """Append one record to a JSON file that holds a list of records."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)

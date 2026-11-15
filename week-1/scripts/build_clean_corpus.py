@@ -1,3 +1,4 @@
+"""Build the clean corpus (parquet) from the raw arXiv abstracts."""
 
 import argparse
 import json
@@ -15,6 +16,7 @@ REQUIRED_COLUMNS = ["id", "title", "text", "published", "category"]
 
 
 def main() -> None:
+    """Clean the raw abstracts, check the result and save it as parquet."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--input", default="data/raw/arxiv_abstracts.jsonl")
     parser.add_argument("--output", default="data/processed/clean_corpus.parquet")

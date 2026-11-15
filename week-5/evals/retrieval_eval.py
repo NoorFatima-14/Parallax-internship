@@ -13,6 +13,7 @@ Two views of the same retrieval run are scored:
 import time
 from collections import defaultdict
 from pathlib import Path
+from typing import Any, Callable
 
 import numpy as np
 
@@ -24,11 +25,18 @@ DEFAULT_OVERFETCH = 4  # chunks fetched per paper wanted, so that K different pa
 
 
 def doc_id_of(hit: dict) -> str:
+    """The paper id of a retriever hit (taken from its metadata, or from the chunk id)."""
     meta = hit.get("metadata") or {}
     return normalize_doc_id(meta.get("doc_id") or hit.get("id"))
 
 
-def evaluate(search_fn, queries: list[dict], ks=DEFAULT_KS, overfetch: int = DEFAULT_OVERFETCH) -> dict:
+def evaluate(search_fn: Callable[[str, int], list[dict[str, Any]]], queries: list[dict],
+             ks: list[int] | tuple[int, ...] = DEFAULT_KS, overfetch: int = DEFAULT_OVERFETCH) -> dict:
+    """Run every query through `search_fn(query, n_chunks)` and score the hits.
+
+    Returns a dict with ks, overfetch, n_queries, groups (see `summarize`), failures (queries with no
+    relevant paper in the top max(ks)) and one row per query. Latencies are in milliseconds.
+    """
     ks = sorted(set(ks))
     if not ks or ks[0] < 1:
         raise ValueError("ks must be positive integers")
@@ -59,6 +67,7 @@ def evaluate(search_fn, queries: list[dict], ks=DEFAULT_KS, overfetch: int = DEF
 
 
 def _group_keys(row: dict) -> list[str]:
+    """The groups a query row belongs to: all, its type, and type/subtype."""
     keys = ["all", row["type"]]
     if row["subtype"]:
         keys.append(f"{row['type']}/{row['subtype']}")
@@ -66,6 +75,7 @@ def _group_keys(row: dict) -> list[str]:
 
 
 def summarize(rows: list[dict], ks: list[int]) -> dict:
+    """Average the query rows for each group (metric means with intervals, and latency in ms)."""
     by_group = defaultdict(list)
     for row in rows:
         for key in _group_keys(row):
@@ -90,6 +100,7 @@ def summarize(rows: list[dict], ks: list[int]) -> dict:
 
 # ------------------------------------------------------------------ report
 def _fmt(stat: dict) -> str:
+    """Format a {mean, lo, hi, n} value as text."""
     if stat["mean"] is None:
         return "-"
     if stat["n"] > 1 and stat["lo"] != stat["hi"]:
@@ -108,7 +119,8 @@ GROUP_NOTES = {
 }
 
 
-def write_report(path, summary: dict, header: dict) -> str:
+def write_report(path: str | Path, summary: dict, header: dict) -> str:
+    """Write the Markdown report to `path` and return its text."""
     ks = summary["ks"]
     L = ["# Retrieval Evaluation (latest run)", "",
          f"- Test set: `{header['testset']}`, {summary['n_queries']} queries",

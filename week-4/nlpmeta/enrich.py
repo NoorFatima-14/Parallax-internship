@@ -2,6 +2,7 @@
 
 import re
 from collections import Counter
+from typing import Any
 
 from nlpmeta.datasets import normalize_key
 
@@ -13,7 +14,7 @@ def dataset_slug(name: str) -> str:
     return DATASET_PREFIX + normalize_key(name)
 
 
-def parse_published(value):
+def parse_published(value: Any) -> tuple[int | None, int | None]:
     """'2026-10-05T12:00:00Z' -> (2026, 202610). Returns (None, None) if it cannot be read."""
     match = re.match(r"^(\d{4})-(\d{2})", str(value or ""))
     if not match:
@@ -22,7 +23,7 @@ def parse_published(value):
     return year, year * 100 + month
 
 
-def build_doc_metadata(doc_topics, entities, corpus, min_docs: int = 3):
+def build_doc_metadata(doc_topics: Any, entities: Any, corpus: Any, min_docs: int = 3) -> tuple[dict, dict]:
     """Metadata per document. Returns ({doc_id: metadata}, datasets index).
 
     A dataset gets its own True/False flag only when it appears in at least min_docs
@@ -54,7 +55,7 @@ def build_doc_metadata(doc_topics, entities, corpus, min_docs: int = 3):
     return meta, index
 
 
-def apply_to_chroma(collection, meta_by_doc: dict, batch: int = 2000) -> dict:
+def apply_to_chroma(collection: Any, meta_by_doc: dict, batch: int = 2000) -> dict:
     """Add the metadata to every chunk of each document. Safe to run again.
 
     Existing keys (category, title, ...) are kept. Dataset flags from an earlier run that no

@@ -1,5 +1,8 @@
+"""Text cleaning helpers: HTML, Unicode, whitespace, language and duplicates."""
+
 import re
 import unicodedata
+from collections.abc import Iterable
 from html import unescape
 
 from langdetect import DetectorFactory, LangDetectException, detect
@@ -78,7 +81,9 @@ def clean_text(text: str) -> str:
     return normalize_whitespace(normalize_unicode(strip_html(text)))
 
 
-def clean_corpus(texts, min_words: int = 20, language: str = "en"):
+def clean_corpus(
+    texts: Iterable[str], min_words: int = 20, language: str = "en"
+) -> tuple[list[str], list[int]]:
     """Clean a list of texts and return (cleaned_texts, kept_indices).
 
     Drops documents that are too short, not in the target language, or

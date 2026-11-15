@@ -14,6 +14,7 @@ Edge cases covered (each has a unit test):
 
 import re
 from pathlib import Path
+from typing import Any
 
 import chromadb
 import numpy as np
@@ -23,7 +24,7 @@ _NAME_RE = re.compile(r"^[a-zA-Z0-9][a-zA-Z0-9._-]{1,510}[a-zA-Z0-9]$")
 _NOT_METADATA = {"id", "text", "embedding"}
 
 
-def _clean_metadata(chunk: dict) -> dict:
+def _clean_metadata(chunk: dict[str, Any]) -> dict[str, Any]:
     """Keep only values Chroma accepts (str, int, float, bool). Drop None."""
     meta = {}
     for key, value in chunk.items():
@@ -37,13 +38,20 @@ def _clean_metadata(chunk: dict) -> dict:
 
 
 class VectorStore:
+    """A ChromaDB collection that stores chunks and finds the closest ones."""
+
     def __init__(
         self,
-        path="chroma_db",
+        path: str | Path = "chroma_db",
         collection_name: str = DEFAULT_COLLECTION,
         model_name: str = "all-MiniLM-L6-v2",
         space: str = "cosine",
-    ):
+    ) -> None:
+        """Open or create the collection.
+
+        Raises ValueError for a bad collection name or if the collection was
+        built with a different model.
+        """
         if not _NAME_RE.match(collection_name or ""):
             raise ValueError(
                 "Invalid collection name. Use 3-512 letters, digits, '.', '_' or '-', "
@@ -69,6 +77,7 @@ class VectorStore:
             )
 
     def count(self) -> int:
+        """Return the number of chunks in the collection."""
         return self.collection.count()
 
     def reset(self) -> None:
@@ -80,7 +89,12 @@ class VectorStore:
             embedding_function=None,
         )
 
-    def add_chunks(self, chunks, embeddings, batch_size: int = 2000) -> dict:
+    def add_chunks(
+        self,
+        chunks: list[dict[str, Any]],
+        embeddings: Any,
+        batch_size: int = 2000,
+    ) -> dict[str, int]:
         """Insert chunks with their embeddings. Safe to run again (upsert).
 
         Returns counts of what was added and what was skipped, and why.
@@ -138,7 +152,12 @@ class VectorStore:
         stats["added"] = len(ids)
         return stats
 
-    def query(self, query_embedding, top_k: int = 5, where: dict | None = None) -> list[dict]:
+    def query(
+        self,
+        query_embedding: Any,
+        top_k: int = 5,
+        where: dict[str, Any] | None = None,
+    ) -> list[dict[str, Any]]:
         """Return the closest chunks to a query vector, best first."""
         if not isinstance(top_k, int) or top_k < 1:
             raise ValueError("top_k must be an integer of at least 1")

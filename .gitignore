@@ -28,3 +28,4 @@ chroma_db/
 .DS_Store
 .vscode/
 .idea/
+.mypy_cache/

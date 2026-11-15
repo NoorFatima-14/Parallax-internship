@@ -6,6 +6,7 @@ are not used to fit the model. They are assigned afterwards to the nearest topic
 """
 
 import time
+from typing import Any
 
 import numpy as np
 import pandas as pd
@@ -15,9 +16,11 @@ from nlpmeta.textprep import clean_for_topics, make_vectorizer, word_count
 
 
 # ---------------------------------------------------------------- embeddings
-def load_doc_embeddings(collection, batch: int = 5000):
+def load_doc_embeddings(collection: Any, batch: int = 5000) -> tuple[list[str], np.ndarray]:
     """Average the chunk embeddings of each document. Returns (doc_ids, matrix of unit vectors)."""
-    sums, counts, offset = {}, {}, 0
+    sums: dict = {}
+    counts: dict = {}
+    offset = 0
     while True:
         res = collection.get(include=["embeddings", "metadatas"], limit=batch, offset=offset)
         if len(res["ids"]) == 0:
@@ -39,7 +42,7 @@ def load_doc_embeddings(collection, batch: int = 5000):
     return doc_ids, matrix
 
 
-def align_embeddings(corpus_ids, doc_ids, matrix):
+def align_embeddings(corpus_ids: Any, doc_ids: list[str], matrix: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Reorder embeddings to the corpus order. Returns (matrix, mask of documents that have a vector)."""
     index = {d: i for i, d in enumerate(doc_ids)}
     out = np.zeros((len(corpus_ids), matrix.shape[1]), dtype=np.float32)
@@ -51,7 +54,8 @@ def align_embeddings(corpus_ids, doc_ids, matrix):
 
 
 # ---------------------------------------------------------------- models
-def fit_bertopic(texts, embeddings, min_topic_size=25, nr_topics=None, seed=42, top_n=10):
+def fit_bertopic(texts: list[str], embeddings: np.ndarray, min_topic_size: int = 25, nr_topics: int | None = None,
+                 seed: int = 42, top_n: int = 10) -> tuple[np.ndarray, dict[int, list[str]]]:
     """BERTopic on precomputed embeddings. Returns (labels per text, {topic: words})."""
     from bertopic import BERTopic
     from umap import UMAP
@@ -86,7 +90,8 @@ def fit_bertopic(texts, embeddings, min_topic_size=25, nr_topics=None, seed=42, 
     return labels, words
 
 
-def fit_lda(texts, n_topics, seed=42, top_n=10):
+def fit_lda(texts: list[str], n_topics: int, seed: int = 42,
+            top_n: int = 10) -> tuple[np.ndarray, dict[int, list[str]], np.ndarray]:
     """Classic LDA baseline. Returns (labels per text, {topic: words}, max topic probability per text)."""
     from sklearn.decomposition import LatentDirichletAllocation
 
@@ -101,7 +106,8 @@ def fit_lda(texts, n_topics, seed=42, top_n=10):
 
 
 # ---------------------------------------------------------------- assignment
-def assign_by_centroid(embeddings, labels, fit_mask):
+def assign_by_centroid(embeddings: np.ndarray, labels: np.ndarray,
+                       fit_mask: np.ndarray) -> tuple[np.ndarray, np.ndarray]:
     """Assign every document to the nearest topic centroid. Returns (topic per doc, similarity)."""
     topics = sorted(t for t in set(labels[fit_mask]) if t >= 0)
     centroids = []
@@ -113,18 +119,21 @@ def assign_by_centroid(embeddings, labels, fit_mask):
     return np.array(topics)[best], sims.max(axis=1)
 
 
-def renumber_by_size(topic_ids):
+def renumber_by_size(topic_ids: Any) -> dict[int, int]:
     """Map topic ids to 0..K-1, the biggest topic first. Returns {old: new}."""
     counts = pd.Series(topic_ids).value_counts()
     return {int(old): new for new, old in enumerate(counts.index)}
 
 
 # ---------------------------------------------------------------- pipeline
-def build_topics(df, embeddings, method="bertopic", min_topic_size=25, nr_topics=None,
-                 short_percentile=10, short_cap=100, n_lda_topics=None, seed=42):
+def build_topics(df: pd.DataFrame, embeddings: np.ndarray, method: str = "bertopic", min_topic_size: int = 25,
+                 nr_topics: int | None = None, short_percentile: int | float = 10, short_cap: int | float = 100,
+                 n_lda_topics: int | None = None,
+                 seed: int = 42) -> tuple[pd.DataFrame, list[dict], dict, dict[int, list[str]], list[str]]:
     """Run one topic model.
 
-    df needs columns id, title, text. Returns (doc_table, topic_table, info).
+    df needs columns id, title, text. Returns (doc_table, topic_table, info, topic_words, texts),
+    where topic_words is {topic: words} and texts are the cleaned texts that were modeled.
     doc_table: doc_id, topic_id, topic_raw (-1 = not part of a core cluster), topic_core,
     assign_sim, short_doc, topic_label, words.
     """
@@ -178,7 +187,8 @@ def build_topics(df, embeddings, method="bertopic", min_topic_size=25, nr_topics
     return doc_table, topic_table, info, topic_words, texts
 
 
-def describe_topics(doc_table, topic_words, df, embeddings, n_examples=3):
+def describe_topics(doc_table: pd.DataFrame, topic_words: dict[int, list[str]], df: pd.DataFrame,
+                    embeddings: np.ndarray, n_examples: int = 3) -> list[dict]:
     """One row per topic: size, top words, and the documents closest to the topic centre."""
     titles = df["title"].values
     rows = []
@@ -197,8 +207,8 @@ def describe_topics(doc_table, topic_words, df, embeddings, n_examples=3):
     return rows
 
 
-def quality_metrics(topic_words, texts, top_n=10):
-    """NPMI coherence and diversity, measured against the same corpus."""
+def quality_metrics(topic_words: dict[int, list[str]], texts: list[str], top_n: int = 10) -> tuple[dict, dict]:
+    """NPMI coherence and diversity, measured against the same corpus. Returns ({npmi, diversity}, {topic: npmi})."""
     ref = make_vectorizer(ngram_range=(1, 2), min_df=3, max_df=1.0, binary=True)
     matrix = ref.fit_transform(texts)
     mean, per_topic = npmi_coherence(topic_words, matrix, ref.vocabulary_, top_n)

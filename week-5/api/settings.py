@@ -3,16 +3,19 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any, Callable
 
 from api.paths import REPO, WEEK2, WEEK3, WEEK4, WEEK5
 
 
 def _env_bool(name: str, default: bool) -> bool:
+    """Read a yes/no variable: 1, true, yes and on mean True. If it is not set, return `default`."""
     value = os.environ.get(name)
     return default if value is None else value.strip().lower() in ("1", "true", "yes", "on")
 
 
-def _env_number(name: str, default, cast):
+def _env_number(name: str, default: Any, cast: Callable[[str], Any]) -> Any:
+    """Read a number variable with `cast` (int or float). Raises ValueError if it is not a number."""
     value = os.environ.get(name)
     if value is None or not value.strip():
         return default
@@ -36,6 +39,8 @@ def _load_env_file() -> None:
 
 @dataclass
 class Settings:
+    """All service settings, with their defaults."""
+
     # data
     db_path: Path = WEEK2 / "chroma_db"
     collection: str | None = None
@@ -56,16 +61,17 @@ class Settings:
 
     @classmethod
     def from_env(cls) -> "Settings":
+        """Build the settings from .env files and environment variables (the variables win)."""
         _load_env_file()
         s = cls()
         env = os.environ.get
-        if env("RAG_DB_PATH"):
-            s.db_path = Path(env("RAG_DB_PATH"))
+        if db_path := env("RAG_DB_PATH"):
+            s.db_path = Path(db_path)
         s.collection = env("RAG_COLLECTION") or s.collection
-        if env("RAG_TOPICS_PATH"):
-            s.topics_path = Path(env("RAG_TOPICS_PATH"))
-        if env("RAG_DATASETS_PATH"):
-            s.datasets_path = Path(env("RAG_DATASETS_PATH"))
+        if topics_path := env("RAG_TOPICS_PATH"):
+            s.topics_path = Path(topics_path)
+        if datasets_path := env("RAG_DATASETS_PATH"):
+            s.datasets_path = Path(datasets_path)
         s.provider = env("LLM_PROVIDER") or s.provider
         s.models = env("LLM_MODELS") or s.models
         s.device = env("RAG_DEVICE") or s.device

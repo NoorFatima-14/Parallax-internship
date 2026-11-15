@@ -183,7 +183,8 @@ def normalize_key(name: str) -> str:
     return re.sub(r"[^a-z0-9]", "", name.lower())
 
 
-def _parse_seed():
+def _parse_seed() -> tuple[list[str], dict[str, str]]:
+    """Read the SEED text. Returns (canonical names, {alias: canonical name})."""
     canonical, alias_to_canonical = [], {}
     for line in SEED.strip().splitlines():
         names = [n.strip() for n in line.split("|") if n.strip()]
@@ -218,6 +219,7 @@ def find_seed(text: str) -> list[str]:
 
 
 def _plausible(name: str, followed_by_kind: bool = False) -> bool:
+    """Does a candidate string look like a dataset name? (shape and stop-list checks, not a guarantee)"""
     tokens = name.split()
     if not tokens or any(t in _NOT_NAMES for t in tokens[:1]):
         return False

@@ -6,6 +6,7 @@ Nothing in here knows about HTTP except the APIError exceptions, so it can be te
 import json
 import logging
 from pathlib import Path
+from typing import Any
 
 from api.errors import GENERIC_500, APIError
 from api.paths import add_other_weeks
@@ -31,7 +32,8 @@ LLM_FAILURES = {
 DEFAULT_LLM_FAILURE = (503, "llm_unavailable", None, None)
 
 
-def _read_json(path, what: str):
+def _read_json(path: str | Path | None, what: str) -> Any:
+    """Read a JSON file. Returns None (and logs a warning) if it is missing or cannot be read."""
     path = Path(path) if path else None
     if not path or not path.is_file():
         log.warning("%s file not found at %s: those filters are not available", what, path)
@@ -44,14 +46,17 @@ def _read_json(path, what: str):
 
 
 class RAGService:
-    def __init__(self, pipeline, topics: list | None = None, datasets_index: dict | None = None):
+    """Runs searches and questions for the API, and keeps the Week 4 topic and dataset tables."""
+
+    def __init__(self, pipeline: Any, topics: list | None = None, datasets_index: dict | None = None):
+        """`pipeline` is the Week 3 RAG pipeline object."""
         self.pipeline = pipeline
         self.topics = topics                  # Week 4 topic table (list of dicts) or None
         self.datasets_index = datasets_index  # Week 4 dataset flags (dict) or None
 
     # ------------------------------------------------------------ construction
     @classmethod
-    def from_settings(cls, settings) -> "RAGService":
+    def from_settings(cls, settings: Any) -> "RAGService":
         """Load the embedding model, open ChromaDB and create the LLM client (slow: seconds)."""
         from rag.app import build_pipeline
         from rag.config import RAGConfig
@@ -65,11 +70,13 @@ class RAGService:
                    datasets if isinstance(datasets, dict) else None)
 
     @property
-    def cfg(self):
+    def cfg(self) -> Any:
+        """The Week 3 RAG configuration of the pipeline."""
         return self.pipeline.cfg
 
     # ------------------------------------------------------------ listings and status
     def readiness(self) -> dict:
+        """Facts for GET /ready: chunk count, models, loaded tables and the RAG settings."""
         retriever, llm = self.pipeline.retriever, self.pipeline.llm
         store = retriever.store
         return {
@@ -84,15 +91,17 @@ class RAGService:
         }
 
     def topic_list(self) -> list[dict]:
+        """The topics as {topic_id, label, size}. Empty if the topic table is not loaded."""
         return [{"topic_id": t["topic_id"], "label": t["label"], "size": t.get("size")}
                 for t in (self.topics or [])]
 
     def dataset_list(self) -> list[dict]:
+        """The datasets as {name, docs}, the most common first. Empty if the index is not loaded."""
         rows = [{"name": v["name"], "docs": v.get("docs")} for v in (self.datasets_index or {}).values()]
         return sorted(rows, key=lambda r: (-(r["docs"] or 0), r["name"]))
 
     # ------------------------------------------------------------ filters
-    def build_filter(self, params) -> dict | None:
+    def build_filter(self, params: Any) -> dict | None:
         """FilterParams -> ChromaDB where clause (or None). Bad names become a 400 error."""
         if params is None:
             return None
@@ -119,13 +128,19 @@ class RAGService:
             raise APIError(400, "invalid_filter", str(exc)) from exc
 
     # ------------------------------------------------------------ operations
-    def _clean_text(self, text: str, what: str):
+    def _clean_text(self, text: str, what: str) -> tuple[str, list[str]]:
+        """Clean the text. Returns (clean text, warnings). Raises a 400 APIError if nothing is left."""
         clean, issue = validate_query(text, self.cfg.max_query_chars)
         if clean is None:
             raise APIError(400, "invalid_question", f"The {what} is empty after removing blank and unprintable characters.")
         return clean, (["question_truncated"] if issue == "truncated" else [])
 
-    def search(self, query: str, top_k: int | None = None, params=None) -> dict:
+    def search(self, query: str, top_k: int | None = None, params: Any = None) -> dict:
+        """Search the passages only (no LLM).
+
+        Returns a dict with query, count, hits, warnings, timings_ms (embed_ms, search_ms, total_ms)
+        and filter_applied. Raises a 400 APIError for a bad query or filter.
+        """
         where = self.build_filter(params)
         clean, warnings = self._clean_text(query, "query")
         hits, t = self.pipeline.retriever.search(clean, top_k or self.cfg.top_k, where)
@@ -136,7 +151,7 @@ class RAGService:
             "filter_applied": where,
         }
 
-    def ask(self, question: str, top_k: int | None = None, params=None) -> dict:
+    def ask(self, question: str, top_k: int | None = None, params: Any = None) -> dict:
         """Returns the Week 3 pipeline result, plus filter_applied and warnings for the response."""
         where = self.build_filter(params)
         clean, warnings = self._clean_text(question, "question")
@@ -148,6 +163,7 @@ class RAGService:
     # ------------------------------------------------------------ result handling
     @staticmethod
     def _hit(hit: dict) -> dict:
+        """Reshape one retriever hit into the fields of the SearchHit response."""
         meta = hit.get("metadata") or {}
         datasets = meta.get("datasets")
         return {

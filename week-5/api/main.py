@@ -11,6 +11,7 @@ JSON line for every request. Interactive documentation is at http://127.0.0.1:80
 import logging
 import time
 from contextlib import asynccontextmanager
+from typing import AsyncIterator
 
 from fastapi import FastAPI
 
@@ -45,7 +46,8 @@ def create_app(service: RAGService | None = None, settings: Settings | None = No
     configure_logging(settings.log_level, settings.log_file)
 
     @asynccontextmanager
-    async def lifespan(app: FastAPI):
+    async def lifespan(app: FastAPI) -> AsyncIterator[None]:
+        """Build the service at startup if none was given. A failure is kept in `app.state.startup_error`."""
         if app.state.service is None:
             try:
                 start = time.perf_counter()

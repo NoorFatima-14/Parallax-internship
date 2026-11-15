@@ -19,6 +19,7 @@ import json
 import time
 from collections import defaultdict
 from pathlib import Path
+from typing import Any, Callable, Iterable
 
 import numpy as np
 
@@ -32,7 +33,7 @@ GROUP_ORDER = ["in_domain", "filtered", "off_topic", "near_domain", "edge", "htt
 
 
 # ------------------------------------------------------------------ cases
-def load_cases(path) -> list[dict]:
+def load_cases(path: str | Path) -> list[dict]:
     """Read and check the case file. Raises ValueError with the reason if something is wrong."""
     data = json.loads(Path(path).read_text(encoding="utf-8"))
     cases = data.get("cases") if isinstance(data, dict) else data
@@ -56,6 +57,7 @@ def load_cases(path) -> list[dict]:
 
 def limit_per_group(cases: list[dict], n: int) -> list[dict]:
     """Keep the first n cases of every group (for a quick trial run)."""
+    counts: defaultdict[str, int]
     counts, kept = defaultdict(int), []
     for c in cases:
         if counts[c["group"]] < n:
@@ -82,7 +84,7 @@ def build_request(case: dict) -> dict:
 
 
 # ------------------------------------------------------------------ running
-def run_case(client, case: dict) -> dict:
+def run_case(client: Any, case: dict) -> dict:
     """Send one request. Never raises: a connection problem becomes `transport_error`."""
     req = build_request(case)
     start = time.perf_counter()
@@ -100,16 +102,19 @@ def run_case(client, case: dict) -> dict:
             "request_id": response.headers.get("X-Request-ID"), "transport_error": None}
 
 
-def _error_of(body):
+def _error_of(body: Any) -> dict[str, Any] | None:
+    """The `error` object of an error response body, or None if there is none."""
     return body.get("error") if isinstance(body, dict) and isinstance(body.get("error"), dict) else None
 
 
-def _hit_categories(body) -> list[str]:
+def _hit_categories(body: Any) -> list[str]:
+    """The arXiv category of every source or hit in a response body."""
     items = body.get("sources") or body.get("hits") or [] if isinstance(body, dict) else []
     return [i.get("category", "") for i in items]
 
 
 def _answer_text(case: dict, body: dict) -> str:
+    """The text to look for keywords in: the answer, or for /search the titles and passages."""
     if case["path"] == "/search":
         return " ".join(f"{h.get('title', '')} {h.get('text', '')}" for h in body.get("hits", []))
     return body.get("answer", "")
@@ -171,7 +176,8 @@ def judge(case: dict, run: dict) -> dict:
     return out
 
 
-def run_all(client, cases: list[dict], delay: float = 0.0, sleep=time.sleep, progress=None) -> list[dict]:
+def run_all(client: Any, cases: list[dict], delay: float = 0.0, sleep: Callable[[float], None] = time.sleep,
+            progress: Callable[[dict[str, Any]], None] | None = None) -> list[dict]:
     """Run every case in order. `delay` seconds are waited after each request that called the LLM,
     to stay under the free-tier rate limit (Week 3 used 10 s)."""
     results = []
@@ -204,7 +210,8 @@ def run_all(client, cases: list[dict], delay: float = 0.0, sleep=time.sleep, pro
 
 
 # ------------------------------------------------------------------ summary
-def _stats(values) -> dict | None:
+def _stats(values: Iterable[float | None]) -> dict | None:
+    """n, mean, p50, p95 and max of the values (None entries skipped). None if no values are left."""
     a = np.asarray([v for v in values if v is not None], dtype=float)
     if a.size == 0:
         return None
@@ -213,10 +220,12 @@ def _stats(values) -> dict | None:
 
 
 def _rate(flags: list[bool]) -> dict:
+    """A rate with its 95% Wilson interval (see `wilson_interval`)."""
     return wilson_interval(sum(flags), len(flags))
 
 
 def summarize(results: list[dict]) -> dict:
+    """Pass rates, quality numbers and latency (ms) for the whole run, from the rows of `run_all`."""
     ok_http = [r for r in results if r["http"] == 200]
     asks = [r for r in ok_http if r["path"] == "/ask"]
     answered = [r for r in asks if r["status"] in ANSWERED]
@@ -284,12 +293,14 @@ def summarize(results: list[dict]) -> dict:
 
 # ------------------------------------------------------------------ report
 def _pct(stat: dict) -> str:
+    """Format a Wilson rate as text, for example 80% (60-91%, n=10)."""
     if stat["p"] is None:
         return "n/a"
     return f"{100 * stat['p']:.0f}% ({100 * stat['lo']:.0f}-{100 * stat['hi']:.0f}%, n={stat['n']})"
 
 
 def _ms(stat: dict | None) -> str:
+    """Format latency stats (mean, p50, p95, max) as table cells."""
     return "-" if not stat else f"{stat['mean']:.0f} | {stat['p50']:.0f} | {stat['p95']:.0f} | {stat['max']:.0f}"
 
 
@@ -303,7 +314,8 @@ GROUP_NOTES = {
 }
 
 
-def write_report(path, summary: dict, header: dict) -> str:
+def write_report(path: str | Path, summary: dict, header: dict) -> str:
+    """Write the Markdown report to `path` and return its text."""
     q, s = summary["quality"], summary
     L = ["# End-to-End Evaluation (latest run)", "",
          f"- API: `{header['base_url']}`, cases: `{header['cases']}` ({s['n_cases']} requests, {s['llm_calls']} called the LLM)",

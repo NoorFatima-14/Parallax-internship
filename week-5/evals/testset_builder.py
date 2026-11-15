@@ -11,6 +11,7 @@ import csv
 import random
 import re
 from pathlib import Path
+from typing import Any, Callable, Iterable, Sequence
 
 from evals.metrics import dedupe, normalize_doc_id
 from evals.retrieval_eval import doc_id_of
@@ -20,13 +21,14 @@ YES, NO = {"y", "yes", "1", "true", "relevant"}, {"n", "no", "0", "false", "not 
 
 
 def split_sentences(text: str) -> list[str]:
+    """Split text into sentences at ., ! and ? followed by a space."""
     return [s.strip() for s in re.split(r"(?<=[.!?])\s+", " ".join(text.split())) if s.strip()]
 
 
 # ------------------------------------------------------------------ known-item queries
-def group_by_doc(ids, documents, metadatas) -> dict:
+def group_by_doc(ids: Iterable[str], documents: Iterable[str], metadatas: Iterable[dict[str, Any] | None]) -> dict:
     """{doc_id: {'title': str, 'chunks': [(chunk_index, text), ...]}} from the rows of a ChromaDB collection."""
-    docs = {}
+    docs: dict[str, dict[str, Any]] = {}
     for chunk_id, text, meta in zip(ids, documents, metadatas):
         meta = meta or {}
         entry = docs.setdefault(normalize_doc_id(meta.get("doc_id") or chunk_id),
@@ -37,13 +39,14 @@ def group_by_doc(ids, documents, metadatas) -> dict:
     return docs
 
 
-def build_known_item(docs: dict, n_docs: int = 100, seed: int = 42, subtypes=("title", "sentence")) -> list[dict]:
+def build_known_item(docs: dict, n_docs: int = 100, seed: int = 42,
+                     subtypes: Sequence[str] = ("title", "sentence")) -> list[dict]:
     """Title and/or sentence queries for `n_docs` random papers.
 
     Papers whose title is missing, very short, or shared with another paper are skipped (their title would
     not point to one paper). Sentences must be 60 to 300 characters long.
     """
-    title_count = {}
+    title_count: dict[str, int] = {}
     for entry in docs.values():
         title_count[entry["title"].lower()] = title_count.get(entry["title"].lower(), 0) + 1
     eligible = sorted(d for d, e in docs.items()
@@ -65,14 +68,14 @@ def build_known_item(docs: dict, n_docs: int = 100, seed: int = 42, subtypes=("t
 
 
 # ------------------------------------------------------------------ topical queries (pooling and judging)
-def pool_candidates(search_fn, topical_queries: list[dict], pool_k: int = 10, overfetch: int = 4,
+def pool_candidates(search_fn: Callable[[str, int], list[dict[str, Any]]], topical_queries: list[dict], pool_k: int = 10, overfetch: int = 4,
                     seed: int = 42) -> list[dict]:
     """Rows for the judging sheet: the top `pool_k` papers of every query, in random order (no rank, no score)."""
     rng = random.Random(seed)
     rows = []
     for q in topical_queries:
         hits = search_fn(q["query"], pool_k * overfetch)
-        first_hit = {}
+        first_hit: dict[str, dict[str, Any]] = {}
         for h in hits:
             first_hit.setdefault(doc_id_of(h), h)
         papers = dedupe([doc_id_of(h) for h in hits])[:pool_k]
@@ -86,7 +89,8 @@ def pool_candidates(search_fn, topical_queries: list[dict], pool_k: int = 10, ov
     return rows
 
 
-def write_sheet(path, rows: list[dict]) -> None:
+def write_sheet(path: str | Path, rows: list[dict]) -> None:
+    """Write the judging sheet as a CSV file with the columns in SHEET_COLUMNS."""
     path = Path(path)
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("w", newline="", encoding="utf-8") as f:
@@ -95,7 +99,7 @@ def write_sheet(path, rows: list[dict]) -> None:
         writer.writerows(rows)
 
 
-def read_judgments(path, allow_unjudged: bool = False):
+def read_judgments(path: str | Path, allow_unjudged: bool = False) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     """Read the judged sheet. Returns (topical_queries, report).
 
     A query with no relevant paper is dropped (recall is undefined for it) and listed in report['dropped'].
@@ -104,6 +108,7 @@ def read_judgments(path, allow_unjudged: bool = False):
     path = Path(path)
     if not path.is_file():
         raise FileNotFoundError(f"Judging sheet not found: {path}. Create it with the 'pool-sheet' command first.")
+    relevant: dict[str, set[str]]
     relevant, text_of, unjudged, bad = {}, {}, [], []
     with path.open(newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)

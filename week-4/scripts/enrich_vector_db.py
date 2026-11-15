@@ -20,6 +20,7 @@ from nlpmeta.enrich import apply_to_chroma, build_doc_metadata  # noqa: E402
 
 
 def main() -> None:
+    """Build the metadata of every document and write it into the ChromaDB chunks."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("--min-dataset-docs", type=int, default=3,

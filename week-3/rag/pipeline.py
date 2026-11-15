@@ -2,12 +2,14 @@
 
 import logging
 import time
+from pathlib import Path
+from typing import Any
 
 from rag.config import RAGConfig
 from rag.guardrails import check_grounding, is_refusal, normalize_citations, validate_query
-from rag.llm_client import LLMError, TokenLimitError
+from rag.llm_client import LLMClient, LLMError, TokenLimitError
 from rag.prompts import REFUSAL_SENTENCE, build_messages, passage_label
-from rag.retriever import week2
+from rag.retriever import Retriever, week2
 
 log = logging.getLogger("rag.pipeline")
 
@@ -33,16 +35,20 @@ ERROR_MESSAGES = {
 class RAGPipeline:
     """ask() never raises: every failure becomes a result with a status and a message."""
 
-    def __init__(self, retriever, llm, config: RAGConfig = None, log_path=None):
+    def __init__(self, retriever: Retriever, llm: LLMClient, config: RAGConfig | None = None,
+                 log_path: str | Path | None = None) -> None:
+        """`log_path` is an optional JSON log file that gets one record per question."""
         self.retriever, self.llm = retriever, llm
         self.cfg = config or RAGConfig()
         self.log_path = log_path
 
     # ------------------------------------------------------------
-    def ask(self, question, where: dict = None, top_k: int = None) -> dict:
+    def ask(self, question: Any, where: dict | None = None, top_k: int | None = None) -> dict:
+        """Answer one question. `where` is an optional ChromaDB filter. Returns a result dict with a status,
+        the answer, the sources, the grounding check, the LLM details and the timings (never raises)."""
         start = time.perf_counter()
-        timings = {}
-        result = {"question": question if isinstance(question, str) else repr(question)[:200],
+        timings: dict[str, float] = {}
+        result: dict[str, Any] = {"question": question if isinstance(question, str) else repr(question)[:200],
                   "status": None, "answer": "", "sources": [], "top_score": None,
                   "grounding": None, "llm": None, "error": None, "timings_ms": timings,
                   "query_issue": None}
@@ -57,7 +63,9 @@ class RAGPipeline:
         return result
 
     # ------------------------------------------------------------
-    def _run(self, question, where, top_k, result, timings):
+    def _run(self, question: Any, where: dict | None, top_k: int | None, result: dict, timings: dict) -> None:
+        """The steps of one question: check it, retrieve, gate, build the prompt, call the LLM, check the answer.
+        Fills `result` and `timings` in place and returns early when the question ends (refusal, error)."""
         cfg = self.cfg
         query, issue = validate_query(question, cfg.max_query_chars)
         result["query_issue"] = issue
@@ -145,7 +153,8 @@ class RAGPipeline:
                       answer=answer_text, warnings=warnings)
 
     # ------------------------------------------------------------
-    def _llm_failure(self, result, exc, passages):
+    def _llm_failure(self, result: dict, exc: Exception, passages: list[dict]) -> None:
+        """Turn an LLM error into a result with a readable message and the top passages as a fallback."""
         kind = getattr(exc, "kind", "llm_error")
         result.update(
             status="llm_error",
@@ -156,7 +165,8 @@ class RAGPipeline:
                                for p in passages[:3]],
         )
 
-    def _log(self, result):
+    def _log(self, result: dict) -> None:
+        """Append a short record of the result to the log file, if one is set. A write error is only a warning."""
         if not self.log_path:
             return
         try:

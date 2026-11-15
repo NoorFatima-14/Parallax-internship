@@ -1,9 +1,12 @@
+"""Benchmark retrieval speed and quality on the stored chunks."""
 
 import argparse
 import random
 import re
 import sys
+from collections.abc import Iterable
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -24,7 +27,7 @@ LONG_QUERY = (
 
 # 'expected' lists arXiv categories that would be reasonable for the topic.
 # Papers can belong to several categories, so this is only a rough check.
-QUERIES = [
+QUERIES: list[dict[str, Any]] = [
     {"label": "one keyword", "query": "transformers", "expected": None},
     {"label": "question", "query": "How do large language models handle long context windows?",
      "expected": ["cs.CL", "cs.LG", "cs.AI"]},
@@ -52,19 +55,23 @@ QUERIES = [
 ]
 
 
-def stats_ms(values) -> dict:
+def stats_ms(values: Iterable[float]) -> dict[str, float]:
+    """Return mean, p50, p95, min and max of a list of times in milliseconds."""
     a = np.asarray(values, dtype=float)
     return {"mean": round(float(a.mean()), 2), "p50": round(float(np.percentile(a, 50)), 2),
             "p95": round(float(np.percentile(a, 95)), 2), "min": round(float(a.min()), 2),
             "max": round(float(a.max()), 2)}
 
 
-def run_fixed_queries(model, store, top_k: int, repeats: int) -> list[dict]:
+def run_fixed_queries(
+    model: Any, store: VectorStore, top_k: int, repeats: int
+) -> list[dict[str, Any]]:
+    """Run every query in QUERIES several times and collect timings and scores."""
     rows = []
     for q in QUERIES:
         where = q.get("where")
         totals, embeds, searches = [], [], []
-        results = []
+        results: list[dict[str, Any]] = []
         for _ in range(repeats):
             results, t = timed_search(q["query"], model, store, top_k, where)
             totals.append(t["total_ms"])
@@ -85,12 +92,17 @@ def run_fixed_queries(model, store, top_k: int, repeats: int) -> list[dict]:
 
 
 def first_sentence(text: str) -> str:
+    """Return the first sentence, or the whole text if that is under 30 characters, cut to 250."""
     sentence = re.split(r"(?<=[.!?])\s", text, maxsplit=1)[0]
     return (sentence if len(sentence) >= 30 else text)[:250]
 
 
-def run_known_item(model, store, top_k: int, samples: int, seed: int, mode: str) -> dict:
-    """mode is 'first-sentence' or 'full-chunk'. The same chunks are used for both."""
+def run_known_item(
+    model: Any, store: VectorStore, top_k: int, samples: int, seed: int, mode: str
+) -> dict[str, Any]:
+    """Search for random stored chunks and measure recall and MRR.
+
+    mode is 'first-sentence' or 'full-chunk'. The same chunks are used for both."""
     data = store.collection.get(include=["documents", "metadatas"])
     pool = [(i, d, m) for i, d, m in zip(data["ids"], data["documents"], data["metadatas"])
             if len(d) >= 100]
@@ -117,7 +129,13 @@ def run_known_item(model, store, top_k: int, samples: int, seed: int, mode: str)
     }
 
 
-def write_summary(path, header: dict, rows: list[dict], known: dict) -> str:
+def write_summary(
+    path: str | Path,
+    header: dict[str, Any],
+    rows: list[dict[str, Any]],
+    known: dict[str, Any],
+) -> str:
+    """Write the benchmark results as a Markdown file and return its text."""
     lines = [
         "# Retrieval Benchmark (latest run)", "",
         f"- Model: `{header['model']}` on `{header['device']}`",
@@ -158,6 +176,7 @@ def write_summary(path, header: dict, rows: list[dict], known: dict) -> str:
 
 
 def main() -> None:
+    """Run the retrieval benchmark and save the log and the summary."""
     p = argparse.ArgumentParser()
     p.add_argument("--db-path", default="chroma_db")
     p.add_argument("--collection", default=DEFAULT_COLLECTION)

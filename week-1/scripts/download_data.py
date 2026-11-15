@@ -1,3 +1,4 @@
+"""Download arXiv abstracts into a JSON lines file."""
 
 import argparse
 import json
@@ -15,6 +16,10 @@ OUT_PATH = Path("data/raw/arxiv_abstracts.jsonl")
 
 
 def fetch_page(category: str, start: int, retries: int = 3) -> list[dict]:
+    """Download one page of arXiv results for a category and parse it.
+
+    Returns an empty list if all retries fail. `start` is the result offset.
+    """
     params = {
         "search_query": f"cat:{category}",
         "start": start,
@@ -49,6 +54,7 @@ def fetch_page(category: str, start: int, retries: int = 3) -> list[dict]:
 
 
 def main() -> None:
+    """Download abstracts for each category and save them as JSON lines."""
     parser = argparse.ArgumentParser()
     parser.add_argument("--per-category", type=int, default=1500)
     parser.add_argument("--categories", nargs="+", default=DEFAULT_CATEGORIES)

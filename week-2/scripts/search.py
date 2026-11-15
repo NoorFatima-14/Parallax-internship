@@ -1,3 +1,4 @@
+"""Command line semantic search over the stored chunks."""
 
 import argparse
 import sys
@@ -11,6 +12,7 @@ from src.vector_store import DEFAULT_COLLECTION, VectorStore  # noqa: E402
 
 
 def main() -> None:
+    """Run one search from the command line and print the results."""
     p = argparse.ArgumentParser()
     p.add_argument("query")
     p.add_argument("--top-k", type=int, default=5)

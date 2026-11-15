@@ -16,11 +16,12 @@ Precision@K divides by K even when fewer than K results exist (a filter may leav
 
 import math
 import re
+from typing import Any, Iterable
 
 import numpy as np
 
 
-def normalize_doc_id(value) -> str:
+def normalize_doc_id(value: Any) -> str:
     """'http://arxiv.org/abs/2601.00001v1::3' -> '2601.00001v1'. Works for ids, doc ids and plain ids."""
     text = re.sub(r"^https?://arxiv\.org/abs/", "", str(value or "").strip())
     return text.split("::")[0]
@@ -37,32 +38,38 @@ def dedupe(ranked: list) -> list:
 
 
 def _check_k(k: int) -> None:
+    """Raise ValueError unless k is an integer of at least 1."""
     if not isinstance(k, int) or k < 1:
         raise ValueError("k must be an integer of at least 1")
 
 
-def _check_relevant(relevant) -> None:
+def _check_relevant(relevant: Any) -> None:
+    """Raise ValueError if there are no relevant documents."""
     if not relevant:
         raise ValueError("The query has no relevant documents, so recall is undefined. Remove it from the test set.")
 
 
 def precision_at_k(ranked: list, relevant: set, k: int) -> float:
+    """Share of the top k items that are relevant. Divides by k even if fewer than k items exist."""
     _check_k(k)
     return sum(item in relevant for item in ranked[:k]) / k
 
 
 def recall_at_k(ranked: list, relevant: set, k: int) -> float:
+    """Share of the relevant documents that appear in the top k (each counted once)."""
     _check_k(k)
     _check_relevant(relevant)
     return len(set(ranked[:k]) & set(relevant)) / len(relevant)
 
 
 def hit_at_k(ranked: list, relevant: set, k: int) -> float:
+    """1.0 if the top k holds at least one relevant document, otherwise 0.0."""
     _check_k(k)
     return float(any(item in relevant for item in ranked[:k]))
 
 
 def reciprocal_rank(ranked: list, relevant: set, k: int | None = None) -> float:
+    """1 / rank of the first relevant item (0.0 if none). Only the top k are looked at when k is given."""
     for rank, item in enumerate(ranked[:k] if k else ranked, 1):
         if item in relevant:
             return 1.0 / rank
@@ -84,7 +91,7 @@ def ideal_precision_at_k(n_relevant: int, k: int) -> float:
     return min(k, n_relevant) / k
 
 
-def mean_ci(values, level: float = 0.95, n_boot: int = 2000, seed: int = 0) -> dict:
+def mean_ci(values: Iterable[float], level: float = 0.95, n_boot: int = 2000, seed: int = 0) -> dict:
     """Mean with a bootstrap percentile interval. Returns {'mean', 'lo', 'hi', 'n'}."""
     a = np.asarray(list(values), dtype=float)
     if a.size == 0:

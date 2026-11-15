@@ -19,7 +19,8 @@ from nlpmeta import cli, paths  # noqa: E402
 from nlpmeta.topics import align_embeddings, build_topics, load_doc_embeddings, quality_metrics  # noqa: E402
 
 
-def summarize(info, topic_table, metrics) -> dict:
+def summarize(info: dict, topic_table: list[dict], metrics: dict) -> dict:
+    """One row of the comparison table: method, topic count, core share, median size, NPMI, diversity and time."""
     sizes = [t["size"] for t in topic_table]
     return {"method": info["method"], "topics": info["n_topics"],
             "core_share": round(info["core_share"], 3), "median_size": int(np.median(sizes)) if sizes else 0,
@@ -27,6 +28,7 @@ def summarize(info, topic_table, metrics) -> dict:
 
 
 def main() -> None:
+    """Fit BERTopic (and the LDA baseline), assign topics to documents and save the tables and the comparison report."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("--method", choices=["bertopic", "both"], default="both")

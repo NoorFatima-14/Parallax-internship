@@ -31,17 +31,20 @@ DEFAULT_QUERIES = ROOT / "eval_data" / "topical_queries.json"
 
 
 def existing_queries(path: Path) -> list:
+    """The queries already saved in the test set file, or an empty list if there is no file."""
     return load_testset(path) if path.is_file() else []
 
 
 def sheet_has_labels(path: Path) -> bool:
+    """True if the judging sheet exists and at least one row has a value in the `relevant` column."""
     if not path.is_file():
         return False
     with path.open(newline="", encoding="utf-8") as f:
         return any((row.get("relevant") or "").strip() for row in csv.DictReader(f))
 
 
-def cmd_known_item(args) -> None:
+def cmd_known_item(args: argparse.Namespace) -> None:
+    """Command known-item: make title and sentence queries from random papers and save the test set."""
     from rag.retriever import week2
 
     db = Path(args.db_path)
@@ -64,7 +67,8 @@ def cmd_known_item(args) -> None:
           f"{len(kept_topical)} topical queries in {out}")
 
 
-def cmd_pool_sheet(args) -> None:
+def cmd_pool_sheet(args: argparse.Namespace) -> None:
+    """Command pool-sheet: write the CSV sheet of papers to judge by hand."""
     from rag.retriever import Retriever
 
     sheet = Path(args.sheet)
@@ -79,7 +83,8 @@ def cmd_pool_sheet(args) -> None:
           "A paper is relevant if its abstract is clearly about the query topic. Judge the abstract, not the title.")
 
 
-def cmd_merge_labels(args) -> None:
+def cmd_merge_labels(args: argparse.Namespace) -> None:
+    """Command merge-labels: read the judged sheet and add its topical queries to the test set."""
     topical, report = read_judgments(args.sheet, args.allow_unjudged)
     out = Path(args.out)
     queries = merge_queries(existing_queries(out), topical)
@@ -95,10 +100,12 @@ def cmd_merge_labels(args) -> None:
 
 
 def main() -> None:
+    """Read the command line and run the chosen command."""
     p = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="command", required=True)
 
-    def common(sp, db=True):
+    def common(sp: argparse.ArgumentParser, db: bool = True) -> None:
+        """Add the options that every command shares."""
         sp.add_argument("--out", default=str(DEFAULT_TESTSET), help="test set file")
         if db:
             sp.add_argument("--db-path", default=str(ROOT.parent / "week-2" / "chroma_db"))

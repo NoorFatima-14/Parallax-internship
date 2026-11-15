@@ -7,6 +7,8 @@ Three systems are compared on dataset/benchmark mentions:
 3. seed list + patterns
 """
 
+from typing import Any
+
 import pandas as pd
 
 from nlpmeta.datasets import canonicalize, extract_datasets, normalize_key
@@ -16,7 +18,8 @@ BASELINE_LABELS = {"ORG", "PRODUCT", "WORK_OF_ART", "EVENT"}
 SYSTEMS = ("spacy_baseline", "seed_list", "seed_plus_patterns")
 
 
-def load_spacy(model: str = "en_core_web_sm"):
+def load_spacy(model: str = "en_core_web_sm") -> Any:
+    """Load the spaCy model (without the lemmatizer). Exits with an install hint if it is missing."""
     import spacy
 
     try:
@@ -25,12 +28,12 @@ def load_spacy(model: str = "en_core_web_sm"):
         raise SystemExit(f"spaCy model '{model}' is not installed. Run: python -m spacy download {model}") from exc
 
 
-def spacy_entities(nlp, texts, batch_size: int = 64):
+def spacy_entities(nlp: Any, texts: list[str], batch_size: int = 64) -> list[list[tuple[str, str]]]:
     """List of [(text, label), ...] for each text."""
     return [[(e.text, e.label_) for e in doc.ents] for doc in nlp.pipe(texts, batch_size=batch_size)]
 
 
-def extract_corpus(df: pd.DataFrame, nlp=None) -> pd.DataFrame:
+def extract_corpus(df: pd.DataFrame, nlp: Any = None) -> pd.DataFrame:
     """One row per document: dataset mentions from each system, plus all spaCy entities."""
     texts = [f"{t}. {x}" for t, x in zip(df["title"], df["text"])]
     ents = spacy_entities(nlp, texts) if nlp is not None else [[] for _ in texts]
@@ -51,13 +54,14 @@ def extract_corpus(df: pd.DataFrame, nlp=None) -> pd.DataFrame:
 
 
 # ---------------------------------------------------------------- scoring
-def _keys(names) -> set:
+def _keys(names: Any) -> set:
+    """Dataset names -> set of normalized keys (aliases map to the same key). Empty names are dropped."""
     return {normalize_key(canonicalize(n)) for n in names if n and n.strip()}
 
 
 def system_predictions(entities: pd.DataFrame) -> dict:
     """{system: {doc_id: set of keys}}"""
-    out = {s: {} for s in SYSTEMS}
+    out: dict[str, dict] = {s: {} for s in SYSTEMS}
     for row in entities.itertuples(index=False):
         out["spacy_baseline"][row.doc_id] = _keys(row.spacy_baseline)
         out["seed_list"][row.doc_id] = _keys(row.datasets_seed)
@@ -65,7 +69,7 @@ def system_predictions(entities: pd.DataFrame) -> dict:
     return out
 
 
-def score_system(gold: dict, predicted: dict, doc_ids=None) -> dict:
+def score_system(gold: dict, predicted: dict, doc_ids: Any = None) -> dict:
     """Micro precision/recall/F1 over (document, dataset) pairs. Also returns the mistakes."""
     tp = fp = fn = 0
     false_pos, false_neg = [], []

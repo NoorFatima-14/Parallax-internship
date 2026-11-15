@@ -6,6 +6,7 @@ The NER sheet does not show any system predictions, so labeling is not influence
 
 import csv
 from pathlib import Path
+from typing import Any
 
 import numpy as np
 
@@ -21,7 +22,8 @@ CORRECT_VALUES = {"y": 1.0, "yes": 1.0, "n": 0.0, "no": 0.0, "p": 0.5, "partly":
 
 
 # ---------------------------------------------------------------- csv io
-def write_sheet(path, columns, rows, force: bool = False) -> None:
+def write_sheet(path: str | Path, columns: list[str], rows: list[dict], force: bool = False) -> None:
+    """Write rows to a CSV sheet. Refuses to overwrite an existing sheet (and its labels) unless force is True."""
     path = Path(path)
     if path.exists() and not force:
         raise FileExistsError(f"{path} already exists. Use --force to overwrite it (this deletes your labels).")
@@ -32,30 +34,31 @@ def write_sheet(path, columns, rows, force: bool = False) -> None:
         writer.writerows(rows)
 
 
-def read_sheet(path) -> list[dict]:
+def read_sheet(path: str | Path) -> list[dict]:
+    """Read a CSV sheet into a list of dicts, with spaces trimmed and empty cells as empty text."""
     with Path(path).open(newline="", encoding="utf-8-sig") as f:
         return [{k.strip(): (v or "").strip() for k, v in row.items() if k} for row in csv.DictReader(f)]
 
 
 # ---------------------------------------------------------------- sampling
-def sample_docs(doc_table, n_random: int, n_short: int, seed: int = 42) -> list[tuple[int, str]]:
+def sample_docs(doc_table: Any, n_random: int, n_short: int, seed: int = 42) -> list[tuple[int, str]]:
     """Row positions to label: random documents plus short documents. Returns (position, stratum)."""
     rng = np.random.default_rng(seed)
     short = np.where(doc_table["short_doc"].values)[0]
     normal = np.where(~doc_table["short_doc"].values)[0]
-    picked_short = rng.choice(short, size=min(n_short, len(short)), replace=False) if len(short) else []
+    picked_short: Any = rng.choice(short, size=min(n_short, len(short)), replace=False) if len(short) else []
     picked_normal = rng.choice(normal, size=min(n_random, len(normal)), replace=False)
     rows = [(int(i), "random") for i in picked_normal] + [(int(i), "short") for i in picked_short]
     rng.shuffle(rows)
     return rows
 
 
-def sample_ner_docs(entities, n_random: int, n_likely: int, seed: int = 42) -> list[tuple[int, str]]:
+def sample_ner_docs(entities: Any, n_random: int, n_likely: int, seed: int = 42) -> list[tuple[int, str]]:
     """Random documents plus documents where some system found a dataset (so there is something to score)."""
     rng = np.random.default_rng(seed)
     likely_mask = entities["datasets"].map(len).values > 0
     likely = np.where(likely_mask)[0]
-    picked_likely = rng.choice(likely, size=min(n_likely, len(likely)), replace=False) if len(likely) else []
+    picked_likely: Any = rng.choice(likely, size=min(n_likely, len(likely)), replace=False) if len(likely) else []
     taken = set(int(i) for i in picked_likely)
     pool = np.array([i for i in range(len(entities)) if i not in taken])
     picked_random = rng.choice(pool, size=min(n_random, len(pool)), replace=False)
@@ -65,7 +68,7 @@ def sample_ner_docs(entities, n_random: int, n_likely: int, seed: int = 42) -> l
 
 
 # ---------------------------------------------------------------- reading labels
-def parse_topic_review(rows):
+def parse_topic_review(rows: list[dict]) -> tuple[list[dict], list[str]]:
     """Returns (list of dicts with topic_id, coherence, human_label), list of problems)."""
     done, problems = [], []
     for row in rows:
@@ -80,7 +83,7 @@ def parse_topic_review(rows):
     return done, problems
 
 
-def parse_assignments(rows):
+def parse_assignments(rows: list[dict]) -> tuple[list[dict], list[str]]:
     """Returns (list of dicts with doc_id, score, stratum), list of problems)."""
     done, problems = [], []
     for row in rows:
@@ -95,7 +98,7 @@ def parse_assignments(rows):
     return done, problems
 
 
-def parse_ner_gold(rows):
+def parse_ner_gold(rows: list[dict]) -> tuple[dict[str, set[str]], dict[str, str], list[str]]:
     """Returns ({doc_id: set of keys}, {doc_id: stratum}, problems).
 
     A document counts as labeled only when the 'labeled' column is not empty. This lets an

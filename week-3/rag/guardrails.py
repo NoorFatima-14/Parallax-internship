@@ -8,10 +8,14 @@ The hallucination checks run after the model answers and use no extra API calls:
 """
 
 import re
+from typing import TYPE_CHECKING, Any, Callable
 
 import numpy as np
 
 from rag.prompts import REFUSAL_SENTENCE
+
+if TYPE_CHECKING:
+    from rag.config import RAGConfig
 
 _CITATION_RE = re.compile(r"\[(\d+)\]")
 _NUMBER_RE = re.compile(r"(?<![\w.])\d+(?:[.,]\d+)*%?")
@@ -26,8 +30,11 @@ _STOPWORDS = {
 
 
 # ---------------------------------------------------------------- query
-def validate_query(query, max_chars=1000):
-    """Return (clean_query, issue). clean_query is None when the query cannot be used."""
+def validate_query(query: Any, max_chars: int = 1000) -> tuple[str | None, str | None]:
+    """Return (clean_query, issue). clean_query is None when the query cannot be used.
+
+    Unprintable characters and extra spaces are removed. The issue is None, 'not_text', 'empty' or 'truncated'.
+    """
     if not isinstance(query, str):
         return None, "not_text"
     clean = "".join(ch for ch in query if ch.isprintable() or ch in "\n\t")
@@ -59,15 +66,18 @@ def normalize_citations(text: str) -> str:
 
 
 def strip_citations(text: str) -> str:
+    """Remove the [n] citation marks (and the space before them) from a text."""
     return re.sub(r"\s*\[\d+\]", "", text)
 
 
 def extract_citations(text: str) -> list[int]:
+    """The passage numbers cited as [n] in a text, in order of appearance."""
     return [int(n) for n in _CITATION_RE.findall(text)]
 
 
 def split_sentences(text: str) -> list[str]:
-    sentences = []
+    """Split an answer into sentences, treating each list item or line as its own start."""
+    sentences: list[str] = []
     for line in text.splitlines():
         line = re.sub(r"^\s*(?:[-*\u2022]|\d+[.)])\s+", "", line).strip()
         if line:
@@ -76,6 +86,7 @@ def split_sentences(text: str) -> list[str]:
 
 
 def _normalize_number(token: str) -> str:
+    """A number as plain digits: no thousands commas and no percent sign."""
     return token.replace(",", "").rstrip("%")
 
 
@@ -93,15 +104,19 @@ def extract_numbers(text: str) -> list[str]:
 
 
 def _content_words(text: str) -> set[str]:
+    """The meaningful lower-case words of a text (at least 4 letters, no stopwords)."""
     return {w for w in _WORD_RE.findall(text.lower()) if w not in _STOPWORDS}
 
 
 # ---------------------------------------------------------------- grounding
-def check_grounding(answer: str, chunks, encode=None, cfg=None) -> dict:
+def check_grounding(answer: str, chunks: list[dict],
+                    encode: Callable[[list[str]], Any] | None = None,
+                    cfg: "RAGConfig | None" = None) -> dict:
     """Check an answer against the passages it was given.
 
     encode: function(list[str]) -> normalized embeddings (optional; without it only the
-    word-overlap test is used). Returns a dict with a verdict and the reasons.
+    word-overlap test is used). Returns a dict with a verdict (level, grounded_fraction,
+    citations, unsupported numbers and sentences, block_reasons, warnings, blocked).
     """
     from rag.config import RAGConfig
 
@@ -131,7 +146,7 @@ def check_grounding(answer: str, chunks, encode=None, cfg=None) -> dict:
     for sentence, sim in zip(sentences, sims):
         words = _content_words(sentence)
         lexical = len(words & context_words) / len(words) if words else 1.0
-        ok = sim >= cfg.support_threshold or lexical >= cfg.lexical_threshold
+        ok = bool(sim >= cfg.support_threshold or lexical >= cfg.lexical_threshold)
         supported += ok
         details.append({"sentence": sentence, "similarity": round(float(sim), 3),
                         "word_overlap": round(lexical, 3), "supported": bool(ok)})

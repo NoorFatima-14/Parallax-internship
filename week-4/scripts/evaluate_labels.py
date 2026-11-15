@@ -8,6 +8,7 @@ import argparse
 import json
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 import numpy as np
 import pandas as pd
@@ -22,16 +23,19 @@ from nlpmeta.ner import SYSTEMS, score_system, system_predictions  # noqa: E402
 MIN_RECOMMENDED = {"topics": 20, "assignments": 40, "ner": 30}
 
 
-def pct(x) -> str:
+def pct(x: float) -> str:
+    """A fraction as a whole-number percentage, for example 0.256 -> '26%'."""
     return f"{100 * x:.0f}%"
 
 
-def interval(k, n) -> str:
+def interval(k: int, n: int) -> str:
+    """The 95% Wilson interval of k out of n, written as 'lo% to hi%'."""
     lo, hi = wilson_interval(k, n)
     return f"{pct(lo)} to {pct(hi)}"
 
 
-def topic_section(P, report, lines, notes):
+def topic_section(P: SimpleNamespace, report: dict, lines: list[str], notes: list[str]) -> None:
+    """Add the topic quality part: your ratings, their share, and the NPMI per rating. Does nothing without topic_review.csv."""
     path = P.labels / "topic_review.csv"
     if not path.exists():
         return
@@ -66,7 +70,8 @@ def topic_section(P, report, lines, notes):
         notes.append(f"only {n} topics rated (at least {MIN_RECOMMENDED['topics']} recommended)")
 
 
-def assignment_section(P, report, lines, notes):
+def assignment_section(P: SimpleNamespace, report: dict, lines: list[str], notes: list[str]) -> None:
+    """Add the topic assignment accuracy part (random and short documents). Does nothing without assignment_check.csv."""
     path = P.labels / "assignment_check.csv"
     if not path.exists():
         return
@@ -91,7 +96,8 @@ def assignment_section(P, report, lines, notes):
         notes.append(f"only {len(done)} assignments labeled (at least {MIN_RECOMMENDED['assignments']} recommended)")
 
 
-def ner_section(P, report, lines, notes):
+def ner_section(P: SimpleNamespace, report: dict, lines: list[str], notes: list[str]) -> None:
+    """Add precision, recall and F1 of each dataset extraction system against your labels, and the best system's mistakes."""
     path = P.labels / "ner_gold.csv"
     if not path.exists() or not P.entities.exists():
         return
@@ -136,12 +142,15 @@ def ner_section(P, report, lines, notes):
 
 
 def main() -> None:
+    """Build the evaluation report from the label sheets and write it to logs/nlp_metadata_evaluation.md and .json."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     args = p.parse_args()
     P = cli.resolve(args)
     cli.need(P.topics, "Run scripts/run_topic_model.py first.")
 
+    report: dict = {}
+    notes: list[str] = []
     lines, report, notes = ["# NLP Metadata Evaluation", "",
                             "All numbers come from labels that a person created (see labels/GUIDELINES.md). "
                             "Intervals are 95% Wilson intervals: with small samples they are wide, and that is the honest picture.", ""], {}, []

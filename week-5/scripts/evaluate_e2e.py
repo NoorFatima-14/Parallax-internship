@@ -19,6 +19,7 @@ and appends to logs/e2e_eval.json.
 import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -32,7 +33,7 @@ from evals.e2e_eval import json_record, limit_per_group, load_cases, run_all, su
 from rag.retriever import week2  # noqa: E402
 
 
-def server_description(client) -> str:
+def server_description(client: httpx.Client) -> str:
     """One line about the server, taken from GET /ready (also proves that it is up and ready)."""
     r = client.get("/ready")
     if r.status_code != 200:
@@ -49,6 +50,7 @@ def server_description(client) -> str:
 
 
 def main() -> None:
+    """Run the cases against the API, print and save the report. Exits with 1 under --strict if a case fails."""
     p = argparse.ArgumentParser()
     p.add_argument("--base-url", default="http://127.0.0.1:8000")
     p.add_argument("--cases", default=str(ROOT / "eval_data" / "e2e_cases.json"))
@@ -84,7 +86,8 @@ def main() -> None:
         total = len(cases)
         print(f"Server: {server}\nRunning {total} cases against {args.base_url} (delay {args.delay} s after LLM calls)\n")
 
-        def show(r):
+        def show(r: dict[str, Any]) -> None:
+            """Print one result line as soon as a case is done."""
             n = len(shown) + 1
             shown.append(r)
             mark = "PASS" if r["passed"] else "FAIL"
@@ -92,7 +95,7 @@ def main() -> None:
                   f"{(r['status'] or r['error_code'] or ''):<22} {r['client_ms']:>7.0f} ms  {mark}"
                   + ("" if r["passed"] else f"  <- {r['reason']}"), flush=True)
 
-        shown = []
+        shown: list[dict[str, Any]] = []
         results = run_all(client, cases, delay=args.delay, progress=show)
 
     summary = summarize(results)

@@ -10,6 +10,7 @@ No API key or internet is needed. Writes logs/retrieval_eval.md (latest run) and
 import argparse
 import sys
 from pathlib import Path
+from typing import Any
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
@@ -23,6 +24,7 @@ from rag.retriever import Retriever, week2  # noqa: E402
 
 
 def main() -> None:
+    """Score the retrieval test set against the Week 2 database, print and save the report."""
     p = argparse.ArgumentParser()
     p.add_argument("--testset", default=str(ROOT / "eval_data" / "retrieval_testset.json"))
     p.add_argument("--ks", type=int, nargs="+", default=list(DEFAULT_KS))
@@ -42,6 +44,7 @@ def main() -> None:
     except (FileNotFoundError, ValueError) as exc:
         sys.exit(f"Setup problem: {exc}")
     if args.limit:
+        seen: dict[tuple[str, str], int]
         seen, kept = {}, []
         for q in queries:
             key = (q["type"], q["subtype"])
@@ -50,7 +53,8 @@ def main() -> None:
                 kept.append(q)
         queries = kept
 
-    def search(query: str, n: int):
+    def search(query: str, n: int) -> list[dict[str, Any]]:
+        """Return only the hits of one retriever search."""
         return retriever.search(query, n)[0]
 
     for _ in range(3):  # warm-up, so the first query does not include one-time start-up cost

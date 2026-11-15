@@ -1,3 +1,4 @@
+"""Check that the GPU and the required libraries work."""
 
 import importlib
 import sys
@@ -6,6 +7,7 @@ LIBS = ["pandas", "sentence_transformers", "chromadb", "spacy"]
 
 
 def check_gpu() -> None:
+    """Check that CUDA is available and print the GPU name."""
     import torch
 
     assert torch.cuda.is_available(), (
@@ -18,6 +20,7 @@ def check_gpu() -> None:
 
 
 def check_imports() -> None:
+    """Import each required library and print its version."""
     for lib in LIBS:
         module = importlib.import_module(lib)
         version = getattr(module, "__version__", "unknown")
@@ -41,6 +44,7 @@ def check_basic_use() -> None:
 
 
 def main() -> int:
+    """Run all checks and return 0 if they pass, 1 if any fail."""
     checks = [check_gpu, check_imports, check_basic_use]
     failed = 0
     for check in checks:

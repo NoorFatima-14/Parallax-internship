@@ -1,17 +1,28 @@
 """Semantic search: embed the query, then look it up in ChromaDB."""
 
 import time
+from typing import Any
 
 MAX_QUERY_CHARS = 2000  # the model ignores text past its token limit anyway
 
 
-def _prepare_query(query) -> str:
+def _prepare_query(query: Any) -> str:
+    """Check the query and return it with clean spaces, cut to the maximum length.
+
+    Raises ValueError if the query is not a string or is empty.
+    """
     if not isinstance(query, str) or not query.strip():
         raise ValueError("Query is empty.")
     return " ".join(query.split())[:MAX_QUERY_CHARS]
 
 
-def timed_search(query, model, store, top_k: int = 5, where: dict | None = None):
+def timed_search(
+    query: Any,
+    model: Any,
+    store: Any,
+    top_k: int = 5,
+    where: dict[str, Any] | None = None,
+) -> tuple[list[dict[str, Any]], dict[str, float]]:
     """Run one search. Returns (results, timings in milliseconds)."""
     query = _prepare_query(query)
 
@@ -31,6 +42,12 @@ def timed_search(query, model, store, top_k: int = 5, where: dict | None = None)
     return results, timings
 
 
-def semantic_search(query, model, store, top_k: int = 5, where: dict | None = None):
+def semantic_search(
+    query: Any,
+    model: Any,
+    store: Any,
+    top_k: int = 5,
+    where: dict[str, Any] | None = None,
+) -> list[dict[str, Any]]:
     """Return the top_k most similar chunks for a text query."""
     return timed_search(query, model, store, top_k, where)[0]

@@ -20,6 +20,7 @@ from nlpmeta.ner import extract_corpus, load_spacy  # noqa: E402
 
 
 def main() -> None:
+    """Extract dataset mentions and entities for every document and save them with a short summary."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("--no-spacy", action="store_true", help="skip the spaCy baseline (faster)")

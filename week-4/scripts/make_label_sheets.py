@@ -24,6 +24,7 @@ from nlpmeta.labeling import (  # noqa: E402
 
 
 def main() -> None:
+    """Write the three empty CSV sheets (topic review, assignment check, NER gold) into labels/."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("--max-topics", type=int, default=60, help="topics to review (largest first)")

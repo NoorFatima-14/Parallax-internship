@@ -3,13 +3,14 @@
 import os
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Any
 
 WEEK3_DIR = Path(__file__).resolve().parents[1]
 REPO_DIR = WEEK3_DIR.parent
 
 # Free model IDs change often. These are starting points taken from the providers'
 # documentation in October 2026. Run scripts/list_models.py to see what is live today.
-PROVIDERS = {
+PROVIDERS: dict[str, dict[str, Any]] = {
     "groq": {
         "base_url": "https://api.groq.com/openai/v1",
         "key_env": "GROQ_API_KEY",
@@ -31,7 +32,7 @@ class ConfigError(Exception):
     """Missing or invalid configuration (for example no API key)."""
 
 
-def load_env(paths=None) -> None:
+def load_env(paths: list[str | Path] | None = None) -> None:
     """Read KEY=VALUE lines from .env files into os.environ (existing variables win)."""
     for path in paths or [WEEK3_DIR / ".env", REPO_DIR / ".env"]:
         path = Path(path)
@@ -56,8 +57,13 @@ def default_extra_params(provider: str, model: str) -> dict:
     return {}
 
 
-def resolve_provider_and_models(provider=None, models=None):
-    """Combine command-line choices, environment variables and presets."""
+def resolve_provider_and_models(provider: str | None = None,
+                                models: str | list[str] | None = None) -> tuple[str, list[str]]:
+    """Combine command-line choices, environment variables and presets.
+
+    Returns (provider, list of model IDs). `models` may be one string with IDs separated by commas.
+    Raises ConfigError for an unknown provider.
+    """
     provider = (provider or os.environ.get("LLM_PROVIDER") or "groq").lower()
     if provider not in PROVIDERS:
         raise ConfigError(f"Unknown provider '{provider}'. Choose one of: {', '.join(PROVIDERS)}")
@@ -70,6 +76,8 @@ def resolve_provider_and_models(provider=None, models=None):
 
 @dataclass
 class RAGConfig:
+    """All thresholds of the RAG pipeline (retrieval, prompt budget, answer length, hallucination checks)."""
+
     top_k: int = 5
     min_score: float = 0.30          # chunks scoring below this are not used (out-of-domain gate)
     max_query_chars: int = 1000

@@ -4,12 +4,16 @@ import logging
 import re
 import time
 import uuid
+from typing import TYPE_CHECKING, Awaitable, Callable
 
 from starlette.middleware.base import BaseHTTPMiddleware
 from starlette.requests import Request
 
 from api.errors import GENERIC_500, error_response
 from api.logging_setup import request_id_var
+
+if TYPE_CHECKING:
+    from starlette.responses import Response
 
 log = logging.getLogger("api.request")
 _REQUEST_ID_RE = re.compile(r"^[A-Za-z0-9._-]{8,64}$")
@@ -30,7 +34,9 @@ class RequestLoggingMiddleware(BaseHTTPMiddleware):
     client receives a generic 500 (never the exception text).
     """
 
-    async def dispatch(self, request: Request, call_next):
+    async def dispatch(self, request: Request,
+                       call_next: Callable[[Request], Awaitable["Response"]]) -> "Response":
+        """Run one request: set the request id, time it, log it, and add the response headers."""
         request_id = pick_request_id(request.headers.get("x-request-id"))
         request.state.request_id = request_id
         request.state.log_extra = {}

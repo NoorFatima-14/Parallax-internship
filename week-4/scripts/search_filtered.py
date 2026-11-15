@@ -10,6 +10,7 @@ Run:  python scripts/search_filtered.py "uncertainty estimation" --topic uncerta
 import argparse
 import sys
 from pathlib import Path
+from types import SimpleNamespace
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
@@ -18,7 +19,8 @@ from nlpmeta.filters import Filters, build_where, read_datasets_index, read_topi
 from nlpmeta.search import count_matching, filtered_search  # noqa: E402
 
 
-def add_filter_args(p) -> None:
+def add_filter_args(p: argparse.ArgumentParser) -> None:
+    """Add the filter options (topic, category, dataset, years, core-only, exclude-short) to a parser."""
     p.add_argument("--topic", action="append", default=[], help="topic id or a word from its label (repeatable)")
     p.add_argument("--category", action="append", default=[], help="arXiv category, e.g. cs.CV (repeatable)")
     p.add_argument("--dataset", action="append", default=[], help="dataset name, e.g. COCO (repeatable)")
@@ -29,7 +31,8 @@ def add_filter_args(p) -> None:
     p.add_argument("--exclude-short", action="store_true", help="leave out the shortest abstracts")
 
 
-def build_filters(args, P) -> Filters:
+def build_filters(args: argparse.Namespace, P: SimpleNamespace) -> Filters:
+    """Turn the command line options into a Filters object. Raises ValueError for an unknown topic or dataset."""
     topics, flags = [], []
     if args.topic:
         table = read_topics_table(cli.need(P.topics, "Run scripts/run_topic_model.py first."))
@@ -44,6 +47,7 @@ def build_filters(args, P) -> Filters:
 
 
 def main() -> None:
+    """Parse the command line, run the filtered search and print the matching passages with their timings."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("query", nargs="?")

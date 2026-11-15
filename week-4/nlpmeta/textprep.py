@@ -2,6 +2,7 @@
 
 import re
 import warnings
+from typing import Any
 
 from sklearn.feature_extraction.text import ENGLISH_STOP_WORDS, CountVectorizer
 
@@ -45,10 +46,13 @@ def clean_for_topics(text: str) -> str:
 
 
 def word_count(text: str) -> int:
+    """Number of whitespace-separated words (0 if the value is not text)."""
     return len(text.split()) if isinstance(text, str) else 0
 
 
-def make_vectorizer(ngram_range=(1, 2), min_df=5, max_df=0.6, binary=False, stop=True, vocabulary=None) -> CountVectorizer:
+def make_vectorizer(ngram_range: tuple[int, int] = (1, 2), min_df: int | float = 5, max_df: int | float = 0.6,
+                    binary: bool = False, stop: bool = True, vocabulary: Any = None) -> CountVectorizer:
+    """A word-count vectorizer with this project's stop words and token pattern. The arguments go to scikit-learn."""
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         return CountVectorizer(

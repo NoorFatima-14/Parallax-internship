@@ -2,6 +2,8 @@
 
 import difflib
 from dataclasses import dataclass, field
+from pathlib import Path
+from typing import Any
 
 from nlpmeta.datasets import canonicalize
 from nlpmeta.enrich import dataset_slug
@@ -9,27 +11,30 @@ from nlpmeta.enrich import dataset_slug
 
 @dataclass
 class Filters:
+    """The filter options of a search. An empty Filters means no filter."""
+
     topics: list = field(default_factory=list)       # topic ids
     categories: list = field(default_factory=list)   # arXiv categories, e.g. cs.CV
     datasets: list = field(default_factory=list)     # dataset flag keys, e.g. ds_imagenet
     datasets_mode: str = "any"                       # 'any' or 'all'
-    year_from: int = None
-    year_to: int = None
+    year_from: int | None = None
+    year_to: int | None = None
     core_only: bool = False                          # only documents that belong to a core cluster
     exclude_short: bool = False
 
     def is_empty(self) -> bool:
+        """True when no option is set."""
         return not (self.topics or self.categories or self.datasets or self.year_from
                     or self.year_to or self.core_only or self.exclude_short)
 
 
-def build_where(f: Filters):
+def build_where(f: Filters) -> dict | None:
     """ChromaDB where clause, or None when there is no filter."""
     if f.datasets_mode not in ("any", "all"):
         raise ValueError("datasets_mode must be 'any' or 'all'")
     if f.year_from and f.year_to and f.year_from > f.year_to:
         raise ValueError("year_from is after year_to")
-    clauses = []
+    clauses: list[dict[str, Any]] = []
     if f.topics:
         clauses.append({"topic_id": {"$in": [int(t) for t in f.topics]}})
     if f.categories:
@@ -53,7 +58,7 @@ def build_where(f: Filters):
     return clauses[0] if len(clauses) == 1 else {"$and": clauses}
 
 
-def resolve_topics(value, topics_table: list) -> list[int]:
+def resolve_topics(value: int | str, topics_table: list) -> list[int]:
     """A topic id ('7') or a word from its label ('diffusion') -> list of matching topic ids."""
     text = str(value).strip()
     if text.lstrip("-").isdigit():
@@ -82,13 +87,15 @@ def resolve_dataset(name: str, index: dict) -> str:
                      f"minimum)." + (f" Did you mean: {close}?" if close else ""))
 
 
-def read_topics_table(path) -> list:
+def read_topics_table(path: str | Path) -> list:
+    """Read the list of topics from the topics.json file written by the topic model script."""
     import json
 
     return json.loads(open(path, encoding="utf-8").read())["topics"]
 
 
-def read_datasets_index(path) -> dict:
+def read_datasets_index(path: str | Path) -> dict:
+    """Read the dataset flag index (flag key -> name and document count) from its JSON file."""
     import json
 
     return json.loads(open(path, encoding="utf-8").read())

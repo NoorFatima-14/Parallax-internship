@@ -18,6 +18,7 @@ from rag.config import ConfigError, RAGConfig  # noqa: E402
 
 
 def show(result: dict, show_blocked: bool = False) -> None:
+    """Print an answer with its sources, warnings, timings and model details."""
     print(f"\n{result['answer']}")
     if result["status"] in ("answered", "answered_with_warning", "refused_by_model"):
         for s in result["sources"]:
@@ -41,6 +42,7 @@ def show(result: dict, show_blocked: bool = False) -> None:
 
 
 def main() -> None:
+    """Read the command line, build the pipeline and answer one question or run an interactive loop."""
     p = argparse.ArgumentParser()
     p.add_argument("question", nargs="?")
     p.add_argument("--provider", default=None, help="groq or openrouter (default: groq)")

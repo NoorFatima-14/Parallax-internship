@@ -18,6 +18,7 @@ import random
 import re
 import time
 from dataclasses import dataclass, field
+from typing import Any, Callable, Mapping
 
 import requests
 
@@ -28,54 +29,78 @@ log = logging.getLogger("rag.llm")
 
 # ---------------------------------------------------------------- errors
 class LLMError(Exception):
+    """Base class for all errors from the language model service.
+
+    kind is a short name for the error type. retryable says if waiting and trying again can help.
+    """
+
     kind = "llm_error"
     retryable = False
 
-    def __init__(self, message, status=None, retry_after=None):
+    def __init__(self, message: str, status: int | None = None, retry_after: float | None = None):
+        """Store the HTTP status and the wait the provider asked for (seconds, or None)."""
         super().__init__(message)
         self.status = status
         self.retry_after = retry_after
-        self.fallbacks = []
+        self.fallbacks: list[dict[str, Any]] = []
 
 
 class AuthError(LLMError):
+    """The API key was rejected (401 or 403)."""
+
     kind = "auth"
 
 
 class ModelNotFoundError(LLMError):
+    """The model ID does not exist (404)."""
+
     kind = "model_not_found"
 
 
 class RateLimitError(LLMError):
+    """Too many requests (429)."""
+
     kind = "rate_limit"
     retryable = True
 
 
 class LLMTimeout(LLMError):
+    """The request or the provider timed out."""
+
     kind = "timeout"
     retryable = True
 
 
 class NetworkError(LLMError):
+    """The provider could not be reached."""
+
     kind = "network"
     retryable = True
 
 
 class ServerError(LLMError):
+    """The provider had an error on its side (5xx)."""
+
     kind = "server_error"
     retryable = True
 
 
 class BadResponseError(LLMError):
+    """The response was not valid JSON, had no choices, or had an empty answer."""
+
     kind = "bad_response"
     retryable = True
 
 
 class TokenLimitError(LLMError):
+    """The input is too long for the model."""
+
     kind = "token_limit"
 
 
 class UnsupportedParamError(LLMError):
+    """The provider does not accept one of the optional request parameters."""
+
     kind = "unsupported_param"
 
 
@@ -94,7 +119,7 @@ _DAILY_RE = re.compile(r"per day|\(RPD\)|\(TPD\)|daily", re.I)
 _DURATION_RE = re.compile(r"(\d+(?:\.\d+)?)\s*(ms|h|m|s)", re.I)
 
 
-def parse_duration(text: str):
+def parse_duration(text: str) -> float | None:
     """'1m30.5s' -> 90.5, '250ms' -> 0.25. Returns None if nothing is found."""
     units = {"ms": 0.001, "s": 1.0, "m": 60.0, "h": 3600.0}
     parts = _DURATION_RE.findall(text or "")
@@ -103,14 +128,16 @@ def parse_duration(text: str):
     return sum(float(num) * units[unit.lower()] for num, unit in parts)
 
 
-def _header(headers, name):
+def _header(headers: Mapping[str, str] | None, name: str) -> str | None:
+    """Get a header value by name, ignoring upper or lower case. name must be lower case."""
     for key, value in (headers or {}).items():
         if key.lower() == name:
             return value
     return None
 
 
-def _retry_after_seconds(headers, message):
+def _retry_after_seconds(headers: Mapping[str, str] | None, message: str | None) -> float | None:
+    """Seconds to wait, from the Retry-After header or a "try again in ..." hint. None if unknown."""
     value = _header(headers, "retry-after")
     if value is not None:
         try:
@@ -125,7 +152,8 @@ def _retry_after_seconds(headers, message):
     return parse_duration(match.group(1)) if match else None
 
 
-def _error_message(body, text):
+def _error_message(body: Any, text: str | None) -> str:
+    """Pick the most useful error message from the response body, or from the raw text."""
     if isinstance(body, dict):
         err = body.get("error")
         if isinstance(err, dict) and err.get("message"):
@@ -139,38 +167,48 @@ def _error_message(body, text):
 
 @dataclass
 class LLMResponse:
+    """A successful answer from the model, with details about how it was obtained."""
+
     text: str
     model: str
-    finish_reason: str = None
-    usage: dict = field(default_factory=dict)
+    finish_reason: str | None = None
+    usage: dict[str, Any] = field(default_factory=dict)
     attempts: int = 1          # HTTP requests sent
     retries: int = 0
     wait_seconds: float = 0.0  # time spent waiting between retries
     http_ms: float = 0.0       # duration of the last HTTP request
     truncated: bool = False    # the answer stopped because of max_tokens
-    dropped_params: list = field(default_factory=list)
-    fallbacks: list = field(default_factory=list)  # models that failed before this one
+    dropped_params: list[str] = field(default_factory=list)
+    fallbacks: list[dict[str, Any]] = field(default_factory=list)  # models that failed before this one
 
 
 # ---------------------------------------------------------------- client
 class LLMClient:
+    """Sends chat requests to an OpenAI-compatible provider, with retries and model fallback."""
+
     def __init__(
         self,
-        provider="groq",
-        models=None,
-        api_key=None,
-        base_url=None,
-        timeout=(5, 60),
-        max_retries=4,
-        backoff_base=1.0,
-        max_backoff=20.0,
-        max_wait_per_retry=30.0,
-        max_total_wait=90.0,
-        max_tokens_cap=4000,
-        session=None,
-        sleep=time.sleep,
-        rng=None,
+        provider: str = "groq",
+        models: list[str] | None = None,
+        api_key: str | None = None,
+        base_url: str | None = None,
+        timeout: tuple[float, float] = (5, 60),
+        max_retries: int = 4,
+        backoff_base: float = 1.0,
+        max_backoff: float = 20.0,
+        max_wait_per_retry: float = 30.0,
+        max_total_wait: float = 90.0,
+        max_tokens_cap: int = 4000,
+        session: requests.Session | None = None,
+        sleep: Callable[[float], None] = time.sleep,
+        rng: random.Random | None = None,
     ):
+        """Set up the client. Raises ConfigError for an unknown provider or a missing API key.
+
+        timeout is (connect, read) in seconds. The max_*wait* values and backoff values are
+        in seconds. max_tokens_cap is the most tokens a retry may ask for. session, sleep and
+        rng can be replaced in tests.
+        """
         if provider not in PROVIDERS:
             raise ConfigError(f"Unknown provider '{provider}'")
         preset = PROVIDERS[provider]
@@ -202,11 +240,18 @@ class LLMClient:
         self.rng = rng or random.Random()
 
     # -- public ----------------------------------------------------
-    def complete(self, messages, max_tokens=700, temperature=0.0, models=None) -> LLMResponse:
+    def complete(
+        self,
+        messages: list[dict[str, Any]],
+        max_tokens: int = 700,
+        temperature: float = 0.0,
+        models: list[str] | None = None,
+    ) -> LLMResponse:
         """Send a chat request. Tries each model in turn. Raises LLMError if all fail."""
-        stats = {"attempts": 0, "retries": 0, "wait_seconds": 0.0, "http_ms": 0.0,
+        stats: dict[str, Any] = {"attempts": 0, "retries": 0, "wait_seconds": 0.0, "http_ms": 0.0,
                  "dropped_params": []}
-        fallbacks, last_error = [], None
+        fallbacks: list[dict[str, Any]] = []
+        last_error: LLMError | None = None
         for model in list(models or self.models):
             try:
                 text, finish, usage = self._call_model(
@@ -226,11 +271,24 @@ class LLMClient:
                 truncated=(finish == "length"), dropped_params=list(stats["dropped_params"]),
                 fallbacks=fallbacks,
             )
+        assert last_error is not None, "no model was tried"  # the loop above ran at least once
         last_error.fallbacks = fallbacks
         raise last_error
 
     # -- one model, with retries ----------------------------------
-    def _call_model(self, model, messages, max_tokens, temperature, stats):
+    def _call_model(
+        self,
+        model: str,
+        messages: list[dict[str, Any]],
+        max_tokens: int,
+        temperature: float,
+        stats: dict[str, Any],
+    ) -> tuple[str, str | None, dict[str, Any]]:
+        """Ask one model, retrying when the error allows it.
+
+        Returns (text, finish_reason, usage). stats is updated in place with attempts, retries,
+        wait_seconds (s), http_ms and dropped_params.
+        """
         extra = default_extra_params(self.provider, model)
         tokens, retries_here, raised_tokens = max_tokens, 0, False
         while True:
@@ -274,7 +332,8 @@ class LLMClient:
                 retries_here += 1
 
     # -- one HTTP request -----------------------------------------
-    def _request(self, payload, stats):
+    def _request(self, payload: dict[str, Any], stats: dict[str, Any]) -> dict[str, Any]:
+        """Send one HTTP request and return the parsed JSON body. Raises an LLMError on any problem."""
         url = f"{self.base_url}/chat/completions"
         start = time.perf_counter()
         stats["attempts"] += 1
@@ -299,12 +358,13 @@ class LLMClient:
         if isinstance(body, dict) and body.get("error"):
             # Some providers report errors inside a 200 response.
             code = body["error"].get("code") if isinstance(body["error"], dict) else None
-            status = int(code) if str(code).isdigit() else 500
+            status = int(code) if code is not None and str(code).isdigit() else 500
             raise self._map_error(status, resp.headers, body, resp.text, payload)
         return body
 
     @staticmethod
-    def _extract(data):
+    def _extract(data: Any) -> tuple[str, str | None, dict[str, Any]]:
+        """Get (text, finish_reason, usage) from a response body. Raises an LLMError if it has no usable choice."""
         choices = data.get("choices") if isinstance(data, dict) else None
         if not choices:
             raise BadResponseError("The response has no choices.")
@@ -316,7 +376,15 @@ class LLMClient:
             content = "".join(p.get("text", "") for p in content if isinstance(p, dict))
         return content, choice.get("finish_reason"), data.get("usage") or {}
 
-    def _map_error(self, status, headers, body, text, payload):
+    def _map_error(
+        self,
+        status: int,
+        headers: Mapping[str, str] | None,
+        body: Any,
+        text: str,
+        payload: dict[str, Any],
+    ) -> LLMError:
+        """Turn an error status and body into the matching LLMError. Returns it, does not raise."""
         message = _error_message(body, text).replace(self.api_key, "***")
         retry_after = _retry_after_seconds(headers, message)
         model = payload.get("model")

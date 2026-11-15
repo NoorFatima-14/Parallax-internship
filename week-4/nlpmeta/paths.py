@@ -21,6 +21,7 @@ DATASETS_INDEX = DATA / "datasets_index.json"
 
 
 def _add(path: Path) -> None:
+    """Put a folder at the front of sys.path (once) so its modules can be imported."""
     if str(path) not in sys.path:
         sys.path.insert(0, str(path))
 

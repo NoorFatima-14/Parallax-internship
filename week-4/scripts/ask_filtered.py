@@ -17,6 +17,7 @@ from search_filtered import add_filter_args, build_filters  # noqa: E402
 
 
 def main() -> None:
+    """Read the command line, build the filter, then ask the Week 3 RAG pipeline and print the answer with its sources."""
     p = argparse.ArgumentParser()
     cli.add_path_args(p)
     p.add_argument("question")

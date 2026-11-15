@@ -20,7 +20,10 @@ _HANDLER_MARK = "_api_structured_handler"
 
 
 class JsonFormatter(logging.Formatter):
+    """Formats a log record as one JSON object (one line)."""
+
     def format(self, record: logging.LogRecord) -> str:
+        """Return the record as a JSON string with time, level, logger, message and request id."""
         entry = {
             "ts": datetime.fromtimestamp(record.created, timezone.utc).isoformat(timespec="milliseconds"),
             "level": record.levelname,
@@ -36,7 +39,7 @@ class JsonFormatter(logging.Formatter):
         return json.dumps(entry, default=str, ensure_ascii=False)
 
 
-def configure_logging(level: str = "INFO", log_file=None) -> logging.Logger:
+def configure_logging(level: str = "INFO", log_file: str | Path | None = None) -> logging.Logger:
     """Send the `api` loggers to the console and (optionally) to a rotating file, as JSON lines.
 
     Safe to call more than once: handlers added by an earlier call are replaced.
@@ -48,7 +51,7 @@ def configure_logging(level: str = "INFO", log_file=None) -> logging.Logger:
             logger.removeHandler(handler)
             handler.close()
 
-    handlers = [logging.StreamHandler(sys.stdout)]
+    handlers: list[logging.Handler] = [logging.StreamHandler(sys.stdout)]
     if log_file:
         path = Path(log_file)
         path.parent.mkdir(parents=True, exist_ok=True)

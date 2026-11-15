@@ -32,6 +32,7 @@ def _clean_passage(text: str) -> str:
 
 
 def passage_label(chunk: dict) -> dict:
+    """The citation details of one retrieved chunk: id, arXiv id, title, category and score."""
     meta = chunk.get("metadata") or {}
     doc_id = str(meta.get("doc_id") or chunk.get("id", "")).split("::")[0]
     return {
@@ -43,7 +44,8 @@ def passage_label(chunk: dict) -> dict:
     }
 
 
-def format_context(chunks) -> str:
+def format_context(chunks: list[dict]) -> str:
+    """The numbered passages inside a <context> block, each with its title, arXiv id and category."""
     blocks = []
     for n, chunk in enumerate(chunks, 1):
         label = passage_label(chunk)
@@ -52,7 +54,8 @@ def format_context(chunks) -> str:
     return "<context>\n" + "\n\n".join(blocks) + "\n</context>"
 
 
-def _assemble(question: str, chunks) -> list[dict]:
+def _assemble(question: str, chunks: list[dict]) -> list[dict]:
+    """The system and user chat messages for a question and a list of passages."""
     user = (
         f"{format_context(chunks)}\n\n"
         f"<question>\n{question}\n</question>\n\n"
@@ -61,12 +64,14 @@ def _assemble(question: str, chunks) -> list[dict]:
     return [{"role": "system", "content": SYSTEM_PROMPT}, {"role": "user", "content": user}]
 
 
-def build_messages(question: str, chunks, max_context_chars=6000, max_input_tokens=3000):
+def build_messages(question: str, chunks: list[dict], max_context_chars: int = 6000,
+                   max_input_tokens: int = 3000) -> tuple[list[dict], list[dict]]:
     """Build the chat messages. Keeps the best-ranked passages that fit the budget.
 
     Returns (messages, used_chunks). Raises TokenLimitError if nothing fits.
     """
-    used, chars = [], 0
+    used: list[dict] = []
+    chars = 0
     for chunk in chunks:
         size = len(chunk["text"]) + _OVERHEAD_CHARS
         if used and chars + size > max_context_chars:

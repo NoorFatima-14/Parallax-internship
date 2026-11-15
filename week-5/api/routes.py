@@ -1,6 +1,7 @@
 """The HTTP endpoints."""
 
 import time
+from typing import Any
 
 from fastapi import APIRouter, Depends, Request
 
@@ -23,10 +24,11 @@ ERRORS = {
 
 # ------------------------------------------------------------------ helpers
 def request_id(request: Request) -> str:
+    """The request id set by the middleware, or "-" if there is none."""
     return getattr(request.state, "request_id", "-")
 
 
-def note(request: Request, **fields) -> None:
+def note(request: Request, **fields: Any) -> None:
     """Add fields to the structured request log line."""
     extra = getattr(request.state, "log_extra", None)
     if isinstance(extra, dict):
@@ -34,13 +36,15 @@ def note(request: Request, **fields) -> None:
 
 
 def question_fields(request: Request, text: str) -> dict:
-    fields = {"question_chars": len(text)}
+    """Log fields for a question: its length, and a 100 character preview if log_questions is on."""
+    fields: dict[str, Any] = {"question_chars": len(text)}
     if getattr(request.app.state.settings, "log_questions", False):
         fields["question_preview"] = text[:100]
     return fields
 
 
 def get_service(request: Request) -> RAGService:
+    """Give the handlers the service, or answer 503 (service_not_ready) if it did not start."""
     service = request.app.state.service
     if service is None:
         reason = request.app.state.startup_error or "The service is still starting."
@@ -50,13 +54,15 @@ def get_service(request: Request) -> RAGService:
 
 # ------------------------------------------------------------------ system
 @router.get("/health", response_model=HealthResponse, tags=["system"], summary="Is the process alive?")
-def health(request: Request):
+def health(request: Request) -> dict[str, Any]:
+    """Say that the process is alive, with the version and the uptime in seconds."""
     return {"status": "ok", "version": __version__, "uptime_seconds": round(time.time() - request.app.state.started_at, 1)}
 
 
 @router.get("/ready", response_model=ReadyResponse, tags=["system"], responses={503: ERRORS[503]},
             summary="Are the database, embedding model and LLM client loaded?")
-def ready(request: Request, service: RAGService = Depends(get_service)):
+def ready(request: Request, service: RAGService = Depends(get_service)) -> dict[str, Any]:
+    """Check that the database, embedding model and LLM client are loaded. Answers 503 if the database fails."""
     try:
         info = service.readiness()
     except Exception as exc:
@@ -66,20 +72,23 @@ def ready(request: Request, service: RAGService = Depends(get_service)):
 
 @router.get("/topics", response_model=TopicsResponse, tags=["filters"], responses={503: ERRORS[503]},
             summary="Topics that can be used in filters (from Week 4)")
-def topics(service: RAGService = Depends(get_service)):
+def topics(service: RAGService = Depends(get_service)) -> dict[str, Any]:
+    """List the topics that can be used in filters."""
     return {"available": service.topics is not None, "topics": service.topic_list()}
 
 
 @router.get("/datasets", response_model=DatasetsResponse, tags=["filters"], responses={503: ERRORS[503]},
             summary="Dataset names that can be used in filters (from Week 4)")
-def datasets(service: RAGService = Depends(get_service)):
+def datasets(service: RAGService = Depends(get_service)) -> dict[str, Any]:
+    """List the dataset names that can be used in filters."""
     return {"available": service.datasets_index is not None, "datasets": service.dataset_list()}
 
 
 # ------------------------------------------------------------------ search and ask
 @router.post("/search", response_model=SearchResponse, tags=["rag"], responses={k: ERRORS[k] for k in (400, 422, 500, 503)},
              summary="Semantic search (no LLM)")
-def search(body: SearchRequest, request: Request, service: RAGService = Depends(get_service)):
+def search(body: SearchRequest, request: Request, service: RAGService = Depends(get_service)) -> dict[str, Any]:
+    """Return the closest passages for a query. No language model is called."""
     note(request, endpoint="search", top_k=body.top_k, filters_used=body.filters is not None,
          **question_fields(request, body.query))
     result = service.search(body.query, body.top_k, body.filters)
@@ -90,7 +99,7 @@ def search(body: SearchRequest, request: Request, service: RAGService = Depends(
 
 @router.post("/ask", response_model=AskResponse, tags=["rag"], responses={k: ERRORS[k] for k in (400, 422, 500, 503, 504)},
              summary="Answer a question from the indexed papers")
-def ask(body: AskRequest, request: Request, service: RAGService = Depends(get_service)):
+def ask(body: AskRequest, request: Request, service: RAGService = Depends(get_service)) -> dict[str, Any]:
     """Retrieves passages, calls the language model, and checks the answer against the passages.
 
     Refusals ("I don't know", off-topic) and answers blocked by the hallucination checks are

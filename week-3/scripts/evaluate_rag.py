@@ -32,7 +32,8 @@ REFUSED = {"refused_out_of_domain", "refused_by_model"}
 STAGES = ["embed_ms", "search_ms", "retrieval_ms", "llm_ms", "verify_ms", "total_ms"]
 
 
-def load_questions(limit=None):
+def load_questions(limit: int | None = None) -> list[dict]:
+    """Read eval_questions.json into rows with group, label, question and expected behaviour (up to `limit` per group)."""
     data = json.loads((ROOT / "eval_questions.json").read_text(encoding="utf-8"))
     rows = []
     for group in ("in_domain", "out_of_domain", "near_domain_not_in_corpus"):
@@ -45,7 +46,8 @@ def load_questions(limit=None):
     return rows
 
 
-def meets_expectation(row, status) -> bool:
+def meets_expectation(row: dict, status: str) -> bool:
+    """Did the pipeline do what the row expects (answer, refuse, reject the query or just not crash)?"""
     expect = row["expect"]
     if expect == "answer":
         return status in ANSWERED
@@ -56,7 +58,8 @@ def meets_expectation(row, status) -> bool:
     return status not in ("internal_error", "retrieval_error")
 
 
-def stats(values):
+def stats(values: list[float]) -> dict | None:
+    """Mean, median, 95th percentile and maximum of a list of numbers (None for an empty list)."""
     if not values:
         return None
     a = np.asarray(values, dtype=float)
@@ -64,11 +67,13 @@ def stats(values):
             "p95": round(float(np.percentile(a, 95)), 1), "max": round(float(a.max()), 1)}
 
 
-def pct(part, whole):
+def pct(part: int, whole: int) -> str:
+    """'50% (1/2)' style text, or '-' when there is nothing to divide by."""
     return f"{100 * part / whole:.0f}% ({part}/{whole})" if whole else "-"
 
 
-def summarize(results) -> dict:
+def summarize(results: list[dict]) -> dict:
+    """Group rates, grounding and latency numbers for the whole run."""
     out = {}
     for group in ("in_domain", "out_of_domain", "near_domain_not_in_corpus", "edge"):
         rows = [r for r in results if r["group"] == group]
@@ -102,7 +107,8 @@ def summarize(results) -> dict:
     return out
 
 
-def write_summary(path, header, results, s) -> str:
+def write_summary(path: str | Path, header: dict, results: list[dict], s: dict) -> str:
+    """Write the Markdown summary of the latest run to `path` and return its text."""
     L = ["# RAG Evaluation (latest run)", "",
          f"- Provider / models: {header['provider']} / {', '.join(header['models'])}",
          f"- Embedding model: `{header['embed_model']}`, chunks in database: {header['chunks']}",
@@ -156,6 +162,7 @@ def write_summary(path, header, results, s) -> str:
 
 
 def main() -> None:
+    """Run every evaluation question through the pipeline, with a pause after LLM calls, and write the logs."""
     p = argparse.ArgumentParser()
     p.add_argument("--provider", default=None)
     p.add_argument("--model", default=None)

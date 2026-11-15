@@ -31,6 +31,8 @@ class FilterParams(BaseModel):
 
 
 class AskRequest(BaseModel):
+    """Body of POST /ask: a question, and optional top_k and filters."""
+
     model_config = ConfigDict(extra="forbid")
 
     question: str = Field(..., min_length=1, max_length=MAX_QUESTION_CHARS,
@@ -40,6 +42,8 @@ class AskRequest(BaseModel):
 
 
 class SearchRequest(BaseModel):
+    """Body of POST /search: a query, and optional top_k and filters."""
+
     model_config = ConfigDict(extra="forbid")
 
     query: str = Field(..., min_length=1, max_length=MAX_QUESTION_CHARS, examples=["uncertainty estimation"])
@@ -49,6 +53,8 @@ class SearchRequest(BaseModel):
 
 # ------------------------------------------------------------------ responses
 class Source(BaseModel):
+    """One passage the answer was built from."""
+
     n: int
     id: str | None = None
     doc_id: str
@@ -71,6 +77,8 @@ class GroundingSummary(BaseModel):
 
 
 class AskResponse(BaseModel):
+    """Answer of POST /ask. `status` says whether it is an answer, a refusal or a blocked answer."""
+
     request_id: str
     status: Literal["answered", "answered_with_warning", "refused_by_model",
                     "refused_out_of_domain", "blocked_ungrounded"]
@@ -85,6 +93,8 @@ class AskResponse(BaseModel):
 
 
 class SearchHit(BaseModel):
+    """One passage found by a search, with its score and paper details."""
+
     id: str
     doc_id: str
     title: str = ""
@@ -98,6 +108,8 @@ class SearchHit(BaseModel):
 
 
 class SearchResponse(BaseModel):
+    """Answer of POST /search."""
+
     request_id: str
     query: str
     count: int
@@ -108,12 +120,16 @@ class SearchResponse(BaseModel):
 
 
 class HealthResponse(BaseModel):
+    """Answer of GET /health."""
+
     status: Literal["ok"]
     version: str
     uptime_seconds: float
 
 
 class ReadyResponse(BaseModel):
+    """Answer of GET /ready."""
+
     request_id: str
     ready: bool
     chunks: int
@@ -126,27 +142,37 @@ class ReadyResponse(BaseModel):
 
 
 class TopicInfo(BaseModel):
+    """One topic that can be used in a filter."""
+
     topic_id: int
     label: str
     size: int | None = None
 
 
 class TopicsResponse(BaseModel):
+    """Answer of GET /topics."""
+
     available: bool
     topics: list[TopicInfo]
 
 
 class DatasetInfo(BaseModel):
+    """One dataset name that can be used in a filter, with the number of papers that mention it."""
+
     name: str
     docs: int | None = None
 
 
 class DatasetsResponse(BaseModel):
+    """Answer of GET /datasets."""
+
     available: bool
     datasets: list[DatasetInfo]
 
 
 class ErrorBody(BaseModel):
+    """The details of an error: a short code, a message, and the request id."""
+
     code: str
     message: str
     request_id: str
@@ -154,4 +180,6 @@ class ErrorBody(BaseModel):
 
 
 class ErrorResponse(BaseModel):
+    """The body of every error response."""
+
     error: ErrorBody

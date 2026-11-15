@@ -1,6 +1,6 @@
 # Week 5: FastAPI Service, Request Logging, and Automated Evaluation
 
-Week 5 of the Parallax Labs AI/ML internship. It wraps the Week 3 RAG system and the Week 4 metadata filters in a FastAPI service, and adds two automatic evaluations: one for retrieval (Precision@K, Recall@K) and one end to end (answer quality and latency). The Week 2 database, the Week 3 code and the Week 4 code must be present. Run all commands below from inside the `week-5/` folder.
+Week 5 of the Parallax Labs AI/ML internship. It wraps the Week 3 RAG system and the Week 4 metadata filters in a FastAPI service, and adds two automatic evaluations: one for retrieval (Precision@K, Recall@K) and one end to end (answer quality and latency). Run all commands below from inside the `week-5/` folder.
 
 ## What I Built
 
@@ -10,7 +10,7 @@ Week 5 of the Parallax Labs AI/ML internship. It wraps the Week 3 RAG system and
 - **Retrieval evaluation** (`evals/retrieval_eval.py`, `scripts/evaluate_retrieval.py`): Precision@K, Recall@K, HitRate@K, MRR and nDCG@K on a test set
 - **Test set builder** (`evals/testset_builder.py`, `scripts/make_retrieval_testset.py`): automatic known-item queries, plus topic queries judged by hand
 - **End-to-end evaluation** (`evals/e2e_eval.py`, `scripts/evaluate_e2e.py`): sends 40 real HTTP requests to the running API and reports behaviour, answer quality checks and latency
-- **Tests** (`tests/`): 181 pytest tests. They need no API key, no internet and no model download.
+- **Tests** (`tests/`): 186 pytest tests. They need no API key, no internet and no model download.
 
 ## How the API Works
 
@@ -103,7 +103,7 @@ This line was captured from the test setup (a 4-paper database and a fake model)
 cd week-5
 ..\week-1\.venv\Scripts\activate          # Windows
 pip install fastapi uvicorn httpx
-pytest -v                                  # 181 tests, no key or data needed
+pytest -v                                  # 186 tests, no key or data needed
 
 uvicorn api.main:create_app --factory --port 8000 --no-access-log
 # open http://127.0.0.1:8000/docs
@@ -236,3 +236,7 @@ All numbers are written by the scripts. Nothing is entered by hand. After runnin
 
 - `chroma_db/`, `data/` and `.env` are git-ignored. `logs/` and the judged sheet in `labels/` are committed as the evidence for the numbers. `logs/api_requests.jsonl` is ignored by the root `.gitignore`.
 - Run `pytest` from inside `week-5/`, not from the repository root.
+
+## Setup check
+
+`python scripts/check_setup.py` (from `week-5/`) checks Python, packages, the LLM key, the vector database and the Week 4 metadata files, and prints OK, WARN or FAIL for each. It does not call the LLM.

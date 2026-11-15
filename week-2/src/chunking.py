@@ -7,12 +7,16 @@ most `chunk_size` characters. Each new chunk starts with the last
 so an idea that sits on a boundary appears in both chunks.
 """
 
+from collections.abc import Iterable
+from typing import Any
+
 DEFAULT_SEPARATORS = ["\n\n", "\n", ". ", "? ", "! ", "; ", ", ", " "]
 DEFAULT_CHUNK_SIZE = 500
 DEFAULT_CHUNK_OVERLAP = 50
 
 
 def _validate(chunk_size: int, chunk_overlap: int) -> None:
+    """Raise ValueError if the chunk size or overlap is not valid."""
     if not isinstance(chunk_size, int) or chunk_size <= 0:
         raise ValueError("chunk_size must be a positive integer")
     if not isinstance(chunk_overlap, int) or chunk_overlap < 0:
@@ -55,6 +59,7 @@ def _overlap_tail(text: str, overlap: int) -> str:
 
 
 def _split(text: str, size: int, overlap: int, separators: list[str]) -> list[str]:
+    """Split text with the first separator found, recursing with the rest."""
     if len(text) <= size:
         return [text]
 
@@ -112,13 +117,13 @@ def split_text(
 
 
 def chunk_documents(
-    docs,
+    docs: Iterable[Any],
     chunk_size: int = DEFAULT_CHUNK_SIZE,
     chunk_overlap: int = DEFAULT_CHUNK_OVERLAP,
     text_key: str = "text",
     id_key: str = "id",
-    metadata_keys: tuple = ("title", "category", "published"),
-):
+    metadata_keys: tuple[str, ...] = ("title", "category", "published"),
+) -> tuple[list[dict[str, Any]], int]:
     """Chunk a list of document dicts.
 
     Returns (chunks, skipped). Each chunk is a dict with:

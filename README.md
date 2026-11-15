@@ -5,6 +5,14 @@ A retrieval-augmented generation (RAG) system that answers questions about machi
 It was built over 6 weeks. Each week has its own folder, README and tests; this page is the single entry point for the whole project.
 
 ## Results at a glance
+| Week | Folder | Topic | Status |
+|------|--------|-------|--------|
+| 1 | [week-1](week-1/) | Environment setup, dataset, text cleaning pipeline | Done |
+| 2 | [week-2](week-2/) | Chunking, embeddings, ChromaDB, semantic search, retrieval benchmark | Done |
+| 3 | [week-3](week-3/) | LLM Integration & Prompt Engineering | Done |
+| 4 | [week-4](week-4/) | NLP Analysis | Done |
+| 5 | [week-5](week-5/) | FastAPI Service and Evaluation |  Done |
+| 6 | week-6 | | Not started |
 
 | What | Result |
 |---|---|
@@ -296,9 +304,8 @@ The LLM-based ones need your key and use the free tier; `--delay 15` slows the p
 
 ## 5-minute demo
 
-1. Start the API and open `/docs`.
-2. `GET /ready`: show 27,329 chunks and the settings.
-3. Ask "How do diffusion models generate images?": point to the citations and `sources`.
-4. Ask the chocolate cake question: show the refusal without an LLM call.
-5. Ask with a topic filter: show `filter_applied` and that all sources match.
-6. Open `docs/EVALUATION.md`: show the 40 of 40 end-to-end result and the limits.
+Implemented topic modeling, dataset extraction, and NLP-based metadata enrichment for the vector database. Integrated metadata-based filters into semantic search and RAG, evaluated retrieval performance. Details: [week-4/README.md](week-4/README.md).
+
+## Week 5 Summary
+
+A FastAPI service around the Week 3 RAG system and the Week 4 metadata filters (`/ask`, `/search`, `/topics`, `/datasets`, `/health`, `/ready`), with one JSON error format for every failure (400, 422, 500, and 503 or 504 when the language model service is down), and one structured JSON log line per request with a request id. Two automatic evaluations: retrieval (Precision@K, Recall@K, HitRate@K, MRR and nDCG@K on a test set of automatic and hand-judged queries) and end to end (40 real HTTP requests that check answer behaviour, answer quality signals and latency). 181 pytest tests that need no API key or internet. Details: [week-5/README.md](week-5/README.md).
